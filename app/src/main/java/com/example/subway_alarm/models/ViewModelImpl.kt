@@ -20,7 +20,8 @@ class ViewModelImpl(
         _data.value = "초기값"
     }
 
-    /* view에서 준 input값으로 데이터를 변경 */
+    /* view에서 준 input값으로 데이터를 변경
+    * Repository에 있는 데이터를 불러옵니다 */
     fun updateData(stationName: String) {
         _data.value = stationRepository.getStationArrivals(stationName)
     }
