@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.example.subway_alarm.databinding.ActivitySearchBinding
 
 class SearchActivity : AppCompatActivity() {
-    val testTxt = "this is 대양"
+    val testTxt = "this is merge"
     lateinit var binding: ActivitySearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
