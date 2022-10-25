@@ -1,19 +1,30 @@
 package com.example.subway_alarm.ui.activities
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.example.subway_alarm.data.repository.StationRepository
-import com.example.subway_alarm.data.repository.StationRepositoryImpl
 import com.example.subway_alarm.databinding.ActivityMainBinding
-import com.example.subway_alarm.ui.fragments.SubwayDataFragment
+import com.example.subway_alarm.models.ViewModelImpl
 import org.koin.android.ext.android.inject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 class MainActivity : AppCompatActivity() {
-    val stationRepository: StationRepository by inject()
-    lateinit var binding: ActivityMainBinding
-    var testInt: Int = 0
 
+    /*
+    view model DI(의존성 주입)
+    view는 모든 로직 처리를 view model에게 접근해서 합니다.
+     */
+    val viewModel: ViewModelImpl by inject()
+    lateinit var binding: ActivityMainBinding
+
+    /* fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceSubwayDataFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().run {
             replace(binding.frgSubwayData.id, fragment)
@@ -22,16 +33,25 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /* view와 activity binding */
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /* View Model과 View 연결 */
+        viewModel.data.observe(this, Observer {
+            println("main activity에서 view model의 data 변경 : $it")
+            binding.txtTest.text = it.toString()
+        })
+
+
+
+        /* 이런식으로 viewModel을 통해 input값을 알려줍니다
+         모든 데이터 처리는 viewModel이 합니다 */
         binding.hwajeon.setOnClickListener {
-            replaceSubwayDataFragment(SubwayDataFragment.newInstance(getModelData()))
+            //replaceSubwayDataFragment(SubwayDataFragment.newInstance(getModelData()))
+            viewModel.updateData("화전")
         }
     }
 
-    private fun getModelData(): String {
-        return stationRepository.getStationArrivals()
-        //return (testInt++).toString() + "0분 후 도착"
-    }
 }

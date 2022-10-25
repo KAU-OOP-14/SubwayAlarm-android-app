@@ -1,5 +1,5 @@
 package com.example.subway_alarm.data.api
 
 interface StationApi {
-    fun getStationApiData(): String
+    fun getStationApiData(stationName: String): String
 }

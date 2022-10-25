@@ -13,10 +13,15 @@
         android:gravity="center">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
             android:text="지하철 노선도"
             />
+        <TextView
+            android:id="@+id/txtTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,6 +33,8 @@
                 android:layout_height="wrap_content"
                 android:text="화전역"/>
         </LinearLayout>
+
+
 
 
 

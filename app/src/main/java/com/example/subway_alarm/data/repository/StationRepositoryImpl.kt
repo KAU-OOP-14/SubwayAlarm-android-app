@@ -8,11 +8,10 @@ class StationRepositoryImpl(
 ): StationRepository {
 
     override fun refreshStations() {
-
     }
 
-    override fun getStationArrivals(): String {
-        return stationApi.getStationApiData()
+    override fun getStationArrivals(stationName: String): String {
+        return stationApi.getStationApiData(stationName)
     }
 
     override fun updateStations() {
