@@ -33,12 +33,17 @@ android {
     viewBinding {
         enabled = true
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     //koin
-    implementation "io.insert-koin:koin-core:3.0.1"
-    implementation 'io.insert-koin:koin-android-ext:2.2.2'
+    def koin_version = "2.2.2"
+    implementation "io.insert-koin:koin-core:$koin_version"
+    implementation "io.insert-koin:koin-android-ext:$koin_version"
+    implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
 
     implementation 'androidx.fragment:fragment-ktx:1.5.3'
     implementation 'androidx.core:core-ktx:1.7.0'
