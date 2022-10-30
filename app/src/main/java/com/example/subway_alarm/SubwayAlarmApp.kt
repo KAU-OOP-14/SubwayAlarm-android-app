@@ -1,6 +1,7 @@
 package com.example.subway_alarm
 
 import android.app.Application
+import com.example.subway_alarm.data.api.ApiThread
 import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.data.api.StationApiStorage
 import com.example.subway_alarm.data.repository.StationRepository
@@ -19,16 +20,23 @@ class SubwayAlarmApp: Application() {
         }
     }
 
-    /* 싱글톤 관련 의존성 주입 */
+    /** 싱글톤 의존성 주입 */
     val appModule = module {
         single<StationApi> { StationApiStorage() }
         single<StationRepository> { StationRepositoryImpl(get())}
+
+        // api thread
+        factory {
+            println("스레드 생성됨")
+            ApiThread(get(),get())
+        }
     }
 
-    /* viewModel 의존성 주입 */
+
+    /** viewModel 의존성 주입 */
     val appViewModule = module {
         viewModel {
-            ViewModelImpl(get())
+            ViewModelImpl(get(), get())
         }
     }
 }
