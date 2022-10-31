@@ -51,13 +51,9 @@ class ApiThread(
         rd.close()
         conn.disconnect()
 
-
         //데이터 파싱
         //완료된 데이터를 storage에 저장
         stationApi.setStringApiData(sb.toString())
         stationApi.setParseApiData(sb.toString())
-
-        //view model에게 데이터를 업데이트하라고 알려줌
-        //viewModel.updateData()
     }
 }
