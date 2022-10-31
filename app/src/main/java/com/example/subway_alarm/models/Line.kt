@@ -13,7 +13,6 @@ open class Line(){
         for(station in stations) {
             if(station.getStnName() == stationName) {
                 return station
-                break
             }
         }
 
