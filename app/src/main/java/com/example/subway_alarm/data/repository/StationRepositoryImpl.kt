@@ -1,5 +1,6 @@
 package com.example.subway_alarm.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.data.adapter.SubwayAdapter
 import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.models.Subway
@@ -11,8 +12,10 @@ import com.example.subway_alarm.models.Subway
 class StationRepositoryImpl(
     var stationApi: StationApi
 ): StationRepository {
-    val stations = arrayOfNulls<String>(100) // 이후에 Station class로 변경 예정
-    val subway: Subway = SubwayAdapter.createStations()
+    val subway: MutableLiveData<Subway> = MutableLiveData<Subway>()
+    init {
+        subway.value = SubwayAdapter.createStations()
+    }
 
     override fun refreshStations() {
     }
