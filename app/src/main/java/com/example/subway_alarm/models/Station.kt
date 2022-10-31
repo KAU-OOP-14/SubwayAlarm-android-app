@@ -123,6 +123,17 @@ class Station(
             }
         }
 
+        else if(super.lineId == 12){    // 경춘선
+            endPoint[0] = super.endPointList[0]
+            endPoint[1] = super.endPointList[1]
+            if(index == 0)  // 광운대
+                rightStation = super.stations[4] // 상봉역
+            else if(index == 1)  // 청량리(종착)
+                leftStation = null
+            else if(index == 4) // 상봉역
+                left2Station = super.stations[0] // 광운대
+        }
+
         else{ // 나머지 경우
             endPoint[0] = super.endPointList[0]
             endPoint[1] = super.endPointList[1]
