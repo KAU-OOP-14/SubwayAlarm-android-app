@@ -10,6 +10,8 @@ object SubwayAdapter {
 
     fun createStations(): Subway {
         val data = getXslFile()
+        // 로직 처리
+
         return Subway
     }
 }

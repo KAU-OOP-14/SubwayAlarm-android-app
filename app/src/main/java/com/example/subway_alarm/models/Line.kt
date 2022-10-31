@@ -10,7 +10,6 @@ open class Line(){
     }
 
     fun searchStation(stationName: String): Station? {
-        var _curStation = stations[0]
         for(station in stations) {
             if(station.getStnName() == stationName) {
                 return station

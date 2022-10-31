@@ -15,6 +15,7 @@ class StationRepositoryImpl(
     val subway: MutableLiveData<Subway> = MutableLiveData<Subway>()
     init {
         subway.value = SubwayAdapter.createStations()
+        println("station repository 생성!")
     }
 
     override fun refreshStations() {
