@@ -1,4 +1,6 @@
 package com.example.subway_alarm.models
 
-class Subway {
+open class Subway {
+    // Line과 집합 관계
+
 }
