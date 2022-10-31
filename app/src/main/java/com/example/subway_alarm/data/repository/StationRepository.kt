@@ -9,4 +9,5 @@ interface StationRepository {
 
     /** 특정 Station에 대한 api 데이터를 업데이트 합니다. */
     fun updateThisStation(stationName: String)
+
 }

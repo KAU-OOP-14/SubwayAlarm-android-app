@@ -1,6 +1,9 @@
 package com.example.subway_alarm.models
 
-open class Subway {
-    // Line과 집합 관계
+object Subway {
+    val lines: MutableList<Line> = mutableListOf()
 
+    init {
+        println("Subway 생성")
+    }
 }
