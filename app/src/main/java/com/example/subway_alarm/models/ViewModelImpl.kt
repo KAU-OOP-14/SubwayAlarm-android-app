@@ -29,7 +29,7 @@ class ViewModelImpl(
      * 스레드가 끝난 후, LiveData를 업데이트 합니다.
      * ApiThread에서 자동 호출 됩니다.
      */
-    fun updateData() {
+    private fun updateData() {
         val testArr = stationApiStorage.getApiData()
         _data.value = testArr
     }
@@ -46,6 +46,7 @@ class ViewModelImpl(
         thread.join()
         updateData()
     }
+
 
     override fun onCleared() {
         super.onCleared()

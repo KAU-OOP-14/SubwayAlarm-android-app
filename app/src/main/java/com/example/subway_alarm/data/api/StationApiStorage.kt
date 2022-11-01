@@ -1,7 +1,5 @@
 package com.example.subway_alarm.data.api
 
-import androidx.lifecycle.ViewModel
-import com.example.subway_alarm.models.ViewModelImpl
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import java.io.StringReader

@@ -1,6 +1,7 @@
 package com.example.subway_alarm
 
 import android.app.Application
+import android.content.Context
 import com.example.subway_alarm.data.api.ApiThread
 import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.data.api.StationApiStorage
@@ -19,24 +20,43 @@ class SubwayAlarmApp: Application() {
             modules(appModule, appViewModule)
         }
     }
+    init{
+        instance = this
+    }
 
-    /** 싱글톤 의존성 주입 */
-    val appModule = module {
-        single<StationApi> { StationApiStorage() }
-        single<StationRepository> { StationRepositoryImpl(get())}
+    companion object {
+        lateinit var instance: SubwayAlarmApp
 
-        // api thread
-        factory {
-            println("스레드 생성됨")
-            ApiThread(get(),get())
+        /**
+         * ApplicationContext가 필요할 때 호출하는 static 함수입니다.
+         */
+        fun ApplicationContext() : Context {
+            return instance.applicationContext
         }
     }
 
 
-    /** viewModel 의존성 주입 */
-    val appViewModule = module {
-        viewModel {
-            ViewModelImpl(get(), get())
-        }
+}
+
+/** 싱글톤 의존성 주입 */
+val appModule = module {
+    single<StationApi> { StationApiStorage() }
+    single<StationRepository> {
+        println("역 저장소 생성")
+        StationRepositoryImpl(get())
+    }
+
+    // thread
+    factory {
+        ApiThread(get())
+    }
+
+}
+
+
+/** viewModel 의존성 주입 */
+val appViewModule = module {
+    viewModel {
+        ViewModelImpl(get(), get())
     }
 }
