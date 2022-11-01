@@ -3,7 +3,7 @@ package com.example.subway_alarm.models
 import java.io.File
 
 open class Line{
-    var lineId: Int = 0
+    var lineId: Int
     val stations: MutableList<Station>
     val endPointList: MutableList<String>
 
@@ -17,13 +17,20 @@ open class Line{
     }
 
     constructor(id: Int) {
-        lineId = lineId
+        lineId = id
     }
 
 
     fun addStations(newStation: Station) {
         stations.add(newStation)
     }
+
+    fun setStations(){
+        for(station in stations){
+            station.set()
+        }
+    }
+
 
     fun searchStation(stationName: String): Station? {
         for(station in stations) {
@@ -35,4 +42,5 @@ open class Line{
         println("찾는 역이 없습니다")
         return null
     }
+
 }
