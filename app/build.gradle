@@ -45,6 +45,17 @@ dependencies {
     implementation "io.insert-koin:koin-android-ext:$koin_version"
     implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
 
+    //엑셀
+    implementation "org.apache.poi:poi:3.10-FINAL"
+    implementation "org.apache.poi:poi-ooxml:3.10-FINAL"
+    implementation "org.apache.poi:poi-ooxml-schemas:3.10-FINAL"
+    implementation group: 'org.apache.xmlbeans', name: 'xmlbeans', version: '2.3.0'
+    implementation group: 'stax', name: 'stax-api', version: '1.0.1'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.5'
+    implementation group: 'xml-apis', name: 'xml-apis', version: '1.0.b2'
+    implementation group: 'dom4j', name: 'dom4j', version: '1.6.1'
+    implementation group: 'org.apache.httpcomponents' , name: 'httpclient-android' , version: '4.3.5.1'
+
     implementation 'androidx.fragment:fragment-ktx:1.5.3'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
