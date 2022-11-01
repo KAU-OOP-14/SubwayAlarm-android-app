@@ -47,6 +47,38 @@ class ViewModelImpl(
         updateData()
     }
 
+    /**
+     * 사용자가 입력한 값으로 station을 검색하고, 걸과를 반영합니다.
+     */
+    fun searchStationWithInput(stationName: String) {
+
+    }
+
+    /**
+     *Main Fragment에서 오른쪽 버튼을 눌렀을 때 호출하는 함수입니다.
+     */
+    fun goRight() {
+        //현재 station의 right node를 가져옵니다.
+
+    }
+
+    /**
+     * Main Fragement에서 왼쪽 버튼을 눌렀을 때 호출하는 함수입니다.
+     */
+    fun goLeft() {
+        //현재 station의 left node를 가져옵니다.
+
+    }
+
+    fun getStationData(direction: String) {
+        val curStation = stationRepository.getCurrentStation()
+        if(curStation != null) {
+            //val nextStation: Station? = curStation.getNode(direction)
+        }
+
+
+    }
+
 
     override fun onCleared() {
         super.onCleared()

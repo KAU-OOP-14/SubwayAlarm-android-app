@@ -12,6 +12,14 @@ class Station(
     var right2Station: Station? = null
     var endPoint = arrayOf("", "")
 
+    /** 방향에 따른 노드를 전달해줍니다.
+     * 노드가 null일 경우를 생각해야 합니다.
+     */
+    fun getNode(direction: String): Array<Station?> {
+        // 구현해야됨
+        return arrayOfNulls<Station?>(2)
+    }
+
     // Station 객체의 left,right station 및 endPoint 초기화해주는 함수
     fun set(){
         // 일반적인 left, right station 초기화

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.models.ViewModelImpl
+import com.example.subway_alarm.ui.fragments.MainFragment
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -19,9 +20,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
 
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
-    private fun replaceSubwayDataFragment(fragment: Fragment) {
+    private fun replaceMainFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().run {
-            replace(binding.frgSubwayData.id, fragment)
+            replace(binding.frgMain.id, fragment)
             commit()
         }
     }
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
             viewModel.requestApiData("홍대입구")
+            replaceMainFragment(MainFragment.newInstance("1","2"))
         }
     }
 

@@ -1,7 +1,5 @@
 package com.example.subway_alarm.models
 
-import java.io.File
-
 open class Line{
     var lineId: Int
     val stations: MutableList<Station>

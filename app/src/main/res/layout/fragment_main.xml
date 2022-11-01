@@ -9,7 +9,7 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="330dp">
 
         <!-- 호선 -->
         <LinearLayout
@@ -22,7 +22,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
-                <ImageView
+                <ImageButton
+                    android:id="@+id/btnBack"
                     android:rotation="180"
                     android:scaleX="0.5"
                     android:scaleY="0.5"
@@ -31,7 +32,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                </ImageView>
+                </ImageButton>
             </LinearLayout>
             <LinearLayout
                 android:gravity="center"
@@ -114,6 +115,7 @@
 
         <!-- 도착 정보 -->
         <LinearLayout
+            android:gravity="bottom"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="100dp">
