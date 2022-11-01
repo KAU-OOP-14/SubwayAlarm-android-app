@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.data.db.ExcelThread
 import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.data.db.SubwayBuilder
+import com.example.subway_alarm.models.Station
 import com.example.subway_alarm.models.Subway
 
 
@@ -14,10 +15,11 @@ class StationRepositoryImpl(
     var stationApi: StationApi
 ): StationRepository {
     val subway: MutableLiveData<Subway> = MutableLiveData<Subway>()
+    var curStation: Station?
     init {
-        println("station repository 생성!")
         subway.value = SubwayBuilder.initSubway()
-        println("Subway 객체 생성")
+        println("Subway 객체 -> 저장소에 저장됨")
+        curStation = null
     }
 
     override fun refreshStations() {
@@ -25,11 +27,15 @@ class StationRepositoryImpl(
 
     override fun addStationArrival(stationName: String) {
         stationApi.getApiData()
+
     }
 
-    override fun updateThisStation(stationName: String) {
+    override fun getCurrentStation(): Station? {
+        return curStation
 
+    }
 
+    override fun setCurrentStation() {
     }
 
 }

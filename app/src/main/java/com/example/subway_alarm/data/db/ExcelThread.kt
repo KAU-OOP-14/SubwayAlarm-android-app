@@ -28,7 +28,6 @@ class ExcelThread(): Thread() {
                     colCount++
                 }
                 db.add(item)
-                println("지하철 데이터 : ${item[0]} / ${item[1]} / ${item[2]}")
             }
         } catch (e: Exception) {
             println("엑셀 파일을 읽지 못했습니다.")
