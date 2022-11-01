@@ -18,7 +18,6 @@ class StationRepositoryImpl(
         println("station repository 생성!")
         subway.value = SubwayBuilder.initSubway()
         println("Subway 객체 생성")
-
     }
 
     override fun refreshStations() {
@@ -26,7 +25,6 @@ class StationRepositoryImpl(
 
     override fun addStationArrival(stationName: String) {
         stationApi.getApiData()
-
     }
 
     override fun updateThisStation(stationName: String) {

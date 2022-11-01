@@ -3,6 +3,7 @@ package com.example.subway_alarm.models
 class Station(
     val stationName: String,
     val id: Int,
+    val lineList: MutableList<Int>
     ): Line() {
     var isFavorited = false // 즐겨찾기 포함 여부
     var leftStation: Station? = null
@@ -12,8 +13,11 @@ class Station(
     var endPoint = arrayOf("", "")
 
     // Station 객체의 left,right station 및 endPoint 초기화해주는 함수
-    fun set(index: Int, size: Int){
+    fun set(){
         // 일반적인 left, right station 초기화
+        val index = id%100
+        val size = super.stations.size
+
         if(index == 0)
             rightStation = super.stations[1]
         else if (index >= (size-1))
