@@ -1,8 +1,9 @@
 package com.example.subway_alarm.data.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.example.subway_alarm.data.adapter.SubwayAdapter
+import com.example.subway_alarm.data.db.ExcelThread
 import com.example.subway_alarm.data.api.StationApi
+import com.example.subway_alarm.data.db.SubwayBuilder
 import com.example.subway_alarm.models.Subway
 
 
@@ -14,8 +15,10 @@ class StationRepositoryImpl(
 ): StationRepository {
     val subway: MutableLiveData<Subway> = MutableLiveData<Subway>()
     init {
-        subway.value = SubwayAdapter.createStations()
         println("station repository 생성!")
+        subway.value = SubwayBuilder.initSubway()
+        println("Subway 객체 생성")
+
     }
 
     override fun refreshStations() {

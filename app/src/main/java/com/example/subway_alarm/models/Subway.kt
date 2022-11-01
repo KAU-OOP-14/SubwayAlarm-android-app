@@ -6,4 +6,8 @@ object Subway {
     init {
         println("Subway 생성")
     }
+
+    fun addLines(line: Line) {
+        lines.add(line)
+    }
 }
