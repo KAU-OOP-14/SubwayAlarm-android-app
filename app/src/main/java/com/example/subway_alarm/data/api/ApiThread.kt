@@ -1,13 +1,12 @@
 package com.example.subway_alarm.data.api
 
-import com.example.subway_alarm.models.ViewModelImpl
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
 class ApiThread(
-    val viewModel: ViewModelImpl, val stationApi: StationApi
+    val stationApi: StationApi
 ) : Thread() {
     var urlBuilder: StringBuilder
     var url: URL
