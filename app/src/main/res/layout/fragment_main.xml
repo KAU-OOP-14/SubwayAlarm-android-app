@@ -64,12 +64,14 @@
                 android:orientation="vertical"
                 android:layout_width="80dp"
                 android:layout_height="match_parent">
-                <ImageView
+                <ImageButton
+                    android:id="@+id/btnLeft"
                     android:rotation="180"
                     android:src="@drawable/arrow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/txtLeftStation"
                     android:text="강매"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
@@ -86,7 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="화전"/>
-                <ImageView
+                <ImageButton
+                    android:id="@+id/btnAlarm"
                     android:src="@drawable/alarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,11 +102,13 @@
                 android:orientation="vertical"
                 android:layout_width="80dp"
                 android:layout_height="match_parent">
-                <ImageView
+                <ImageButton
+                    android:id="@+id/btnRight"
                     android:src="@drawable/arrow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <TextView
+                    android:id="@+id/txtRightStation"
                     android:text="수색"
                     android:textSize="20sp"
                     android:layout_width="wrap_content"
@@ -120,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp">
             <TextView
+                android:id="@+id/txtStationData"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="hello"/>
