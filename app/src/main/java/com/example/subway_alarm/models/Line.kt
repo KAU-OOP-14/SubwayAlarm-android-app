@@ -13,6 +13,15 @@ open class Line(val lineId: Int = 0){
         stations.add(newStation)
     }
 
+    fun searchStationInLine(stationName: String): Station? {
+        for(station in stations) {
+            if(station.getStnName() == stationName) {
+                return station
+            }
+        }
+        return null
+    }
+
     fun setStations(){
         val size = stations.size
         val index = lineId % 100
@@ -145,16 +154,4 @@ open class Line(val lineId: Int = 0){
             }
         }
     }
-
-
-    fun searchStation(stationName: String): Station? {
-        for(station in stations) {
-            if(station.getStnName() == stationName) {
-                return station
-            }
-        }
-        println("찾는 역이 없습니다")
-        return null
-    }
-
 }
