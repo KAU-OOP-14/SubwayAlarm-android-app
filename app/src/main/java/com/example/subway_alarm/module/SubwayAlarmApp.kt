@@ -2,15 +2,7 @@ package com.example.subway_alarm.module
 
 import android.app.Application
 import android.content.Context
-import com.example.subway_alarm.data.api.ApiThread
-import com.example.subway_alarm.data.api.StationApi
-import com.example.subway_alarm.data.api.StationApiStorage
-import com.example.subway_alarm.data.repository.StationRepository
-import com.example.subway_alarm.data.repository.StationRepositoryImpl
-import com.example.subway_alarm.models.ViewModelImpl
-import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
-import org.koin.dsl.module
 
 class SubwayAlarmApp: Application() {
     override fun onCreate() {
@@ -34,5 +26,4 @@ class SubwayAlarmApp: Application() {
             return instance.applicationContext
         }
     }
-
 }
