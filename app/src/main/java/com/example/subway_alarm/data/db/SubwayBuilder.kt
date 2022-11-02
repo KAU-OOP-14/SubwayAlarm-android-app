@@ -37,10 +37,8 @@ object SubwayBuilder {
                     linelist.add(i.toInt())
                 }
             }
-            lines[id/100].addStations(Station(row[2], id, linelist))
+            lines[(id/100)-1].addStations(Station(row[2], id, linelist))
         }
-
-
 
 
         //station이 모두 들어간 뒤, line을 subway에 넣습니다.
