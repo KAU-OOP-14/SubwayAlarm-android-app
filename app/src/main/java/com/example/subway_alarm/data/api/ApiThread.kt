@@ -6,11 +6,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 class ApiThread(
-    val stationApi: StationApi
+    private val stationApi: StationApi
 ) : Thread() {
-    var urlBuilder: StringBuilder
-    var url: URL
-    val sb: java.lang.StringBuilder
+    private var urlBuilder: StringBuilder
+    private var url: URL
+    private val sb: java.lang.StringBuilder
 
     init {
         urlBuilder =

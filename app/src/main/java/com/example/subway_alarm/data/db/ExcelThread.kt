@@ -1,6 +1,6 @@
 package com.example.subway_alarm.data.db
 
-import com.example.subway_alarm.SubwayAlarmApp
+import com.example.subway_alarm.module.SubwayAlarmApp
 import org.apache.poi.xssf.usermodel.XSSFCell
 import org.apache.poi.xssf.usermodel.XSSFRow
 import org.apache.poi.xssf.usermodel.XSSFWorkbook

@@ -8,8 +8,8 @@ import javax.xml.parsers.DocumentBuilderFactory
 
 class StationApiStorage() : StationApi {
 
-    var apiStringData: String? = null
-    val parsedApiData: Array<String?> = arrayOfNulls<String>(8)
+    private var apiStringData: String? = null
+    private val parsedApiData: Array<String?> = arrayOfNulls<String>(8)
 
     override fun getApiData(): Array<String?> {
         return parsedApiData

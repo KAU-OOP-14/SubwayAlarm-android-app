@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.data.api.ApiThread
 import com.example.subway_alarm.data.api.StationApi
+import com.example.subway_alarm.data.api.StationApiStorage
 import com.example.subway_alarm.data.repository.StationRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 class ViewModelImpl(
-    val stationRepository: StationRepository,
-    val stationApiStorage: StationApi,
+    private val stationRepository: StationRepository,
+    private val stationApiStorage: StationApi,
 ): ViewModel(), KoinComponent {
     private val _data = MutableLiveData<Array<String?>>()
 
@@ -40,6 +41,7 @@ class ViewModelImpl(
      */
     fun requestApiData(stationName: String) {
         //새로운 스레드르 의존성 주입으로 생성합니다.
+        //val thread: ApiThread = ApiThread(stationApiStorage)
         val thread: ApiThread by inject()
         thread.setStationName(stationName)
         thread.start()
@@ -67,6 +69,17 @@ class ViewModelImpl(
      */
     fun goLeft() {
         //현재 station의 left node를 가져옵니다.
+
+        //새로운 api를 호출합니다.
+
+        //live data를 갱신합니다.
+
+    }
+
+    /**
+     * Main Fragment에서 알람 버튼을 눌렀을 때 호출하는 함수입니다.
+     */
+    fun setAlarm() {
 
     }
 
