@@ -5,13 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentMainBinding
-import com.example.subway_alarm.databinding.FragmentSubwayDataBinding
-import com.example.subway_alarm.models.ViewModelImpl
+import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val ARG_PARAM1 = "param1"

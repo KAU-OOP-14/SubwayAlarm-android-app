@@ -5,6 +5,9 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
+/**
+ * 곧 삭제 예정
+ */
 class ApiThread(
     private val stationApi: StationApi
 ) : Thread() {
@@ -25,7 +28,7 @@ class ApiThread(
 
     fun setStationName(stationName: String) {
         urlBuilder =
-            StringBuilder("http://swopenAPI.seoul.go.kr/api/subway/7a5370504e6868743131324443656265/xml/realtimeStationArrival/0/1/$stationName") /*URL*/
+            StringBuilder("http://swopenAPI.seoul.go.kr/api/subway/7a5370504e6868743131324443656265/json/realtimeStationArrival/0/5/$stationName") /*URL*/
         url = URL(urlBuilder.toString())
     }
 
@@ -52,6 +55,7 @@ class ApiThread(
 
         //데이터 파싱
         //완료된 데이터를 storage에 저장
+        println(sb.toString())
         stationApi.setStringApiData(sb.toString())
         stationApi.setParseApiData(sb.toString())
     }

@@ -5,7 +5,7 @@ import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.data.api.StationApiStorage
 import com.example.subway_alarm.data.repository.StationRepository
 import com.example.subway_alarm.data.repository.StationRepositoryImpl
-import com.example.subway_alarm.models.ViewModelImpl
+import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
