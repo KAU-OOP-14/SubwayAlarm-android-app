@@ -4,7 +4,7 @@ class Station(
     val stationName: String,
     val id: Int,
     val lineList: MutableList<Int>
-    ): Line() {
+    ) {
     var isFavorited = false // 즐겨찾기 포함 여부
     var leftStation: Station? = null
     var rightStation: Station? = null
@@ -14,12 +14,31 @@ class Station(
 
     /** 방향에 따른 노드를 전달해줍니다.
      * 노드가 null일 경우를 생각해야 합니다.
+     * direction으로 left, right가 올 수 있다.
+     * null 예외처리를 잘해줘야 한다!
      */
     fun getNode(direction: String): Array<Station?> {
-        // 구현해야됨
-        return arrayOfNulls<Station?>(2)
+        val stationArray = arrayOfNulls<Station>(2)
+        if(direction == "left"){
+            stationArray[0] = leftStation
+            if(left2Station != null)
+                stationArray[1] = left2Station
+        }
+        if(direction == "right"){
+            stationArray[0] = rightStation
+            if(right2Station != null)
+                stationArray[1] = right2Station
+        }
+        return stationArray
     }
 
+    fun getStnName() = stationName
+
+    fun getStnId() = id
+
+    fun getIsFavorited() = isFavorited
+
+    /*
     // Station 객체의 left,right station 및 endPoint 초기화해주는 함수
     fun set(){
         // 일반적인 left, right station 초기화
@@ -150,20 +169,7 @@ class Station(
             endPoint[0] = super.endPointList[0]
             endPoint[1] = super.endPointList[1]
         }
-
     }
-
-    fun getStnName(): String {
-        return stationName
-    }
-
-    fun getStnId(): Int{
-        return id
-    }
-
-    fun getIsFavorited(): Boolean{
-        return isFavorited
-    }
-
+    */
 
 }

@@ -13,7 +13,6 @@ object SubwayBuilder {
      */
     fun initSubway(): Subway{
         val lines: MutableList<Line> = mutableListOf()
-        var list: MutableList<Int> = mutableListOf()
         //Excel Thread에서 데이터를 추출합니다.
         val thread = ExcelThread()
         thread.start()
@@ -27,10 +26,19 @@ object SubwayBuilder {
 
         //db를 돌면서 station을 생성하고, line에 집어넣습니다.
         for(row in db) {
-            lines[row[0].substringBefore('.').toInt() - 1].addStations(Station(row[2], row[1].substringBefore('.').toInt(), list))
+            val id: Int = row[1].substringBefore(".").toInt()
+            val linelist: MutableList<Int> = mutableListOf()
+            if(row[0].contains(".")){
+                linelist.add(row[0].substringBefore('.').toInt())
+            }
+            else{
+                val tempList = row[0].split(",")
+                for (i in tempList){
+                    linelist.add(i.toInt())
+                }
+            }
+            lines[(id/100)-1].addStations(Station(row[2], id, linelist))
         }
-
-
 
 
         //station이 모두 들어간 뒤, line을 subway에 넣습니다.
