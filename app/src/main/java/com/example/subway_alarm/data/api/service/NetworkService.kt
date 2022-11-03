@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface NetworkService {
-    @GET("api/subway/7a5370504e6868743131324443656265/json/realtimeStationArrival/0/1/{post}")
+    @GET("api/subway/7a5370504e6868743131324443656265/json/realtimeStationArrival/0/5/{post}")
     fun doGetUserList(@Path("post") post: String): Call<ApiModelList>
     /*
     @GET

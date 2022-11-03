@@ -6,6 +6,9 @@ import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.data.api.ApiThread
 import com.example.subway_alarm.data.api.StationApi
 import com.example.subway_alarm.data.api.StationApiStorage
+import com.example.subway_alarm.data.api.dataModel.ApiModel
+import com.example.subway_alarm.data.api.dataModel.ApiModelList
+import com.example.subway_alarm.data.api.service.ApiService
 import com.example.subway_alarm.data.repository.StationRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -13,39 +16,34 @@ import org.koin.core.component.inject
 class ViewModelImpl(
     private val stationRepository: StationRepository,
     private val stationApiStorage: StationApi,
+    private val apiService: ApiService
 ): ViewModel(), KoinComponent {
-    private val _data = MutableLiveData<Array<String?>>()
+    private val _data = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
 
     // Getter
-    val data: LiveData<Array<String?>>
+    val data: NonNullLiveData<List<ApiModel>>
         get() = _data
 
     //초기값
     init {
         println("ViewModelImpl - 생성자 호출")
-        _data.value = arrayOfNulls<String>(8)
     }
 
     /**
      * 스레드가 끝난 후, LiveData를 업데이트 합니다.
      * ApiThread에서 자동 호출 됩니다.
      */
-    private fun updateData() {
-        val testArr = stationApiStorage.getApiData()
+    fun updateData() {
+        val testArr = apiService.getApiModelList().realtimeArrivalList
         _data.value = testArr
     }
 
     /**
-     * 새로운 api를 요청합니다.
-     * StationApiStorage 에 저장됩니다.
+     * 새로운 api를 요청하고, ApiModel을 생성받아 전달받습니다.
+     *
      */
     fun requestApiData(stationName: String) {
-        //새로운 스레드르 의존성 주입으로 생성합니다.
-        //val thread: ApiThread = ApiThread(stationApiStorage)
-        val thread: ApiThread by inject()
-        thread.setStationName(stationName)
-        thread.start()
-        thread.join()
+        apiService.requestApi(stationName)
         updateData()
     }
 
