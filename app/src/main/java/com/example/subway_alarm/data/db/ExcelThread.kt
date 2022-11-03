@@ -11,7 +11,7 @@ class ExcelThread(): Thread() {
     override fun run() {
         try {
             val context = SubwayAlarmApp.ApplicationContext()
-            val myFileSystem = context.resources.assets.open("stationdata.xlsx")
+            val myFileSystem = context.resources.assets.open("stationdata_new.xlsx")
             val myWorkBook = XSSFWorkbook(myFileSystem)
             val sheet = myWorkBook.getSheetAt(0)
 
