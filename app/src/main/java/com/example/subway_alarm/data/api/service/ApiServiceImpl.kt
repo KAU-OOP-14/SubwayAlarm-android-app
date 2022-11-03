@@ -7,15 +7,13 @@ import org.koin.android.viewmodel.compat.SharedViewModelCompat
 import org.koin.android.viewmodel.compat.SharedViewModelCompat.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.component.inject
+import retrofit2.*
 
 class ApiServiceImpl: ApiService {
+    /*
     var storedApiList: ApiModelList = ApiModelList(null, listOf(ApiModel()))
     //retrofit 객체 생성 / 한번만 실행하면 됩니다.
     val retrofit: Retrofit
@@ -47,7 +45,17 @@ class ApiServiceImpl: ApiService {
         })
     }
 
+
     override fun getApiModelList(): ApiModelList {
             return storedApiList
+    }
+
+     */
+    override fun requestApi(stationName: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun getApiModelList(): ApiModelList {
+        TODO("Not yet implemented")
     }
 }

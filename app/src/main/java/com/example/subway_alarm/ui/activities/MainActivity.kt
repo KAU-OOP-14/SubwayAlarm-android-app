@@ -7,6 +7,11 @@ import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import com.example.subway_alarm.ui.fragments.MainFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +22,7 @@ class MainActivity : AppCompatActivity() {
      */
     val viewModel: ViewModelImpl by viewModel()
     lateinit var binding: ActivityMainBinding
+
 
 
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
@@ -54,8 +60,8 @@ class MainActivity : AppCompatActivity() {
          모든 데이터 처리는 viewModel이 합니다 */
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
-            viewModel.requestApiData("홍대입구")
             replaceMainFragment(MainFragment.newInstance("1", "2"))
+            viewModel.getService("홍대입구")
         }
     }
 
