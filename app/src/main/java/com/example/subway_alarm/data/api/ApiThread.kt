@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 /**
- * 곧 삭제 예정입니다. 곧 삭제예정입니다.
+ * 곧 삭제 예정입니다. test .
  */
 class ApiThread(
     private val stationApi: StationApi
