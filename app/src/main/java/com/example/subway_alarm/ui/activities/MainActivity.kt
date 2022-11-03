@@ -4,18 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import com.example.subway_alarm.data.api.dataModel.ApiModelList
-import com.example.subway_alarm.data.api.service.NetworkService
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import com.example.subway_alarm.ui.fragments.MainFragment
 import org.koin.android.viewmodel.ext.android.viewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,16 +17,6 @@ class MainActivity : AppCompatActivity() {
      */
     val viewModel: ViewModelImpl by viewModel()
     lateinit var binding: ActivityMainBinding
-
-    /************************* 여기부터 옮겨야 하는 코드입니다.************************/
-    //retrofit 객체 생성 / 한번만 실행하면 됩니다.
-    val retrofit: Retrofit
-        get() = Retrofit.Builder()
-            .baseUrl("http://swopenapi.seoul.go.kr/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    var networkService: NetworkService = retrofit.create(NetworkService::class.java)
-    /************************* 여기까지 옮겨야 하는 코드입니다.************************/
 
 
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
@@ -58,10 +40,13 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this, Observer {
             println("main activity에서 view model의 data 변경 : $it")
             var text: String = ""
-            for (element in it) {
-                text += "${element}\n"
+            for(model in it) {
+                text += "${model.statnNm} | ${model.bstatnNm} | ${model.trainLineNm} | ${model.arvlMsg2} | ${model.arvlMsg3}"
+                text += "\n-----------------------"
+                println("몇개?")
             }
             binding.txtTest.text = text
+
         })
 
 
@@ -69,30 +54,8 @@ class MainActivity : AppCompatActivity() {
          모든 데이터 처리는 viewModel이 합니다 */
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
-            //viewModel.requestApiData("홍대입구")
+            viewModel.requestApiData("홍대입구")
             replaceMainFragment(MainFragment.newInstance("1", "2"))
-
-
-            /************************* 여기부터 옮겨야 하는 코드입니다.************************/
-            //여기에 역 이름을 전달하면 ApiModelList라는 객체를 생성해서 modelList에 전달해줍니다.
-            val userListCall = networkService.doGetUserList("홍대입구")
-            userListCall.enqueue(object: Callback<ApiModelList> {
-                override fun onResponse(call: Call<ApiModelList>,
-                response: Response<ApiModelList>) {
-                    if(response.isSuccessful)
-                        println("통신 성공")
-                    val data = response.body()
-                    println(data)
-                }
-
-                override fun onFailure(call: Call<ApiModelList>, t: Throwable) {
-                    println(t.message)
-                    println("통신 실패")
-                    call.cancel()
-                }
-
-            })
-            /************************* 여기까지 옮겨야 하는 코드입니다.************************/
         }
     }
 
