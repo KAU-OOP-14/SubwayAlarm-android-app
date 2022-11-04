@@ -24,10 +24,10 @@ open class Line(val lineId: Int = 0){
 
     fun setStations(){
         val size = stations.size
-        val index = lineId % 100
+        var i: Int = 0
         for(s in stations){
             // 일반적인 left, right station 초기화
-
+            val index = i
             if(index == 0)
                 s.rightStation = stations[1]
             else if (index >= (size-1))
@@ -152,6 +152,7 @@ open class Line(val lineId: Int = 0){
                 s.endPoint[0] = endPointList[0]
                 s.endPoint[1] = endPointList[1]
             }
+            i++
         }
     }
 }
