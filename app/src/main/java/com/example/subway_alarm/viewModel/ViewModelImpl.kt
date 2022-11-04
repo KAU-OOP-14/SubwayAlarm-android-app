@@ -8,7 +8,7 @@ import com.example.subway_alarm.model.api.dataModel.ApiModelList
 import com.example.subway_alarm.model.api.service.ApiService
 import com.example.subway_alarm.model.api.service.NetworkService
 import com.example.subway_alarm.model.repository.StationRepository
-import org.koin.core.component.KoinComponent
+import com.example.subway_alarm.model.repository.StationRepositoryImpl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,14 +26,14 @@ class ViewModelImpl(
         get() = _apis
 
     //retrofit 관련
-    val retrofit: Retrofit
-    var networkService: NetworkService
+    private val retrofit: Retrofit
+    private val networkService: NetworkService
 
 
     //초기값
     init {
         println("ViewModelImpl - 생성자 호출")
-        //retrofit 객체 생성 / 한번만 실행하면 됩니다.
+        //retrofit 객체 생성, 한번만 실행하면 됩니다.
         retrofit = Retrofit.Builder()
             .baseUrl("http://swopenapi.seoul.go.kr/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -80,7 +80,6 @@ class ViewModelImpl(
      */
     fun goRight() {
         //현재 station의 right node를 가져옵니다.
-
     }
 
     /**
@@ -91,8 +90,6 @@ class ViewModelImpl(
 
         //새로운 api를 호출합니다.
 
-        //live data를 갱신합니다.
-
     }
 
     /**
@@ -101,5 +98,20 @@ class ViewModelImpl(
     fun setAlarm() {
 
     }
+
+    fun search(stationName: String) {
+        //stationRepository.search(stationName)
+        // adapter()
+    }
+
+    fun showSearchResult(stationName: String) {
+        //getService(stationRepository.curStation!!.stationName)
+
+    }
+
+    fun favorite() {
+        //stationRepository.favoritStations.add(stationRepository.curStation)
+    }
+
 
 }
