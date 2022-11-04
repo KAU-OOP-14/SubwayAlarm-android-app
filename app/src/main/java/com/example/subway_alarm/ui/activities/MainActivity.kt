@@ -1,5 +1,6 @@
 package com.example.subway_alarm.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -62,6 +63,11 @@ class MainActivity : AppCompatActivity() {
             //입력한 역의 api 요청
             replaceMainFragment(MainFragment.newInstance("1", "2"))
             viewModel.getService("홍대입구")
+        }
+
+        binding.btnGotoSearch.setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
         }
     }
 
