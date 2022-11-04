@@ -3,7 +3,6 @@ package com.example.subway_alarm.viewModel
 import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
-import com.example.subway_alarm.model.api.StationApi
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.api.dataModel.ApiModelList
 import com.example.subway_alarm.model.api.service.ApiService
@@ -18,16 +17,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ViewModelImpl(
     private val stationRepository: StationRepository,
-    private val stationApiStorage: StationApi,
     private val apiService: ApiService
-) : ViewModel(), KoinComponent {
-    private val _data = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
+) : ViewModel() {
+    //api model list
+    private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
+    // Getter
+    val apis: NonNullLiveData<List<ApiModel>>
+        get() = _apis
+
+    //retrofit 관련
     val retrofit: Retrofit
     var networkService: NetworkService
 
-    // Getter
-    val data: NonNullLiveData<List<ApiModel>>
-        get() = _data
 
     //초기값
     init {
@@ -53,7 +54,7 @@ class ViewModelImpl(
                 val data = response.body()
                 if (data != null) {
                     val model = data.realtimeArrivalList
-                    _data.value = model
+                    _apis.value = model
                 }
             }
 
@@ -64,15 +65,6 @@ class ViewModelImpl(
             }
         })
     }
-    /**
-     * 스레드가 끝난 후, LiveData를 업데이트 합니다.
-     * ApiThread에서 자동 호출 됩니다.
-     */
-    /*
-    fun updateData() {
-        val testArr = apiService.getApiModelList().realtimeArrivalList
-        _data.value = testArr
-    }
 
     /**
      * 새로운 api를 요청하고, ApiModel을 생성받아 전달받습니다.
@@ -82,14 +74,6 @@ class ViewModelImpl(
         apiService.requestApi(stationName)
     }
 
-     */
-
-    /**
-     * 사용자가 입력한 값으로 station을 검색하고, 걸과를 반영합니다.
-     */
-    fun searchStationWithInput(stationName: String) {
-
-    }
 
     /**
      *Main Fragment에서 오른쪽 버튼을 눌렀을 때 호출하는 함수입니다.
@@ -116,22 +100,6 @@ class ViewModelImpl(
      */
     fun setAlarm() {
 
-    }
-
-/*
-    fun getStationData(direction: String) {
-        val curStation = stationRepository.getCurrentStation()
-        if(curStation != null) {
-            //val nextStation: Station? = curStation.getNode(direction)
-        }
-
-
-    }
-
- */
-    override fun onCleared() {
-        super.onCleared()
-        println("리소스 정리")
     }
 
 }
