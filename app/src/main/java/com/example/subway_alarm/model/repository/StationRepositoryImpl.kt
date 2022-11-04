@@ -1,11 +1,10 @@
-package com.example.subway_alarm.data.repository
+package com.example.subway_alarm.model.repository
 
 import androidx.lifecycle.MutableLiveData
-import com.example.subway_alarm.data.db.ExcelThread
-import com.example.subway_alarm.data.api.StationApi
-import com.example.subway_alarm.data.db.SubwayBuilder
-import com.example.subway_alarm.models.Station
-import com.example.subway_alarm.models.Subway
+import com.example.subway_alarm.model.api.StationApi
+import com.example.subway_alarm.model.db.SubwayBuilder
+import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 
 
 /** 즐겨찾기나 알람설정을 해 놓은 Station을 저장하는 저장소입니다.

@@ -1,12 +1,12 @@
-package com.example.subway_alarm.module
+package com.example.subway_alarm.di
 
-import com.example.subway_alarm.data.api.ApiThread
-import com.example.subway_alarm.data.api.StationApi
-import com.example.subway_alarm.data.api.StationApiStorage
-import com.example.subway_alarm.data.api.service.ApiService
-import com.example.subway_alarm.data.api.service.ApiServiceImpl
-import com.example.subway_alarm.data.repository.StationRepository
-import com.example.subway_alarm.data.repository.StationRepositoryImpl
+import com.example.subway_alarm.model.api.ApiThread
+import com.example.subway_alarm.model.api.StationApi
+import com.example.subway_alarm.model.api.StationApiStorage
+import com.example.subway_alarm.model.api.service.ApiService
+import com.example.subway_alarm.model.api.service.ApiServiceImpl
+import com.example.subway_alarm.model.repository.StationRepository
+import com.example.subway_alarm.model.repository.StationRepositoryImpl
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module

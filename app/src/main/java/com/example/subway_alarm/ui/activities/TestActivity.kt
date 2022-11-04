@@ -3,8 +3,8 @@ package com.example.subway_alarm.ui.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.subway_alarm.databinding.ActivityTestBinding
-import com.example.subway_alarm.models.Subway
-import com.example.subway_alarm.models.Station
+import com.example.subway_alarm.model.Subway
+import com.example.subway_alarm.model.Station
 
 class TestActivity : AppCompatActivity() {
     lateinit var binding: ActivityTestBinding

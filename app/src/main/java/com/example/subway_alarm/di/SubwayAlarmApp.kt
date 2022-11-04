@@ -1,9 +1,8 @@
-package com.example.subway_alarm.module
+package com.example.subway_alarm.di
 
 import android.app.Application
 import android.content.Context
 import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 class SubwayAlarmApp: Application() {

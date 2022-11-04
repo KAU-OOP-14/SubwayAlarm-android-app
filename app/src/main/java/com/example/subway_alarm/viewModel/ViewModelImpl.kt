@@ -1,18 +1,15 @@
 package com.example.subway_alarm.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.subway_alarm.data.api.ApiThread
-import com.example.subway_alarm.data.api.StationApi
-import com.example.subway_alarm.data.api.StationApiStorage
-import com.example.subway_alarm.data.api.dataModel.ApiModel
-import com.example.subway_alarm.data.api.dataModel.ApiModelList
-import com.example.subway_alarm.data.api.service.ApiService
-import com.example.subway_alarm.data.api.service.NetworkService
-import com.example.subway_alarm.data.repository.StationRepository
+import com.example.subway_alarm.extensions.NonNullLiveData
+import com.example.subway_alarm.extensions.NonNullMutableLiveData
+import com.example.subway_alarm.model.api.StationApi
+import com.example.subway_alarm.model.api.dataModel.ApiModel
+import com.example.subway_alarm.model.api.dataModel.ApiModelList
+import com.example.subway_alarm.model.api.service.ApiService
+import com.example.subway_alarm.model.api.service.NetworkService
+import com.example.subway_alarm.model.repository.StationRepository
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -1,4 +1,4 @@
-package com.example.subway_alarm.models
+package com.example.subway_alarm.model
 
 open class Line(val lineId: Int = 0){
     val stations: MutableList<Station>

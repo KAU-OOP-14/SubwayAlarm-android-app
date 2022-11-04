@@ -1,6 +1,6 @@
-package com.example.subway_alarm.data.repository
+package com.example.subway_alarm.model.repository
 
-import com.example.subway_alarm.models.Station
+import com.example.subway_alarm.model.Station
 
 interface StationRepository {
     /** Station Repository에 저장된 모든 station에 대한 api를 업데이트 합니다. */

@@ -1,4 +1,4 @@
-package com.example.subway_alarm.data.api
+package com.example.subway_alarm.model.api
 
 import java.io.BufferedReader
 import java.io.InputStreamReader

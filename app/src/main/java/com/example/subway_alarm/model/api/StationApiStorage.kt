@@ -1,4 +1,4 @@
-package com.example.subway_alarm.data.api
+package com.example.subway_alarm.model.api
 
 import org.w3c.dom.Document
 import org.xml.sax.InputSource

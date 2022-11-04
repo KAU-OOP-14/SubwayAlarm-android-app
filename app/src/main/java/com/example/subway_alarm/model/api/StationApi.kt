@@ -1,4 +1,4 @@
-package com.example.subway_alarm.data.api
+package com.example.subway_alarm.model.api
 
 interface StationApi {
     fun setStringApiData(stringApiData: String)

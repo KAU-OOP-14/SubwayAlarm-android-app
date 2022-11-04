@@ -1,4 +1,4 @@
-package com.example.subway_alarm.viewModel
+package com.example.subway_alarm.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
