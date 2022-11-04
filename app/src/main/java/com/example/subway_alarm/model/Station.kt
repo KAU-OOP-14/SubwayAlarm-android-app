@@ -1,4 +1,4 @@
-package com.example.subway_alarm.models
+package com.example.subway_alarm.model
 
 class Station(
     val stationName: String,

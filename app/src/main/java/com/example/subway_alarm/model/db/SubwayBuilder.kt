@@ -1,9 +1,8 @@
-package com.example.subway_alarm.data.db
+package com.example.subway_alarm.model.db
 
-import androidx.lifecycle.MutableLiveData
-import com.example.subway_alarm.models.Line
-import com.example.subway_alarm.models.Station
-import com.example.subway_alarm.models.Subway
+import com.example.subway_alarm.model.Line
+import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 
 object SubwayBuilder {
 

@@ -1,4 +1,4 @@
-package com.example.subway_alarm.models
+package com.example.subway_alarm.model
 
 object Subway {
     val lines: MutableList<Line> = mutableListOf()

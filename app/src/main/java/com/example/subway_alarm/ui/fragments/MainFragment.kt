@@ -38,7 +38,7 @@ class MainFragment : Fragment() {
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
 
         /* View Model과 View 연결 */
-        viewModel.data.observe(viewLifecycleOwner, Observer {
+        viewModel.apis.observe(viewLifecycleOwner, Observer {
         })
 
         //뒤로 버튼 클릭시 이벤트

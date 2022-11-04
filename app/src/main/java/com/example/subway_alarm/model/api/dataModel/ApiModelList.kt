@@ -1,4 +1,4 @@
-package com.example.subway_alarm.data.api.dataModel
+package com.example.subway_alarm.model.api.dataModel
 
 import com.google.gson.annotations.SerializedName
 

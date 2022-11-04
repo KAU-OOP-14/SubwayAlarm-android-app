@@ -1,7 +1,6 @@
-package com.example.subway_alarm.data.api.service
+package com.example.subway_alarm.model.api.service
 
-import com.example.subway_alarm.data.api.dataModel.ApiModel
-import com.example.subway_alarm.data.api.dataModel.ApiModelList
+import com.example.subway_alarm.model.api.dataModel.ApiModelList
 
 interface ApiService {
     /**

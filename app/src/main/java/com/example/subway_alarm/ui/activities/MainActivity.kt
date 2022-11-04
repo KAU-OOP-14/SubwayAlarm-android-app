@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
 
         /* View Model과 View 연결 */
-        viewModel.data.observe(this, Observer {
+        viewModel.apis.observe(this, Observer {
             println("main activity에서 view model의 data 변경 : $it")
             var text: String = ""
             for(model in it) {

@@ -1,16 +1,6 @@
-package com.example.subway_alarm.data.api.service
+package com.example.subway_alarm.model.api.service
 
-import com.example.subway_alarm.data.api.dataModel.ApiModel
-import com.example.subway_alarm.data.api.dataModel.ApiModelList
-import com.example.subway_alarm.viewModel.ViewModelImpl
-import org.koin.android.viewmodel.compat.SharedViewModelCompat
-import org.koin.android.viewmodel.compat.SharedViewModelCompat.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.component.KoinComponent
-import retrofit2.converter.gson.GsonConverterFactory
-import org.koin.android.viewmodel.ext.android.viewModel
-import org.koin.core.component.inject
-import retrofit2.*
+import com.example.subway_alarm.model.api.dataModel.ApiModelList
 
 class ApiServiceImpl: ApiService {
     /*
