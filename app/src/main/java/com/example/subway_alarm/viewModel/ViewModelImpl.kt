@@ -37,7 +37,6 @@ class ViewModelImpl(
     private val retrofit: Retrofit
     private val networkService: NetworkService
 
-
     //초기값
     init {
         println("ViewModelImpl - 생성자 호출")
@@ -83,14 +82,22 @@ class ViewModelImpl(
     }
 
     fun setStation(stationName: String) {
-        stationRepository.curStation = Subway.let {
+        stationRepository.search(stationName)
+        if(stationRepository.searchResultList.isNotEmpty()){
+            println("새로운 curruent station set : ${stationRepository.searchResultList[0].stationName}")
+            _curStation.value = stationRepository.searchResultList[0]
+            stationRepository.curStation = stationRepository.searchResultList[0]
+        }
+        else return
+
+        /*stationRepository.curStation = Subway.let {
             val list = it.searchStations(stationName)
             if (list != null) {
                 println("새로운 curruent station set : ${list[0].stationName}")
                 _curStation.value = list[0]
                 list[0]
             } else return
-        }
+        }*/
     }
 
     /**
@@ -152,8 +159,18 @@ class ViewModelImpl(
 
     }
 
-    fun favorite() {
-        //stationRepository.favoritStations.add(stationRepository.curStation)
+    fun addFavorite() {
+        stationRepository.favoritStations.add(stationRepository.curStation)
+    }
+
+    fun deleteFavorite(stationName: String){
+        for(station in stationRepository.favoritStations){
+            if(station.stationName == stationName){
+                stationRepository.favoritStations.remove(station)
+                return
+            }
+        }
+        println("Not deleted!!")
     }
 
 

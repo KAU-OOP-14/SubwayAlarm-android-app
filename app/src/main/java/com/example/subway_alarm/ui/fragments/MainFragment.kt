@@ -74,8 +74,8 @@ class MainFragment : Fragment() {
             viewModel.setAlarm()
         }
 
-        viewModel.setStation("문래")
-        viewModel.getService("문래")
+        viewModel.setStation("양평")
+        viewModel.getService("양평")
 
         return binding?.root
     }
