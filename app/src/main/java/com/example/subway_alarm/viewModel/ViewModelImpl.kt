@@ -1,8 +1,12 @@
 package com.example.subway_alarm.viewModel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
+import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.api.dataModel.ApiModelList
 import com.example.subway_alarm.model.api.service.ApiService
@@ -21,9 +25,13 @@ class ViewModelImpl(
 ) : ViewModel() {
     //api model list
     private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
+    private val _curStation = NonNullMutableLiveData<Station>(Station("초기값",0, mutableListOf()))
+
     // Getter
     val apis: NonNullLiveData<List<ApiModel>>
         get() = _apis
+    val curStation: NonNullLiveData<Station>
+        get() = _curStation
 
     //retrofit 관련
     private val retrofit: Retrofit
@@ -74,12 +82,37 @@ class ViewModelImpl(
         apiService.requestApi(stationName)
     }
 
+    fun setStation(stationName: String) {
+        stationRepository.curStation = Subway.let {
+            val list = it.searchStations(stationName)
+            if (list != null) {
+                println("새로운 curruent station set : ${list[0].stationName}")
+                _curStation.value = list[0]
+                list[0]
+            } else return
+        }
+    }
 
     /**
      *Main Fragment에서 오른쪽 버튼을 눌렀을 때 호출하는 함수입니다.
      */
     fun goRight() {
         //현재 station의 right node를 가져옵니다.
+        /**
+         * node가 두 개 일때, 새로운 fragment를 띄울 수 있게 구현해야함
+         */
+        val right = stationRepository.curStation.rightStation
+
+        //새로운 api를 호출합니다.
+        if (right != null) {
+            stationRepository.curStation = right
+            println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
+            _curStation.value = stationRepository.curStation
+            getService(stationRepository.curStation.stationName)
+        }
+        else {
+            println("다음 역이 없습니다.")
+        }
     }
 
     /**
@@ -87,8 +120,18 @@ class ViewModelImpl(
      */
     fun goLeft() {
         //현재 station의 left node를 가져옵니다.
+        val left = stationRepository.curStation.leftStation
 
         //새로운 api를 호출합니다.
+        if (left != null) {
+            stationRepository.curStation = left
+            println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
+            _curStation.value = stationRepository.curStation
+            getService(stationRepository.curStation.stationName)
+        }
+        else {
+            println("다음 역이 없습니다.")
+        }
 
     }
 

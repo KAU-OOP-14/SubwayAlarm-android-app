@@ -48,9 +48,8 @@ class MainActivity : AppCompatActivity() {
             println("main activity에서 view model의 data 변경 : $it")
             var text: String = ""
             for(model in it) {
-                text += "${model.statnNm} | ${model.bstatnNm} | ${model.trainLineNm} | ${model.arvlMsg2} | ${model.arvlMsg3}"
+                text += "${model.statnNm}|${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}|${model.arvlMsg3}"
                 text += "\n-----------------------"
-                println("몇개?")
             }
             binding.txtTest.text = text
 
@@ -62,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
             replaceMainFragment(MainFragment.newInstance("1", "2"))
-            viewModel.getService("홍대입구")
+            viewModel.setStation("화전")
+            viewModel.getService("화전")
         }
 
         binding.btnGotoSearch.setOnClickListener {

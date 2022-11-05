@@ -18,7 +18,7 @@ class StationRepositoryImpl : StationRepository {
     /**
      * 노선도 클릭이나, 검색, 즐겨찾기를 통해 불러온 current station 입니다.
      */
-    override var curStation: Station? = null
+    override var curStation: Station = Station("초기값",0, mutableListOf())
     override var searchResultList: MutableList<Station>? = null
     override var favoritStations: MutableList<Station>? = null
 
