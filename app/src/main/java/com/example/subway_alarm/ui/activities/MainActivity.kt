@@ -61,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
             replaceMainFragment(MainFragment.newInstance("1", "2"))
-            viewModel.setStation("화전")
-            viewModel.getService("화전")
         }
 
         binding.btnGotoSearch.setOnClickListener {
