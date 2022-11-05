@@ -6,7 +6,7 @@ interface StationRepository {
     /**
      * 현재 main thread에서 관찰하고 있는 station입니다.
      */
-    var curStation: Station?
+    var curStation: Station
 
     /**
      * 검색에 대한 결과로 station list를 반환합니다.

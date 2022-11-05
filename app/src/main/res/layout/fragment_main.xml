@@ -84,6 +84,7 @@
                 android:layout_width="250dp"
                 android:layout_height="match_parent">
                 <TextView
+                    android:id="@+id/txtStationName"
                     android:textSize="50sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,7 +121,7 @@
 
         <!-- 도착 정보 -->
         <LinearLayout
-            android:gravity="bottom"
+            android:gravity="top"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="100dp">

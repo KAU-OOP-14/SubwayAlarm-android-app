@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
+import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val ARG_PARAM1 = "param1"
@@ -39,6 +40,17 @@ class MainFragment : Fragment() {
 
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
+            var data = ""
+            for( model in it) {
+                data += "${model.statnNm}|${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}|${model.arvlMsg3}"
+            }
+            binding?.txtStationData?.text = data
+        })
+
+        viewModel.curStation.observe(viewLifecycleOwner, Observer {
+            binding?.txtStationName?.text = it.stationName
+            binding?.txtLeftStation?.text = it.leftStation?.stationName?:"역 정보 없음"
+            binding?.txtRightStation?.text = it.rightStation?.stationName?:"역 정보 없음"
         })
 
         //뒤로 버튼 클릭시 이벤트
