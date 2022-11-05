@@ -74,6 +74,9 @@ class MainFragment : Fragment() {
             viewModel.setAlarm()
         }
 
+        viewModel.setStation("문래")
+        viewModel.getService("문래")
+
         return binding?.root
     }
 
@@ -87,4 +90,5 @@ class MainFragment : Fragment() {
                 }
             }
     }
+
 }
