@@ -8,3 +8,6 @@
 - Rxjava : reactive programming
 - Livedata : view model observe
 - Koin : DI
+
+## 작업 기간
+10/26 ~ 12/6
