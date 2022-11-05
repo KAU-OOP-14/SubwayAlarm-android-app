@@ -11,12 +11,12 @@ interface StationRepository {
     /**
      * 검색에 대한 결과로 station list를 반환합니다.
      */
-    var searchResultList: MutableList<Station>?
+    var searchResultList: MutableList<Station>
 
     /**
      * 즐겨찾기중인 station의 리스트입니다.
      */
-    var favoritStations: MutableList<Station>?
+    var favoritStations: MutableList<Station>
 
 
     /**

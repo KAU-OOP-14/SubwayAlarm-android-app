@@ -19,11 +19,24 @@ class StationRepositoryImpl : StationRepository {
      * 노선도 클릭이나, 검색, 즐겨찾기를 통해 불러온 current station 입니다.
      */
     override var curStation: Station = Station("초기값",0, mutableListOf())
-    override var searchResultList: MutableList<Station>? = null
-    override var favoritStations: MutableList<Station>? = null
+    override var searchResultList: MutableList<Station> = mutableListOf()
+    override var favoritStations: MutableList<Station> = mutableListOf()
 
-    override fun search(stationName: String) {
-        TODO("Not yet implemented")
+    override fun search(stationName: String){
+        searchResultList.clear()     // serachResultList 초기화
+        if(stationName == "양평"){
+            searchResultList.add(Subway.lines[4].stations[12])
+            searchResultList.add(Subway.lines[9].stations[49])
+            return
+        }
+        for(line in Subway.lines){
+            val tempStation: Station? = line.searchStationInLine(stationName)
+            if(tempStation != null){
+                searchResultList.add(tempStation)
+                return
+            }
+        }
+        return
     }
 
     init {

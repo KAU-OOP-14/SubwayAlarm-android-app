@@ -34,8 +34,8 @@ object Subway {
     fun searchStations(stationName: String): MutableList<Station>?{
         val stationList: MutableList<Station> = mutableListOf()
         if(stationName == "양평"){
-            stationList.add(lines[4].stations[512])     // 양평(5호선)
-            stationList.add(lines[9].stations[1049])    // 양평(경의중앙선)
+            stationList.add(lines[4].stations[12])     // 양평(5호선)
+            stationList.add(lines[9].stations[49])    // 양평(경의중앙선)
             return stationList
         }
         for (line in lines) {
