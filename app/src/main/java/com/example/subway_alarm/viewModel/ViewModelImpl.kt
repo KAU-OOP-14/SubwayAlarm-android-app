@@ -174,8 +174,7 @@ class ViewModelImpl(
 
     /**
      * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수
-     * true를 반환하면 갈림길이 있고
-     * false를 반환하면 갈림길이 아니라는 의미
+     * null를 반환하면 갈림길이 아니라는 의미이다
      */
     fun isCrossedLine(direction: String): Array<String>?{
         val stationList:Array<String> = Array(2) {""}
