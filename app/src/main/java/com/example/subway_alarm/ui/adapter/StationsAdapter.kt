@@ -1,4 +1,4 @@
-package com.example.subway_alarm.ui.activities
+package com.example.subway_alarm.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.databinding.ListStatoinsBinding
 import com.example.subway_alarm.model.Station
 
-class StationsAdapter(val stations: Array<FavoritStation>)
+class StationsAdapter(val stations: MutableList<Station>)
     : RecyclerView.Adapter<StationsAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -22,8 +22,8 @@ class StationsAdapter(val stations: Array<FavoritStation>)
 
 
     class Holder(private val binding: ListStatoinsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(station: FavoritStation) {
-            binding.stationName.text = station.name
+        fun bind(station: Station) {
+            binding.stationName.text = station.stationName
         }
 
     }
