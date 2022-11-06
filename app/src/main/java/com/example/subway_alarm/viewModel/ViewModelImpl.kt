@@ -71,43 +71,96 @@ class ViewModelImpl(
     /**
      *Main Fragment에서 오른쪽 버튼을 눌렀을 때 호출하는 함수입니다.
      */
-    fun goRight() {
+    fun goRight(i: Int = -1) {
         //현재 station의 right node를 가져옵니다.
         /**
          * node가 두 개 일때, 새로운 fragment를 띄울 수 있게 구현해야함
          */
         val right = stationRepository.curStation.rightStation
+        val right2 = stationRepository.curStation.right2Station
 
         //새로운 api를 호출합니다.
-        if (right != null) {
+        /*if (right != null) {
             stationRepository.curStation = right
             println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
             _curStation.value = stationRepository.curStation
             getService(stationRepository.curStation.stationName)
+        }*/
+        if(i == -1){
+            if(right != null){
+                stationRepository.curStation = right
+                println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
+                _curStation.value = stationRepository.curStation
+                getService(stationRepository.curStation.stationName)
+            }
+            else{
+                println("다음 역이 없습니다.")
+            }
         }
         else {
-            println("다음 역이 없습니다.")
+            if(i == 0)
+                stationRepository.curStation = right ?: return
+            else
+                stationRepository.curStation = right2 ?: return
+            println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
+            _curStation.value = stationRepository.curStation
+            getService(stationRepository.curStation.stationName)
         }
     }
 
     /**
      * Main Fragement에서 왼쪽 버튼을 눌렀을 때 호출하는 함수입니다.
      */
-    fun goLeft() {
+    fun goLeft(i: Int = -1) {
         //현재 station의 left node를 가져옵니다.
         val left = stationRepository.curStation.leftStation
+        val left2 = stationRepository.curStation.left2Station
 
         //새로운 api를 호출합니다.
-        if (left != null) {
-            stationRepository.curStation = left
+        if(i == -1){
+            if(left != null){
+                stationRepository.curStation = left
+                println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
+                _curStation.value = stationRepository.curStation
+                getService(stationRepository.curStation.stationName)
+            }
+            else{
+                println("다음 역이 없습니다.")
+            }
+        }
+        else {
+            if(i == 0)
+                stationRepository.curStation = left ?: return
+            else
+                stationRepository.curStation = left2 ?: return
             println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
             _curStation.value = stationRepository.curStation
             getService(stationRepository.curStation.stationName)
         }
-        else {
-            println("다음 역이 없습니다.")
-        }
 
+    }
+
+    /**
+     * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수
+     * null를 반환하면 갈림길이 아니라는 의미이다
+     */
+    fun isCrossedLine(direction: String): Array<String>?{
+        val stationList:Array<String> = Array(2) {""}
+        if(direction == "right") {
+            if (stationRepository.curStation.right2Station != null) {
+                stationList[0] = (stationRepository.curStation.rightStation!!.stationName)
+                stationList[1] = (stationRepository.curStation.right2Station!!.stationName)
+                return stationList
+            }
+        }
+        else if(direction == "left") {
+            if (stationRepository.curStation.left2Station != null) {
+                stationList[0] = (stationRepository.curStation.leftStation!!.stationName)
+                stationList[1] = (stationRepository.curStation.left2Station!!.stationName)
+                return stationList
+            }
+        }
+        return null
     }
 
     /**
