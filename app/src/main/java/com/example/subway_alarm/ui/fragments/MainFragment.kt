@@ -36,10 +36,14 @@ class MainFragment : Fragment() {
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
+
             for( model in it) {
                 data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
             binding?.txtStationData?.text = data
+            if(it.isEmpty()) {
+                binding?.txtStationData?.text = ""
+            }
         })
 
         viewModel.curStation.observe(viewLifecycleOwner, Observer {

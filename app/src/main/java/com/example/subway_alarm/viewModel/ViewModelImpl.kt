@@ -38,10 +38,17 @@ class ViewModelImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
-                println("success")
-                _apis.value = it.realtimeArrivalList
+                // 호선에 맞는 api data 만 집어넣어줍니다.
+                try {
+                    _apis.value = checkLine(it.realtimeArrivalList!!)
+                    println("api를 성공적으로 불러왔습니다.")
+                } catch (e: NullPointerException) {
+                    // api를 못 받았을시 빈 model list를 반환
+                    println("NPE : api를 받지 못했습니다..ㅠㅠ")
+                    _apis.value = listOf()
+                }
             }, {
-                println("failed")
+                println("api를 받지 못했습니다..ㅠㅠ")
             })
             .addTo(disposables)
     }
@@ -113,6 +120,61 @@ class ViewModelImpl(
         }
         return null
     }
+
+    /** api data가 호선에 맞는지 확인하고 넣어줍니다. */
+    fun checkLine(list: List<ApiModel>): List<ApiModel> {
+        val checkedList: MutableList<ApiModel> = mutableListOf()
+        for (model in list) {
+            println("호선 : ${model.subwayId}")
+            //1호선부터 9호선
+            when (val id = model.subwayId) {
+                in 1001..1009 -> {
+                    if (curStation.value.id == id % 10) {
+                        checkedList.add(model)
+                    }
+                }
+                1063 -> {
+                    if (curStation.value.id == 10) {
+                        checkedList.add(model)
+                    }
+                }
+                1065 -> {
+                    if (curStation.value.id == 11) {
+                        checkedList.add(model)
+                    }
+                }
+                1067 -> {
+                    if (curStation.value.id == 12) {
+                        checkedList.add(model)
+                    }
+                }
+                1075 -> {
+                    if (curStation.value.id == 13) {
+                        checkedList.add(model)
+                    }
+                }
+                1077 -> {
+                    if (curStation.value.id == 14) {
+                        checkedList.add(model)
+                    }
+                }
+                1091 -> {
+                    if (curStation.value.id == 15) {
+                        checkedList.add(model)
+                    }
+                }
+                1092 -> {
+                    if (curStation.value.id == 16) {
+                        checkedList.add(model)
+                    }
+                }
+            }
+
+            //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
+        }
+        return checkedList.toList()
+    }
+
 
     /** Main Fragment에서 알람 버튼을 눌렀을 때 호출하는 함수입니다. */
     fun setAlarm() {
