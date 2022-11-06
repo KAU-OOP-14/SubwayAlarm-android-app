@@ -15,6 +15,7 @@ import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
+import com.example.subway_alarm.viewModel.ViewModelImpl.direction
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -46,7 +47,7 @@ class MainFragment : Fragment() {
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
             for( model in it) {
-                data += "${model.statnNm}|${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}|${model.arvlMsg3}"
+                data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
             binding?.txtStationData?.text = data
         })
@@ -68,7 +69,7 @@ class MainFragment : Fragment() {
             println("left button!")
             val array: Array<String>? = viewModel.isCrossedLine("left")
             if(array == null)
-                viewModel.goLeft()
+                viewModel.gotoStation(direction.LEFT)
             else{
                 var index: Int = 0
                 val builder = AlertDialog.Builder(this.activity)
@@ -78,7 +79,7 @@ class MainFragment : Fragment() {
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.goLeft(index)
+                        viewModel.gotoStation(direction.LEFT, index)
                     }.show()
 
             }
@@ -89,7 +90,7 @@ class MainFragment : Fragment() {
             println("right button!")
             val array: Array<String>? = viewModel.isCrossedLine("right")
             if(array == null)
-                viewModel.goRight()
+                viewModel.gotoStation(direction.RIGHT)
             else{
                 var index: Int = 1
                 val builder = AlertDialog.Builder(this.activity)
@@ -99,7 +100,7 @@ class MainFragment : Fragment() {
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.goRight(index)
+                        viewModel.gotoStation(direction.RIGHT,index)
                     }.show()
 
             }
