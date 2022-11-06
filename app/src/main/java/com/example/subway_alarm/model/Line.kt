@@ -53,6 +53,8 @@ open class Line(val lineId: Int = 0){
                 else{
                     s.endPoint[0] = endPointList[3]
                     s.endPoint[1] = endPointList[4]
+                    if(index == 62) // 가산디지털단지
+                        s.leftStation = stations[41] // 구로
                 }
             }
 

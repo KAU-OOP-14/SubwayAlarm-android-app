@@ -1,5 +1,8 @@
 package com.example.subway_alarm.ui.fragments
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.widget.Toast
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.FragmentMainBinding
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -61,12 +65,44 @@ class MainFragment : Fragment() {
 
         // 왼쪽 역 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
-            viewModel.goLeft()
+            println("left button!")
+            val array: Array<String>? = viewModel.isCrossedLine("left")
+            if(array == null)
+                viewModel.goLeft()
+            else{
+                var index: Int = 0
+                val builder = AlertDialog.Builder(this.activity)
+                builder
+                    .setTitle("Selct Station")
+                    .setItems(array){dialog, which->
+                        Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
+                        index = which
+                        println("index : $index")
+                        viewModel.goLeft(index)
+                    }.show()
+
+            }
         }
 
         //오른쪽 역 클릭시 이벤트
         binding?.btnRight?.setOnClickListener {
-            viewModel.goRight()
+            println("right button!")
+            val array: Array<String>? = viewModel.isCrossedLine("right")
+            if(array == null)
+                viewModel.goRight()
+            else{
+                var index: Int = 1
+                val builder = AlertDialog.Builder(this.activity)
+                builder
+                    .setTitle("Selct Station")
+                    .setItems(array){dialog, which->
+                        Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
+                        index = which
+                        println("index : $index")
+                        viewModel.goRight(index)
+                    }.show()
+
+            }
         }
 
         //알람 버튼 클릭시 이벤트
@@ -74,8 +110,8 @@ class MainFragment : Fragment() {
             viewModel.setAlarm()
         }
 
-        viewModel.setStation("양평")
-        viewModel.getService("양평")
+        viewModel.setStation("당산")
+        viewModel.getService("당산")
 
         return binding?.root
     }
