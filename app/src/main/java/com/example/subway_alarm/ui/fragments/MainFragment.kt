@@ -1,7 +1,6 @@
 package com.example.subway_alarm.ui.fragments
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.widget.Toast
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,26 +10,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.FragmentMainBinding
-import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.ViewModelImpl
-import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 
 
 class MainFragment : Fragment() {
     var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -45,10 +36,14 @@ class MainFragment : Fragment() {
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
+
             for( model in it) {
-                data += "${model.statnNm}|${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}|${model.arvlMsg3}"
+                data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
             binding?.txtStationData?.text = data
+            if(it.isEmpty()) {
+                binding?.txtStationData?.text = ""
+            }
         })
 
         viewModel.curStation.observe(viewLifecycleOwner, Observer {
@@ -68,17 +63,17 @@ class MainFragment : Fragment() {
             println("left button!")
             val array: Array<String>? = viewModel.isCrossedLine("left")
             if(array == null)
-                viewModel.goLeft()
+                viewModel.gotoStation(Direction.LEFT)
             else{
-                var index: Int = 0
+                var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
                     .setTitle("Selct Station")
-                    .setItems(array){dialog, which->
+                    .setItems(array){_, which->
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.goLeft(index)
+                        viewModel.gotoStation(Direction.LEFT, index)
                     }.show()
 
             }
@@ -89,17 +84,17 @@ class MainFragment : Fragment() {
             println("right button!")
             val array: Array<String>? = viewModel.isCrossedLine("right")
             if(array == null)
-                viewModel.goRight()
+                viewModel.gotoStation(Direction.RIGHT)
             else{
-                var index: Int = 1
+                var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
                     .setTitle("Selct Station")
-                    .setItems(array){dialog, which->
+                    .setItems(array){_, which->
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.goRight(index)
+                        viewModel.gotoStation(Direction.RIGHT,index)
                     }.show()
 
             }
@@ -118,11 +113,9 @@ class MainFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             MainFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }

@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
          모든 데이터 처리는 viewModel이 합니다 */
         binding.hwajeon.setOnClickListener {
             //입력한 역의 api 요청
-            replaceMainFragment(MainFragment.newInstance("1", "2"))
+            replaceMainFragment(MainFragment.newInstance())
         }
 
         binding.btnGotoSearch.setOnClickListener {
