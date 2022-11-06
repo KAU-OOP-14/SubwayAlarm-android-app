@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
-import com.example.subway_alarm.viewModel.ViewModelImpl.direction
+import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 
 
 class MainFragment : Fragment() {
@@ -59,7 +59,7 @@ class MainFragment : Fragment() {
             println("left button!")
             val array: Array<String>? = viewModel.isCrossedLine("left")
             if(array == null)
-                viewModel.gotoStation(direction.LEFT)
+                viewModel.gotoStation(Direction.LEFT)
             else{
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
@@ -69,7 +69,7 @@ class MainFragment : Fragment() {
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.gotoStation(direction.LEFT, index)
+                        viewModel.gotoStation(Direction.LEFT, index)
                     }.show()
 
             }
@@ -80,7 +80,7 @@ class MainFragment : Fragment() {
             println("right button!")
             val array: Array<String>? = viewModel.isCrossedLine("right")
             if(array == null)
-                viewModel.gotoStation(direction.RIGHT)
+                viewModel.gotoStation(Direction.RIGHT)
             else{
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
@@ -90,7 +90,7 @@ class MainFragment : Fragment() {
                         Toast.makeText(this.activity, "${array[which]} is Selected",Toast.LENGTH_SHORT).show()
                         index = which
                         println("index : $index")
-                        viewModel.gotoStation(direction.RIGHT,index)
+                        viewModel.gotoStation(Direction.RIGHT,index)
                     }.show()
 
             }
