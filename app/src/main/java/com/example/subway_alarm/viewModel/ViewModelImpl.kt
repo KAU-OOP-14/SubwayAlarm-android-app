@@ -1,31 +1,28 @@
 package com.example.subway_alarm.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
-import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.model.api.dataModel.ApiModelList
-import com.example.subway_alarm.model.api.service.ApiService
+import com.example.subway_alarm.model.api.service.NetworkManager
 import com.example.subway_alarm.model.api.service.NetworkService
 import com.example.subway_alarm.model.repository.StationRepository
-import com.example.subway_alarm.model.repository.StationRepositoryImpl
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.schedulers.Schedulers
+
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class ViewModelImpl(
     private val stationRepository: StationRepository,
-    private val apiService: ApiService
 ) : ViewModel() {
     //api model list
     private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값",0, mutableListOf()))
+    private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
 
     // Getter
     val apis: NonNullLiveData<List<ApiModel>>
@@ -33,52 +30,23 @@ class ViewModelImpl(
     val curStation: NonNullLiveData<Station>
         get() = _curStation
 
-    //retrofit 관련
-    private val retrofit: Retrofit
-    private val networkService: NetworkService
-
     //초기값
     init {
         println("ViewModelImpl - 생성자 호출")
-        //retrofit 객체 생성, 한번만 실행하면 됩니다.
-        retrofit = Retrofit.Builder()
-            .baseUrl("http://swopenapi.seoul.go.kr/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        networkService = retrofit.create(NetworkService::class.java)
     }
 
     fun getService(stationName: String) {
-        //여기에 역 이름을 전달하면 ApiModelList라는 객체를 생성해서 modelList에 전달해줍니다.
-        val apiCallBack = networkService.doGetUserList(stationName)
-        apiCallBack.enqueue(object : Callback<ApiModelList> {
-            override fun onResponse(
-                call: Call<ApiModelList>,
-                response: Response<ApiModelList>
-            ) {
-                if (response.isSuccessful)
-                    println("통신 성공")
-                val data = response.body()
-                if (data != null) {
-                    val model = data.realtimeArrivalList
-                    _apis.value = model
-                }
-            }
-
-            override fun onFailure(call: Call<ApiModelList>, t: Throwable) {
-                println(t.message)
-                println("통신 실패")
-                call.cancel()
-            }
-        })
-    }
-
-    /**
-     * 새로운 api를 요청하고, ApiModel을 생성받아 전달받습니다.
-     *
-     */
-    fun requestApiData(stationName: String) {
-        apiService.requestApi(stationName)
+        NetworkManager.subwayApi
+            .doGetUserList(stationName)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe( { it->
+                println("success")
+                _apis.value = it.realtimeArrivalList
+            }, {
+                println("failed")
+            })
+            .addTo(disposables)
     }
 
     fun setStation(stationName: String) {
@@ -228,6 +196,11 @@ class ViewModelImpl(
 
     fun create(){
 
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        disposables.clear()
     }
 
 

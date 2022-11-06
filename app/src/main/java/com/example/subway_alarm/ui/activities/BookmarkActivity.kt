@@ -1,16 +1,22 @@
 package com.example.subway_alarm.ui.activities
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.ActivityBookmarkBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.ui.adapter.StationsAdapter
 
 
 class BookmarkActivity : AppCompatActivity() {
 
-    val stations = arrayOf()
+    // 임시로 favorite list 할당
+    var stations: MutableList<Station> = mutableListOf(
+        Station("화전",1016, mutableListOf(10)),
+        Station("홍대입구",1016, mutableListOf(10)),
+        Station("강매",1016, mutableListOf(10)),
+        Station("수색",1016, mutableListOf(10)),
+    )
 
     lateinit var binding : ActivityBookmarkBinding
 
