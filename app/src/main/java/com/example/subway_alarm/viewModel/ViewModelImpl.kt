@@ -129,42 +129,42 @@ class ViewModelImpl(
             //1호선부터 9호선
             when (val id = model.subwayId) {
                 in 1001..1009 -> {
-                    if (curStation.value.id == id % 10) {
+                    if (curStation.value.id / 100 == id % 10) {
                         checkedList.add(model)
                     }
                 }
                 1063 -> {
-                    if (curStation.value.id == 10) {
+                    if (curStation.value.id / 100 == 10) {
                         checkedList.add(model)
                     }
                 }
                 1065 -> {
-                    if (curStation.value.id == 11) {
+                    if (curStation.value.id / 100== 11) {
                         checkedList.add(model)
                     }
                 }
                 1067 -> {
-                    if (curStation.value.id == 12) {
+                    if (curStation.value.id / 100 == 12) {
                         checkedList.add(model)
                     }
                 }
                 1075 -> {
-                    if (curStation.value.id == 13) {
+                    if (curStation.value.id / 100 == 13) {
                         checkedList.add(model)
                     }
                 }
                 1077 -> {
-                    if (curStation.value.id == 14) {
+                    if (curStation.value.id / 100 == 14) {
                         checkedList.add(model)
                     }
                 }
                 1091 -> {
-                    if (curStation.value.id == 15) {
+                    if (curStation.value.id / 100 == 15) {
                         checkedList.add(model)
                     }
                 }
                 1092 -> {
-                    if (curStation.value.id == 16) {
+                    if (curStation.value.id / 100 == 16) {
                         checkedList.add(model)
                     }
                 }
