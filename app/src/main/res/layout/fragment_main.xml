@@ -23,6 +23,7 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
+                    android:background="@android:color/transparent"
                     android:id="@+id/btnBack"
                     android:rotation="180"
                     android:scaleX="0.5"
@@ -38,18 +39,11 @@
                 android:gravity="center"
                 android:layout_width="310dp"
                 android:layout_height="match_parent">
-
-                <ImageView
-                    android:src="@drawable/circle"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"/>
-
-                <ImageView
-                    android:src="@drawable/circle"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_gravity="center"
+                    android:id="@+id/recLineNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -65,6 +59,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent">
                 <ImageButton
+                    android:background="@android:color/transparent"
                     android:id="@+id/btnLeft"
                     android:rotation="180"
                     android:src="@drawable/arrow"
@@ -90,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="화전"/>
                 <ImageButton
+                    android:background="@android:color/transparent"
                     android:id="@+id/btnAlarm"
                     android:src="@drawable/alarm"
                     android:layout_width="wrap_content"
@@ -104,6 +100,7 @@
                 android:layout_width="80dp"
                 android:layout_height="match_parent">
                 <ImageButton
+                    android:background="@android:color/transparent"
                     android:id="@+id/btnRight"
                     android:src="@drawable/arrow"
                     android:layout_width="match_parent"

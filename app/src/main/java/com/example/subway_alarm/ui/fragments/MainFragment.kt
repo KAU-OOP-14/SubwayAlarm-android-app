@@ -7,9 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
+import com.example.subway_alarm.ui.adapter.LineNumAdapter
+import com.example.subway_alarm.ui.adapter.StationsAdapter
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
@@ -18,6 +22,8 @@ import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 class MainFragment : Fragment() {
     var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
+    var lineNumbers: Array<Int> = arrayOf()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +56,13 @@ class MainFragment : Fragment() {
             binding?.txtStationName?.text = it.stationName
             binding?.txtLeftStation?.text = it.leftStation?.stationName?:"역 정보 없음"
             binding?.txtRightStation?.text = it.rightStation?.stationName?:"역 정보 없음"
+            lineNumbers = it.lineList.toTypedArray()
+            binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers)
         })
+
+        // adapter과 연결
+        binding?.recLineNum?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers)
 
         //뒤로 버튼 클릭시 이벤트
         binding?.btnBack?.setOnClickListener {
