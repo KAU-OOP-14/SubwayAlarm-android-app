@@ -44,16 +44,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /* View Model과 View 연결 */
-        viewModel.apis.observe(this, Observer {
-            println("main activity에서 view model의 data 변경 : $it")
-            var text: String = ""
-            for(model in it) {
-                text += "${model.statnNm}|${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}|${model.arvlMsg3}"
-                text += "\n-----------------------"
-            }
-        })
-
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
          모든 데이터 처리는 viewModel이 합니다 */
         binding.btnStation.setOnClickListener {

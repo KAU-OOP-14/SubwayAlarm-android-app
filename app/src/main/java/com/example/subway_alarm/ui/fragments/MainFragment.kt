@@ -8,20 +8,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
-import com.example.subway_alarm.ui.adapter.StationsAdapter
+import com.example.subway_alarm.viewModel.OnLineChange
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), OnLineChange {
     var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
@@ -64,12 +63,12 @@ class MainFragment : Fragment() {
             binding?.txtLeftStation?.text = it.leftStation?.stationName?:"역 정보 없음"
             binding?.txtRightStation?.text = it.rightStation?.stationName?:"역 정보 없음"
             lineNumbers = it.lineList.toTypedArray()
-            binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers)
+            binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers,this)
         })
 
         // adapter과 연결
         binding?.recLineNum?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers)
+        binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers,this)
 
         //뒤로 버튼 클릭시 이벤트
         binding?.btnBack?.setOnClickListener {
@@ -80,8 +79,7 @@ class MainFragment : Fragment() {
 
         // 왼쪽 역 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
-            println("left button!")
-            val array: Array<String>? = viewModel.isCrossedLine("left")
+            val array: Array<String>? = viewModel.onCrossedLine("left")
             if(array == null)
                 viewModel.gotoStation(Direction.LEFT)
             else{
@@ -101,8 +99,7 @@ class MainFragment : Fragment() {
 
         //오른쪽 역 클릭시 이벤트
         binding?.btnRight?.setOnClickListener {
-            println("right button!")
-            val array: Array<String>? = viewModel.isCrossedLine("right")
+            val array: Array<String>? = viewModel.onCrossedLine("right")
             if(array == null)
                 viewModel.gotoStation(Direction.RIGHT)
             else{
@@ -125,8 +122,7 @@ class MainFragment : Fragment() {
             viewModel.setAlarm()
         }
 
-        viewModel.setStation("당산")
-        viewModel.getService("당산")
+        viewModel.onStationSelect("홍대입구")
 
         return binding?.root
     }
@@ -138,6 +134,10 @@ class MainFragment : Fragment() {
                 arguments = Bundle().apply {
                 }
             }
+    }
+
+    override fun changeLine(lineNum: Int) {
+        viewModel.changeLine(lineNum)
     }
 
 }

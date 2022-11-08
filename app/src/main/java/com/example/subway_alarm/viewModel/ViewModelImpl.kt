@@ -5,23 +5,25 @@ import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.model.api.service.NetworkManager
-import com.example.subway_alarm.model.repository.StationRepository
+import com.example.subway_alarm.model.api.service.OnStationChanged
+import com.example.subway_alarm.model.repository.StationRepositoryImpl
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.koin.core.component.KoinComponent
 
 class ViewModelImpl(
-    private val stationRepository: StationRepository,
-) : ViewModel() {
+) : ViewModel(), OnStationChanged, KoinComponent{
     enum class Direction { LEFT, RIGHT }
 
-    //api model list
+    //view에서 observe 중인 값
     private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
+    private val stationRepository = StationRepositoryImpl(this)
+
+
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
 
-    // Getter
     val apis: NonNullLiveData<List<ApiModel>>
         get() = _apis
     val curStation: NonNullLiveData<Station>
@@ -32,15 +34,16 @@ class ViewModelImpl(
         println("ViewModelImpl - 생성자 호출")
     }
 
-    fun getService(stationName: String) {
-        NetworkManager.subwayApi
-            .doGetUserList(stationName)
+
+    /** repository의 api가 바뀌면 view에서 관찰하는 apis를 변경합니다. */
+    private fun getRetrofit(stationName: String) {
+        stationRepository.retrofitGetStation(stationName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
                 // 호선에 맞는 api data 만 집어넣어줍니다.
                 try {
-                    _apis.value = checkLine(it.realtimeArrivalList!!)
+                    _apis.value = it.realtimeArrivalList!!
                     println("api를 성공적으로 불러왔습니다.")
                 } catch (e: NullPointerException) {
                     // api를 못 받았을시 빈 model list를 반환
@@ -53,7 +56,8 @@ class ViewModelImpl(
             .addTo(disposables)
     }
 
-    fun setStation(stationName: String) {
+    /** repository의 cur station을 새롭게 설정합니다. */
+    fun onStationSelect(stationName: String) {
         stationRepository.search(stationName)
         if (stationRepository.searchResultList.isNotEmpty()) {
             println("새로운 curruent station set : ${stationRepository.searchResultList[0].stationName}")
@@ -83,7 +87,6 @@ class ViewModelImpl(
                 stationRepository.curStation = node1
                 println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
                 _curStation.value = stationRepository.curStation
-                getService(stationRepository.curStation.stationName)
             } else {
                 println("다음 역이 없습니다.")
             }
@@ -94,35 +97,20 @@ class ViewModelImpl(
                 stationRepository.curStation = node2 ?: return
             println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
             _curStation.value = stationRepository.curStation
-            getService(stationRepository.curStation.stationName)
         }
-
     }
 
     /**
      * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수
      * null를 반환하면 갈림길이 아니라는 의미이다
      */
-    fun isCrossedLine(direction: String): Array<String>? {
-        val stationList: Array<String> = Array(2) { "" }
-        if (direction == "right") {
-            if (stationRepository.curStation.right2Station != null) {
-                stationList[0] = (stationRepository.curStation.rightStation!!.stationName)
-                stationList[1] = (stationRepository.curStation.right2Station!!.stationName)
-                return stationList
-            }
-        } else if (direction == "left") {
-            if (stationRepository.curStation.left2Station != null) {
-                stationList[0] = (stationRepository.curStation.leftStation!!.stationName)
-                stationList[1] = (stationRepository.curStation.left2Station!!.stationName)
-                return stationList
-            }
-        }
-        return null
+    fun onCrossedLine(direction: String): Array<String>? {
+        return stationRepository.getCrossedLine(direction)
     }
 
-    /** api data가 호선에 맞는지 확인하고 넣어줍니다. */
-    fun checkLine(list: List<ApiModel>): List<ApiModel> {
+    /*
+    /** 호선에 맞는 api data만 출력하기 위해 호선을 확인합니다. */
+    private fun checkLine(list: List<ApiModel>): List<ApiModel> {
         val checkedList: MutableList<ApiModel> = mutableListOf()
         for (model in list) {
             println("호선 : ${model.subwayId}")
@@ -169,10 +157,28 @@ class ViewModelImpl(
                     }
                 }
             }
-
             //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
         }
         return checkedList.toList()
+    }
+
+     */
+
+    /** line을 바꿀 때 호출되는 함수입니다.
+     * 리팩토링 필요
+     * */
+    fun changeLine(lineNum: Int) {
+        println("line chaged : $lineNum")
+        stationRepository.search(curStation.value.getStnName())
+        val list = stationRepository.searchResultList
+        for(station in list) {
+            if(station.id/100 == lineNum) {
+                stationRepository.curStation = station
+                _curStation.value = station
+                return
+            }
+        }
+
     }
 
 
@@ -187,7 +193,6 @@ class ViewModelImpl(
     }
 
     fun showSearchResult(stationName: String) {
-        //getService(stationRepository.curStation!!.stationName)
 
     }
 
@@ -212,6 +217,10 @@ class ViewModelImpl(
     override fun onCleared() {
         super.onCleared()
         disposables.clear()
+    }
+
+    override fun changeStation(newStation: Station) {
+        getRetrofit(newStation.stationName)
     }
 
 

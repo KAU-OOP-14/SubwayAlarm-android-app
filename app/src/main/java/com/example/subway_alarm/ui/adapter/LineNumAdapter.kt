@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.BtnLineNumberBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.viewModel.OnLineChange
+import com.example.subway_alarm.viewModel.ViewModelImpl
 
 
-class LineNumAdapter(val lineNumbers: Array<Int>): RecyclerView.Adapter<LineNumAdapter.Holder>() {
+class LineNumAdapter(val lineNumbers: Array<Int>, listener: OnLineChange): RecyclerView.Adapter<LineNumAdapter.Holder>() {
+    private val callback = listener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LineNumAdapter.Holder {
         val binding = BtnLineNumberBinding.inflate(LayoutInflater.from(parent.context))
         val holder: Holder = Holder(binding)
@@ -25,7 +29,7 @@ class LineNumAdapter(val lineNumbers: Array<Int>): RecyclerView.Adapter<LineNumA
         return lineNumbers.size
     }
 
-    class Holder(private val binding: BtnLineNumberBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Holder(private val binding: BtnLineNumberBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(lineNum: Int) {
             when(lineNum) {
                 1 -> binding.btnLineNum.setImageResource(R.drawable.line1)
@@ -45,6 +49,10 @@ class LineNumAdapter(val lineNumbers: Array<Int>): RecyclerView.Adapter<LineNumA
                 15 -> binding.btnLineNum.setImageResource(R.drawable.line15)
                 16 -> binding.btnLineNum.setImageResource(R.drawable.line16)
 
+            }
+            // 호선 변경 버튼 클릭시 repository의 curStation이 변합니다.
+            binding.btnLineNum.setOnClickListener {
+                callback.changeLine(lineNum)
             }
         }
 
