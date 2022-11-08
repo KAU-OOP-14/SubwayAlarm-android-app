@@ -1,61 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.activities.MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="지하철 노선도"
-            />
-
-        <Button
-            android:id="@+id/btn_goto_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search!" />
-
-        <Button
-            android:id="@+id/btn_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="즐겨찾기" />
-
-        <TextView
-            android:id="@+id/txtTest"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:gravity="center">
-            <Button
-                android:id="@+id/hwajeon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="화전역"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
 
     <FrameLayout
-        android:id="@+id/frgMain"
+        android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/stationImage"
+            android:layout_width="1457dp"
+            android:layout_height="945dp"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible"
+            app:srcCompat="@drawable/subway_image"
+            tools:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/btn_station"
+            android:layout_width="64dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="145dp"
+            android:layout_marginTop="280dp"
+            android:text="홍대입구"
+            android:textSize="8sp" />
+
+        <FrameLayout
+            android:id="@+id/frgMain"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:background="@android:color/white"
+            android:visibility="invisible"/>
 
     </FrameLayout>
 
+    <Button
+        android:id="@+id/btn_goto_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_bookmark"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/btn_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="20dp"
+        android:text="Bookmark"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
