@@ -31,7 +31,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".ui.activities.BookmarkActivity"/>
+        <activity android:name=".ui.activities.BookmarkActivity" />
         <activity
             android:name=".ui.activities.LoadingActivity"
             android:exported="true">

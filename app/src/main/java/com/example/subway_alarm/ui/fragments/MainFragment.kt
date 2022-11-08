@@ -1,6 +1,7 @@
 package com.example.subway_alarm.ui.fragments
 
 import android.app.AlertDialog
+import android.content.Context
 import android.widget.Toast
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationsAdapter
 import com.example.subway_alarm.viewModel.ViewModelImpl
@@ -23,7 +25,12 @@ class MainFragment : Fragment() {
     var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
+    lateinit var mainActivity: MainActivity
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +45,7 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-
+        mainActivity.binding.frgMain.visibility = View.VISIBLE
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
@@ -66,6 +73,7 @@ class MainFragment : Fragment() {
 
         //뒤로 버튼 클릭시 이벤트
         binding?.btnBack?.setOnClickListener {
+            mainActivity.binding.frgMain.visibility = View.INVISIBLE
             fragmentManager.beginTransaction().remove(this).commit()
             fragmentManager.popBackStack()
         }
