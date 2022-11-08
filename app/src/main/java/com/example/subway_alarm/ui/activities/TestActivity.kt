@@ -5,10 +5,13 @@ import android.os.Bundle
 import com.example.subway_alarm.databinding.ActivityTestBinding
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.viewModel.ViewModelImpl
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class TestActivity : AppCompatActivity() {
     lateinit var binding: ActivityTestBinding
     override fun onCreate(savedInstanceState: Bundle?) {
+        val viewModel: ViewModelImpl by viewModel()
         super.onCreate(savedInstanceState)
         binding = ActivityTestBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -17,9 +20,10 @@ class TestActivity : AppCompatActivity() {
             finish() // 이전 화면으로 돌아간다.
         }
 
+        /*
         binding.btnSearch.setOnClickListener {
             val resultText = binding.editText.text.toString()
-            var resultStation: MutableList<Station>? = Subway.searchStations(resultText)
+            var resultStation: MutableList<Station>? =
             if(resultStation != null){
                 binding.txtStationName.text = resultStation[0].stationName
                 binding.txtId.text = resultStation[0].id.toString()
@@ -35,6 +39,8 @@ class TestActivity : AppCompatActivity() {
                 binding.txtStationName.text = "Can Not Find"
             }
         }
+
+         */
 
     }
 }
