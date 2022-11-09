@@ -15,7 +15,7 @@ open class Line(val lineId: Int = 0){
 
     fun searchStationInLine(stationName: String): Station? {
         for(station in stations) {
-            if(station.getStnName() == stationName) {
+            if(station.stationName == stationName) {
                 return station
             }
         }

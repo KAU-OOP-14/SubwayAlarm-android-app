@@ -17,11 +17,11 @@
 
         <ImageView
             android:id="@+id/stationImage"
-            android:layout_width="1457dp"
-            android:layout_height="945dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="visible"
             app:srcCompat="@drawable/subway_image"
+            android:scaleType="centerInside"
             tools:layout_gravity="center" />
 
         <Button

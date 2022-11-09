@@ -37,7 +37,7 @@ class ViewModelImpl(
 
     /** repository의 api가 바뀌면 view에서 관찰하는 apis를 변경합니다. */
     private fun getRetrofit(stationName: String) {
-        stationRepository.retrofitGetStation(stationName)
+        stationRepository.retrofitGetArrivals(stationName)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
@@ -101,19 +101,19 @@ class ViewModelImpl(
     }
 
     /**
-     * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수
-     * null를 반환하면 갈림길이 아니라는 의미이다
+     * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수.
+     * null를 반환하면 갈림길이 아니라는 의미입니다.
      */
     fun onCrossedLine(direction: String): Array<String>? {
         return stationRepository.getCrossedLine(direction)
     }
 
     /** line을 바꿀 때 호출되는 함수입니다.
-     * 리팩토링 필요
+     * 리팩토링 필요 : 호선을 바꿀 때마다 검색을 해야하는 것이 번거로움
      * */
     fun changeLine(lineNum: Int) {
         println("line chaged : $lineNum")
-        stationRepository.search(curStation.value.getStnName())
+        stationRepository.search(curStation.value.stationName)
         val list = stationRepository.searchResultList
         for(station in list) {
             if(station.id/100 == lineNum) {

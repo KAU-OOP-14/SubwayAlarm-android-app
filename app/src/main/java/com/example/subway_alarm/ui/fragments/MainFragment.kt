@@ -45,10 +45,10 @@ class MainFragment : Fragment(), OnLineChange {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
         mainActivity.binding.frgMain.visibility = View.VISIBLE
+
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
-
             for( model in it) {
                 data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
@@ -58,6 +58,7 @@ class MainFragment : Fragment(), OnLineChange {
             }
         })
 
+        // view model의 cur station 관찰
         viewModel.curStation.observe(viewLifecycleOwner, Observer {
             binding?.txtStationName?.text = it.stationName
             binding?.txtLeftStation?.text = it.leftStation?.stationName?:"역 정보 없음"
@@ -77,7 +78,7 @@ class MainFragment : Fragment(), OnLineChange {
             fragmentManager.popBackStack()
         }
 
-        // 왼쪽 역 클릭시 이벤트
+        // 왼쪽 역 버튼 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
             val array: Array<String>? = viewModel.onCrossedLine("left")
             if(array == null)
@@ -97,7 +98,7 @@ class MainFragment : Fragment(), OnLineChange {
             }
         }
 
-        //오른쪽 역 클릭시 이벤트
+        //오른쪽 역 버튼 클릭시 이벤트
         binding?.btnRight?.setOnClickListener {
             val array: Array<String>? = viewModel.onCrossedLine("right")
             if(array == null)
