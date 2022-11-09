@@ -108,62 +108,6 @@ class ViewModelImpl(
         return stationRepository.getCrossedLine(direction)
     }
 
-    /*
-    /** 호선에 맞는 api data만 출력하기 위해 호선을 확인합니다. */
-    private fun checkLine(list: List<ApiModel>): List<ApiModel> {
-        val checkedList: MutableList<ApiModel> = mutableListOf()
-        for (model in list) {
-            println("호선 : ${model.subwayId}")
-            //1호선부터 9호선
-            when (val id = model.subwayId) {
-                in 1001..1009 -> {
-                    if (curStation.value.id / 100 == id % 10) {
-                        checkedList.add(model)
-                    }
-                }
-                1063 -> {
-                    if (curStation.value.id / 100 == 10) {
-                        checkedList.add(model)
-                    }
-                }
-                1065 -> {
-                    if (curStation.value.id / 100== 11) {
-                        checkedList.add(model)
-                    }
-                }
-                1067 -> {
-                    if (curStation.value.id / 100 == 12) {
-                        checkedList.add(model)
-                    }
-                }
-                1075 -> {
-                    if (curStation.value.id / 100 == 13) {
-                        checkedList.add(model)
-                    }
-                }
-                1077 -> {
-                    if (curStation.value.id / 100 == 14) {
-                        checkedList.add(model)
-                    }
-                }
-                1091 -> {
-                    if (curStation.value.id / 100 == 15) {
-                        checkedList.add(model)
-                    }
-                }
-                1092 -> {
-                    if (curStation.value.id / 100 == 16) {
-                        checkedList.add(model)
-                    }
-                }
-            }
-            //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
-        }
-        return checkedList.toList()
-    }
-
-     */
-
     /** line을 바꿀 때 호출되는 함수입니다.
      * 리팩토링 필요
      * */
