@@ -24,13 +24,6 @@
                 android:value="" />
         </activity>
         <activity android:name=".ui.activities.TestActivity" />
-        <activity
-            android:name=".ui.activities.SearchActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity android:name=".ui.activities.BookmarkActivity" />
         <activity
             android:name=".ui.activities.LoadingActivity"
