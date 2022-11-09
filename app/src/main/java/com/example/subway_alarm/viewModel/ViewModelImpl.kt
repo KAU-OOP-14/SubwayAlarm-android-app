@@ -5,21 +5,19 @@ import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.model.api.service.OnStationChanged
-import com.example.subway_alarm.model.repository.StationRepositoryImpl
+import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.koin.core.component.KoinComponent
 
 class ViewModelImpl(
-) : ViewModel(), OnStationChanged, KoinComponent{
+    private val stationRepository: StationRepository
+) : ViewModel() {
     enum class Direction { LEFT, RIGHT }
 
     //view에서 observe 중인 값
     private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
-    private val stationRepository = StationRepositoryImpl(this)
 
 
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
@@ -34,6 +32,12 @@ class ViewModelImpl(
         println("ViewModelImpl - 생성자 호출")
     }
 
+    /** repository에 새로운 station을 set해주고 api를 요청합니다. */
+    fun newStation(station: Station) {
+        stationRepository.curStation = station
+        _curStation.value = station
+        getRetrofit(station.stationName)
+    }
 
     /** repository의 api가 바뀌면 view에서 관찰하는 apis를 변경합니다. */
     private fun getRetrofit(stationName: String) {
@@ -56,7 +60,7 @@ class ViewModelImpl(
             .addTo(disposables)
     }
 
-    /** repository의 cur station을 새롭게 설정합니다. */
+    /** station 이름을 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
     fun onStationSelect(stationName: String) {
         stationRepository.search(stationName)
         if (stationRepository.searchResultList.isNotEmpty()) {
@@ -84,19 +88,19 @@ class ViewModelImpl(
         //새로운 api를 호출합니다.
         if (i == -1) {
             if (node1 != null) {
-                stationRepository.curStation = node1
-                println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
-                _curStation.value = stationRepository.curStation
+                newStation(node1)
             } else {
                 println("다음 역이 없습니다.")
             }
         } else {
             if (i == 0)
-                stationRepository.curStation = node1 ?: return
+                node1?.let {
+                    newStation(node1)
+                }
             else
-                stationRepository.curStation = node2 ?: return
-            println("새로운 cur Station set : ${stationRepository.curStation.stationName}")
-            _curStation.value = stationRepository.curStation
+                node2?.let {
+                    newStation(node2)
+                }
         }
     }
 
@@ -112,17 +116,14 @@ class ViewModelImpl(
      * 리팩토링 필요 : 호선을 바꿀 때마다 검색을 해야하는 것이 번거로움
      * */
     fun changeLine(lineNum: Int) {
-        println("line chaged : $lineNum")
+        println("line changed : $lineNum")
         stationRepository.search(curStation.value.stationName)
         val list = stationRepository.searchResultList
         for(station in list) {
             if(station.id/100 == lineNum) {
-                stationRepository.curStation = station
-                _curStation.value = station
-                return
+                newStation(station)
             }
         }
-
     }
 
 
@@ -142,14 +143,14 @@ class ViewModelImpl(
 
     /** 즐겨찾기 목록에 현재 station을 넣습니다. */
     fun addFavorite() {
-        stationRepository.favoritStations.add(stationRepository.curStation)
+        stationRepository.favoriteStations.add(stationRepository.curStation)
     }
 
     /** 즐겨찾기 목록에서 station을 삭제합니다. */
     fun deleteFavorite(stationName: String) {
-        for (station in stationRepository.favoritStations) {
+        for (station in stationRepository.favoriteStations) {
             if (station.stationName == stationName) {
-                stationRepository.favoritStations.remove(station)
+                stationRepository.favoriteStations.remove(station)
                 return
             }
         }
@@ -162,10 +163,5 @@ class ViewModelImpl(
         super.onCleared()
         disposables.clear()
     }
-
-    override fun changeStation(newStation: Station) {
-        getRetrofit(newStation.stationName)
-    }
-
 
 }

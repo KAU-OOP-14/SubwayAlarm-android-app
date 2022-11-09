@@ -6,42 +6,41 @@ import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.api.dataModel.ApiModelList
 import com.example.subway_alarm.model.api.service.NetworkManager
-import com.example.subway_alarm.model.api.service.OnStationChanged
 import io.reactivex.rxjava3.core.Single
-import kotlin.properties.Delegates
 
 
 /** retrofit 데이터를 처리해주는 저장소입니다.
  * main fragment에서 보고 있는 station을 담고 있습니다. */
-class StationRepositoryImpl(listener: OnStationChanged) : StationRepository {
+class StationRepositoryImpl : StationRepository {
     private val subway = SubwayBuilder.initSubway()
-    private val callback = listener
 
     init {
         println("Subway 객체 -> 저장소에 저장됨")
     }
 
     /** 노선도 클릭이나, 검색, 즐겨찾기를 통해 불러온 current station 입니다. */
-    val station: Station = Station("초기값",0, mutableListOf())
+    val station: Station = Station("초기값", 0, mutableListOf())
 
-    override var curStation: Station by Delegates.observable(Station("초기값",0,mutableListOf())) { _, _, new ->
-        callback.changeStation(new)
-    }
+    override var curStation: Station = station
+        set(value) {
+            println("새로운 curStation set : ${value.stationName}")
+            field = value
+        }
 
     override var searchResultList: MutableList<Station> = mutableListOf()
-    override var favoritStations: MutableList<Station> = mutableListOf()
+    override var favoriteStations: MutableList<Station> = mutableListOf()
 
     /** 역 검색 결과를 searchResultList에 저장합니다. */
-    override fun search(stationName: String){
+    override fun search(stationName: String) {
         searchResultList.clear()     // serachResultList 초기화
-        if(stationName == "양평"){
+        if (stationName == "양평") {
             searchResultList.add(Subway.lines[4].stations[12])
             searchResultList.add(Subway.lines[9].stations[49])
             return
         }
-        for(line in Subway.lines){
+        for (line in Subway.lines) {
             val tempStation: Station? = line.searchStationInLine(stationName)
-            if(tempStation != null){
+            if (tempStation != null) {
                 searchResultList.add(tempStation)
             }
         }
@@ -73,7 +72,7 @@ class StationRepositoryImpl(listener: OnStationChanged) : StationRepository {
                                     }
                                 }
                                 1065 -> {
-                                    if (curStation.id / 100== 11) {
+                                    if (curStation.id / 100 == 11) {
                                         checkedList.add(model)
                                     }
                                 }
@@ -107,8 +106,7 @@ class StationRepositoryImpl(listener: OnStationChanged) : StationRepository {
                         val list = ApiModelList(null, checkedList.toList())
                         list
 
-                    }
-                    else {
+                    } else {
                         val list = ApiModelList(null, null)
                         list
                     }
@@ -117,7 +115,7 @@ class StationRepositoryImpl(listener: OnStationChanged) : StationRepository {
     }
 
     /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
-    fun getCrossedLine(direction: String): Array<String>? {
+    override fun getCrossedLine(direction: String): Array<String>? {
         val stationList: Array<String> = Array(2) { "" }
         if (direction == "right") {
             if (curStation.right2Station != null) {
