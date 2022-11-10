@@ -16,14 +16,17 @@ class ViewModelImpl(
     enum class Direction { LEFT, RIGHT }
 
     //view에서 observe 중인 값
-    private val _apis = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
+    private val _leftApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
+    private val _rightApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
 
 
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
 
-    val apis: NonNullLiveData<List<ApiModel>>
-        get() = _apis
+    val leftApi: NonNullLiveData<List<ApiModel>>
+        get() = _leftApi
+    val rightApi: NonNullLiveData<List<ApiModel>>
+        get() = _rightApi
     val curStation: NonNullLiveData<Station>
         get() = _curStation
 
@@ -45,14 +48,15 @@ class ViewModelImpl(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ it ->
-                // 호선에 맞는 api data 만 집어넣어줍니다.
                 try {
-                    _apis.value = it.realtimeArrivalList!!
+                    _rightApi.value = it.rightList!!
+                    _leftApi.value = it.leftList!!
                     println("api를 성공적으로 불러왔습니다.")
                 } catch (e: NullPointerException) {
                     // api를 못 받았을시 빈 model list를 반환
                     println("NPE : api를 받지 못했습니다..ㅠㅠ")
-                    _apis.value = listOf()
+                    _rightApi.value = listOf()
+                    _leftApi.value = listOf()
                 }
             }, {
                 println("api를 받지 못했습니다..ㅠㅠ")

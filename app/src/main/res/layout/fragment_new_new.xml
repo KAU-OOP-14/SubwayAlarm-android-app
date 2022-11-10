@@ -43,6 +43,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stationBackground"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="#4CAF50">
@@ -52,12 +53,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/station_name_background"
-                android:paddingLeft="80dp"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:width="180dp"
+                android:maxWidth="200dp"
                 android:paddingTop="8dp"
-                android:paddingRight="80dp"
                 android:paddingBottom="8dp"
-
+                android:singleLine="true"
                 android:text="화전"
+                android:textAlignment="center"
                 android:textColor="#4CAF50"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,9 +73,13 @@
 
             <TextView
                 android:id="@+id/txtLeftStation"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:text="수색"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:singleLine="true"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
                 app:layout_constraintStart_toEndOf="@+id/btnLeft"
@@ -78,9 +87,14 @@
 
             <TextView
                 android:id="@+id/txtRightStation"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:singleLine="true"
                 android:text="강매"
+                android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
                 app:layout_constraintEnd_toStartOf="@+id/btnRight"
@@ -152,18 +166,18 @@
                 android:id="@+id/recLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtLeftDirection"
-                app:layout_constraintStart_toStartOf="@+id/txtLeftDirection"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtLeftDirection" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="@+id/txtRightDirection"
-                app:layout_constraintStart_toStartOf="@+id/txtRightDirection"
+                app:layout_constraintStart_toEndOf="@+id/view"
                 app:layout_constraintTop_toBottomOf="@+id/txtRightDirection" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
