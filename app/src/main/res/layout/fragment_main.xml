@@ -136,5 +136,9 @@
             android:orientation="vertical" />
     </LinearLayout>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
+
 
 </FrameLayout>

@@ -29,7 +29,6 @@ class LoadingActivity : AppCompatActivity() {
         lifecycleScope.launch {
             while(SubwayBuilder.loading) delay(100)
             startMainActivity()
-
         }
 
 
