@@ -1,144 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.fragments.MainFragment">
-
+    android:layout_height="300dp"
+    tools:context=".ui.fragments.NewNewFragment">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="330dp">
-
-        <!-- 호선 -->
-        <LinearLayout
-            android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp">
+            android:gravity="center">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recLine"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:background="@android:color/transparent"
-                    android:id="@+id/btnBack"
-                    android:rotation="180"
-                    android:scaleX="0.5"
-                    android:scaleY="0.5"
-                    android:src="@drawable/arrow"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleX="1.3"
+                android:scaleY="1.3"
+                android:layout_marginEnd="10dp"
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_baseline_stars_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                </ImageButton>
-            </LinearLayout>
-            <LinearLayout
-                android:gravity="center"
-                android:layout_width="310dp"
-                android:layout_height="match_parent">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_gravity="center"
-                    android:id="@+id/recLineNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
-            </LinearLayout>
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- 현재 역 -->
-        <LinearLayout
-            android:orientation="horizontal"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/stationBackground"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="50dp"
+            android:background="#4CAF50">
 
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="80dp"
-                android:layout_height="match_parent">
-                <ImageButton
-                    android:background="@android:color/transparent"
-                    android:id="@+id/btnLeft"
-                    android:rotation="180"
-                    android:src="@drawable/arrow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/txtLeftStation"
-                    android:text="강매"
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_width="250dp"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/txtStationName"
-                    android:textSize="50sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="화전"/>
-                <ImageButton
-                    android:background="@android:color/transparent"
-                    android:id="@+id/btnAlarm"
-                    android:src="@drawable/alarm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="1.2"
-                    android:scaleY="1.2"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
-                android:layout_width="80dp"
-                android:layout_height="match_parent">
-                <ImageButton
-                    android:background="@android:color/transparent"
-                    android:id="@+id/btnRight"
-                    android:src="@drawable/arrow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/txtRightStation"
-                    android:text="수색"
-                    android:textSize="20sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <!-- 도착 정보 -->
-        <LinearLayout
-            android:gravity="top"
-            android:orientation="horizontal"
-            android:layout_width="50dp"
-            android:layout_height="match_parent">
             <TextView
-                android:id="@+id/txtLeftStationData"
+                android:id="@+id/txtStationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="hello"/>
+                android:background="@drawable/station_name_background"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:width="180dp"
+                android:maxWidth="200dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:singleLine="true"
+                android:text="화전"
+                android:textAlignment="center"
+                android:textColor="#4CAF50"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/txtRightStation"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/txtLeftStation"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/txtLeftStation"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:text="수색"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:singleLine="true"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
+                app:layout_constraintStart_toEndOf="@+id/btnLeft"
+                app:layout_constraintTop_toTopOf="@+id/txtStationName" />
 
-        <LinearLayout
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            <TextView
+                android:id="@+id/txtRightStation"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:singleLine="true"
+                android:text="강매"
+                android:textAlignment="textEnd"
+                android:textColor="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
+                app:layout_constraintEnd_toStartOf="@+id/btnRight"
+                app:layout_constraintTop_toTopOf="@+id/txtStationName" />
+
+            <ImageButton
+                android:id="@+id/btnLeft"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:background="#00FFFFFF"
+                android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
+                app:layout_constraintBottom_toBottomOf="@+id/txtLeftStation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtLeftStation" />
+
+            <ImageButton
+                android:id="@+id/btnRight"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginEnd="10dp"
+                android:background="#00FFFFFF"
+                android:rotation="180"
+                android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
+                app:layout_constraintBottom_toBottomOf="@+id/txtRightStation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtRightStation"
+                 />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            >
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="1dp"
+                android:layout_height="180dp"
+                android:background="#17000000"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtLeftDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="수색방향"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtRightDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:text="강매방향"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtLeftDirection" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/txtRightDirection" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
-        android:layout_height="100dp" />
-
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
-import com.example.subway_alarm.databinding.FragmentNewNewBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.ui.activities.MainActivity
@@ -24,10 +23,11 @@ import com.example.subway_alarm.viewModel.OnLineChange
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class MainFragment : Fragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
-    var binding: FragmentNewNewBinding? = null
+class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
+    var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
@@ -49,7 +49,7 @@ class MainFragment : Fragment(), OnLineChange, MainActivity.onBackPressedListene
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentNewNewBinding.inflate(inflater, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
         mainActivity.binding.frgMain.visibility = View.VISIBLE
 
         /* View Model과 View 연결 */
@@ -143,13 +143,21 @@ class MainFragment : Fragment(), OnLineChange, MainActivity.onBackPressedListene
             }
         }
 
-        viewModel.onStationSelect("문래")
+        /*
+        //알람 버튼 클릭시 이벤트
+        binding?.btnAlarm?.setOnClickListener {
+            viewModel.setAlarm()
+        }
+         */
+
+        viewModel.onStationSelect("홍대입구")
 
         return binding?.root
     }
 
     // 메모리 낭비를 줄이기
     override fun onDestroy() {
+        mainActivity.binding.frgMain.visibility = View.INVISIBLE
         super.onDestroy()
         binding = null
     }
@@ -159,7 +167,6 @@ class MainFragment : Fragment(), OnLineChange, MainActivity.onBackPressedListene
     }
 
     override fun onBackPressed() {
-        mainActivity.binding.frgMain.visibility = View.INVISIBLE
         requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
