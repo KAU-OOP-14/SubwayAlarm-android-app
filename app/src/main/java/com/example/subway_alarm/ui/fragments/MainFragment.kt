@@ -23,7 +23,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 
 
-class MainFragment : Fragment(), OnLineChange {
+class MainFragment : Fragment(), OnLineChange, MainActivity.onBackPressedListener {
     var binding: FragmentNewNewBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
@@ -47,7 +47,6 @@ class MainFragment : Fragment(), OnLineChange {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentNewNewBinding.inflate(inflater, container, false)
-        val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
         mainActivity.binding.frgMain.visibility = View.VISIBLE
 
         /* View Model과 View 연결 */
@@ -144,6 +143,21 @@ class MainFragment : Fragment(), OnLineChange {
         return binding?.root
     }
 
+    // 메모리 낭비를 줄이기
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
+    
+    override fun changeLine(lineNum: Int) {
+        viewModel.changeLine(lineNum)
+    }
+
+    override fun onBackPressed() {
+        mainActivity.binding.frgMain.visibility = View.INVISIBLE
+        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+    }
+
     companion object {
         @JvmStatic
         fun newInstance() =
@@ -151,10 +165,6 @@ class MainFragment : Fragment(), OnLineChange {
                 arguments = Bundle().apply {
                 }
             }
-    }
-
-    override fun changeLine(lineNum: Int) {
-        viewModel.changeLine(lineNum)
     }
 
 }

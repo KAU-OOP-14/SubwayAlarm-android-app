@@ -10,18 +10,16 @@
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/stationImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
             android:visibility="visible"
             app:srcCompat="@drawable/subway_image"
-            android:scaleType="centerInside"
             tools:layout_gravity="center" />
 
         <Button
@@ -39,27 +37,54 @@
             android:layout_height="300dp"
             android:layout_gravity="bottom"
             android:background="@android:color/white"
-            android:visibility="invisible"/>
+            android:visibility="invisible">
+
+        </FrameLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#ffffff"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_baseline_settings" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_bookmark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#ffffff"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_baseline_star_border" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#ffffff"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_baseline_manage_search" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/light_blue_600"
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/ic_baseline_subway" />
 
     </FrameLayout>
-
-    <Button
-        android:id="@+id/btn_goto_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:text="Search"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_bookmark"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btn_bookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="20dp"
-        android:text="Bookmark"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
