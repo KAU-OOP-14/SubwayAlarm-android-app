@@ -6,5 +6,6 @@ data class ApiModelList (
     @SerializedName("errorMessage")
     val errorMessage: ApiErrorMsg? = null,
     @SerializedName("realtimeArrivalList")
-    val realtimeArrivalList: List<ApiModel>? = null
+    val leftList: List<ApiModel>? = null,
+    val rightList: List<ApiModel>? = null
 )
