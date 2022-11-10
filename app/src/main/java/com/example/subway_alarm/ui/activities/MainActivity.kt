@@ -55,19 +55,10 @@ class MainActivity : AppCompatActivity() {
          모든 데이터 처리는 viewModel이 합니다 */
         binding.btnStation.setOnClickListener {
             //입력한 역의 api 요청
-            replaceMainFragment(MainFragment.newInstance())
+            val bottomSheet = MainFragment()
+            bottomSheet.show(supportFragmentManager,bottomSheet.tag)
+            //replaceMainFragment(MainFragment.newInstance())
         }
-        /*
-        binding.btnGotoSearch.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnBookmark.setOnClickListener {
-            val intent = Intent(this, BookmarkActivity::class.java)
-            startActivity(intent)
-        }
-        */
 
         // 플로팅 버튼 클릭시 애니메이션 동작 기능
         binding.fabMain.setOnClickListener{
