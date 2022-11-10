@@ -12,8 +12,11 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
+import com.example.subway_alarm.databinding.FragmentNewNewBinding
+import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
+import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.OnLineChange
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,9 +24,10 @@ import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 
 
 class MainFragment : Fragment(), OnLineChange {
-    var binding: FragmentMainBinding? = null
+    var binding: FragmentNewNewBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
+    var apiModelList: List<ApiModel> = listOf()
     lateinit var mainActivity: MainActivity
 
     override fun onAttach(context: Context) {
@@ -42,20 +46,25 @@ class MainFragment : Fragment(), OnLineChange {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = FragmentNewNewBinding.inflate(inflater, container, false)
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
         mainActivity.binding.frgMain.visibility = View.VISIBLE
 
         /* View Model과 View 연결 */
         viewModel.apis.observe(viewLifecycleOwner, Observer {
             var data = ""
+            apiModelList = it
+            binding?.recLeft?.adapter = StationDataAdapter(apiModelList)
             for( model in it) {
                 data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
-            binding?.txtStationData?.text = data
+            /*
+            binding?.txtLeftStationData?.text = data
             if(it.isEmpty()) {
-                binding?.txtStationData?.text = ""
+                binding?.txtLeftStationData?.text = ""
             }
+
+             */
         })
 
         // view model의 cur station 관찰
@@ -64,19 +73,23 @@ class MainFragment : Fragment(), OnLineChange {
             binding?.txtLeftStation?.text = it.leftStation?.stationName?:"역 정보 없음"
             binding?.txtRightStation?.text = it.rightStation?.stationName?:"역 정보 없음"
             lineNumbers = it.lineList.toTypedArray()
-            binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers,this)
+            binding?.recLine?.adapter = LineNumAdapter(lineNumbers,this)
         })
 
         // adapter과 연결
-        binding?.recLineNum?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        binding?.recLineNum?.adapter = LineNumAdapter(lineNumbers,this)
+        binding?.recLine?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        binding?.recLine?.adapter = LineNumAdapter(lineNumbers,this)
+        binding?.recLeft?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding?.recLeft?.adapter = StationDataAdapter(apiModelList)
 
+        /*
         //뒤로 버튼 클릭시 이벤트
         binding?.btnBack?.setOnClickListener {
             mainActivity.binding.frgMain.visibility = View.INVISIBLE
             fragmentManager.beginTransaction().remove(this).commit()
             fragmentManager.popBackStack()
         }
+         */
 
         // 왼쪽 역 버튼 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
@@ -118,10 +131,13 @@ class MainFragment : Fragment(), OnLineChange {
             }
         }
 
+        /*
         //알람 버튼 클릭시 이벤트
         binding?.btnAlarm?.setOnClickListener {
             viewModel.setAlarm()
         }
+
+         */
 
         viewModel.onStationSelect("홍대입구")
 

@@ -65,8 +65,7 @@ class ViewModelImpl(
         stationRepository.search(stationName)
         if (stationRepository.searchResultList.isNotEmpty()) {
             println("새로운 curruent station set : ${stationRepository.searchResultList[0].stationName}")
-            _curStation.value = stationRepository.searchResultList[0]
-            stationRepository.curStation = stationRepository.searchResultList[0]
+            newStation(stationRepository.searchResultList[0])
         } else return
     }
 
