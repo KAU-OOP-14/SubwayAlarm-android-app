@@ -104,9 +104,13 @@ open class Line(val lineId: Int = 0){
                 }
                 else if(index <= 45){
                     s.endPoint[1] = endPointList[2]
+                    if(index == 45) // 마천
+                        s.rightStation = null
                 }
                 else{
                     s.endPoint[1] = endPointList[3]
+                    if(index == 46) // 길동
+                        s.leftStation = stations[38] // 강동
                 }
             }
 
@@ -133,9 +137,13 @@ open class Line(val lineId: Int = 0){
                 }
                 else if(index <= 52){
                     s.endPoint[1] = endPointList[2]
+                    if(index == 52) // 지평
+                        s.rightStation = null
                 }
                 else{
                     s.endPoint[1] = endPointList[3]
+                    if(index == 53) // 신촌
+                        s.leftStation = stations[19] // 가좌
                 }
             }
 
