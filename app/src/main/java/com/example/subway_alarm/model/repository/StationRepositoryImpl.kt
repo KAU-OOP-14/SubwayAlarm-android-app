@@ -143,6 +143,10 @@ class StationRepositoryImpl : StationRepository {
     /** 검색한 String을 포함하는 모든 Station의 Id와 이름을 Map Container로 반환하는 함수입니다.*/
     override fun searchAndReturnMap(stationName: String): MutableMap<Int, String>{
         val resultMap: MutableMap<Int, String> = mutableMapOf()
+        for((key, value) in subway.stationsMap){
+            if(value.startsWith(stationName))
+                resultMap.put(key, value)
+        }
         return resultMap
     }
 
