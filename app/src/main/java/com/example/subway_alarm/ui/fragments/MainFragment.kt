@@ -5,11 +5,9 @@ import android.content.Context
 import android.graphics.Color
 import android.widget.Toast
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
@@ -18,15 +16,16 @@ import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
-import com.example.subway_alarm.viewModel.OnAlarmSet
-import com.example.subway_alarm.viewModel.OnLineChange
+import com.example.subway_alarm.viewModel.listener.OnAlarmSet
+import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
+class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener,
+    OnAlarmSet {
     var binding: FragmentMainBinding? = null
     val viewModel: ViewModelImpl by viewModel()
     var lineNumbers: Array<Int> = arrayOf()
