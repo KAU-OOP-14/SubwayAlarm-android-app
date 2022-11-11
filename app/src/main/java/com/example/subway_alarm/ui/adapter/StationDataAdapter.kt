@@ -10,8 +10,8 @@ import com.example.subway_alarm.databinding.ListStationArrivalBinding
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.viewModel.OnAlarmSet
 
-class StationDataAdapter(val apiModelList: List<ApiModel>, listner: OnAlarmSet): RecyclerView.Adapter<StationDataAdapter.Holder>(){
-    val callback = listner
+class StationDataAdapter(val apiModelList: List<ApiModel>, listener: OnAlarmSet): RecyclerView.Adapter<StationDataAdapter.Holder>(){
+    val callback = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStationArrivalBinding.inflate(LayoutInflater.from(parent.context))
