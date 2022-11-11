@@ -27,6 +27,7 @@ class StationRepositoryImpl : StationRepository {
             field = value
         }
 
+    override val afterSearchedResultMap: MutableMap<Int, String> = mutableMapOf()
     override var searchResultList: MutableList<Station> = mutableListOf()
     override var favoriteStations: MutableList<Station> = mutableListOf()
 
@@ -137,6 +138,16 @@ class StationRepositoryImpl : StationRepository {
                     }
                 }
             }
+    }
+
+    /** 검색한 String을 포함하는 모든 Station의 Id와 이름을 Map Container로 반환하는 함수입니다.*/
+    override fun searchAndReturnMap(stationName: String): MutableMap<Int, String>{
+        val resultMap: MutableMap<Int, String> = mutableMapOf()
+        for((key, value) in subway.stationMap){
+            if(value.startsWith(stationName))
+                resultMap.put(key, value)
+        }
+        return resultMap
     }
 
     /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */

@@ -17,13 +17,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook
 
 object SubwayBuilder {
     var loading: Boolean = true
-
     /**
      * coroutine으로 Subway를 만들어줍니다.
      * Station Repository가 생성될 때 한번만 호출되는 함수입니다.
      */
     fun initSubway(): Subway{
         val lines: MutableList<Line> = mutableListOf()
+        val stationsMap: MutableMap<Int, String> = mutableMapOf()
         //Excel Thread에서 데이터를 추출합니다.
         val flow: Flow<Array<String>> = flow {
             //16개 line을 생성합니다.
@@ -81,6 +81,7 @@ object SubwayBuilder {
                     }
                 }
                 lines[(id/100)-1].addStations(Station(row[2], id, linelist))
+                stationsMap.put(id, row[2])
             }
         }
 

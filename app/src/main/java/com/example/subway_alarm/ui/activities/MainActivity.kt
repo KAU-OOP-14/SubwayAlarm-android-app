@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     val viewModel: ViewModelImpl by viewModel()
     lateinit var binding: ActivityMainBinding
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
-    var lastTimeBackPressed = 0L
+    var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
 
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceMainFragment(fragment: Fragment) {
