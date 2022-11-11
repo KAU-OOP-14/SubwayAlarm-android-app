@@ -1,14 +1,11 @@
 package com.example.subway_alarm.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.BtnLineNumberBinding
-import com.example.subway_alarm.model.Station
-import com.example.subway_alarm.viewModel.OnLineChange
-import com.example.subway_alarm.viewModel.ViewModelImpl
+import com.example.subway_alarm.viewModel.listener.OnLineChange
 
 
 class LineNumAdapter(val lineNumbers: Array<Int>, listener: OnLineChange): RecyclerView.Adapter<LineNumAdapter.Holder>() {

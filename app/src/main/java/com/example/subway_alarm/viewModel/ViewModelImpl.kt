@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -132,6 +133,16 @@ class ViewModelImpl(
 
     /** Main Fragment에서 알람 버튼을 눌렀을 때 호출하는 함수입니다. */
     fun setAlarm() {
+
+    }
+
+    /** Search Activity에서 검색결과를 선택했을 때, 그 결과로 cur station을 갱신합니다. */
+    fun onSearchResultClicked(stationId: Int) {
+        _curStation.value = Subway.searchWithId(stationId)
+    }
+
+    /** Search Activity에서 검색 결과가 바뀔 때, Subway에 있는 map list와 비교해서 매칭한 결과를 livedata로 반영합니다. */
+    fun onSearchTextChanged(changedString: String) {
 
     }
 
