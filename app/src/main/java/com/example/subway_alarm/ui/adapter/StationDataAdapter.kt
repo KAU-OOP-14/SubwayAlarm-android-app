@@ -1,14 +1,12 @@
 package com.example.subway_alarm.ui.adapter
 
-import android.app.Application
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ListStationArrivalBinding
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.viewModel.OnAlarmSet
+import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 
 class StationDataAdapter(val apiModelList: List<ApiModel>, listener: OnAlarmSet): RecyclerView.Adapter<StationDataAdapter.Holder>(){
     val callback = listener
