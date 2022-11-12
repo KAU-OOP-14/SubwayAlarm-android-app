@@ -19,15 +19,16 @@ import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.example.subway_alarm.viewModel.ViewModelImpl
-import org.koin.android.viewmodel.ext.android.viewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import org.koin.android.ext.android.inject
 
 
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener,
     OnAlarmSet {
+    var stationId: Int = 0
     var binding: FragmentMainBinding? = null
-    val viewModel: ViewModelImpl by viewModel()
+    val viewModel by inject<ViewModelImpl>()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
     lateinit var mainActivity: MainActivity
@@ -40,6 +41,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            stationId = it.getInt("stationId")
         }
     }
 
@@ -149,7 +151,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
         }
          */
 
-        viewModel.onStationSelect("홍대입구")
+        viewModel.onStationSelect(stationId)
 
         return binding?.root
     }
@@ -193,9 +195,10 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
 
     companion object {
         @JvmStatic
-        fun newInstance() =
+        fun newInstance(stationId: Int) =
             MainFragment().apply {
                 arguments = Bundle().apply {
+                    putInt("stationId",stationId)
                 }
             }
     }
