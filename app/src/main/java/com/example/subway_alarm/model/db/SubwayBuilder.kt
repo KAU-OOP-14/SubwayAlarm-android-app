@@ -81,7 +81,7 @@ object SubwayBuilder {
                     }
                 }
                 lines[(id/100)-1].addStations(Station(row[2], id, linelist))
-                stationsMap.put(id, row[2])
+                //stationsMap.put(id, row[2])
             }
         }
 
