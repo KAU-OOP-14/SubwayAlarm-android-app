@@ -23,7 +23,7 @@ interface StationRepository {
     fun retrofitGetArrivals(stationName: String): Single<ApiModelList>
 
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
-    fun searchAndReturnMap(stringName: String): MutableList<Station>
+    fun searchStationsWithName(stringName: String): MutableList<Station>
 
     fun getCrossedLine(direction: String): Array<String>?
 }

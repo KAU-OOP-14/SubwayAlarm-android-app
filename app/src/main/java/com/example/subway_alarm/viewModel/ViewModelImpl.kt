@@ -20,6 +20,7 @@ class ViewModelImpl(
     private val _leftApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _rightApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
+    private val _searchText = NonNullMutableLiveData<MutableList<Station>>(mutableListOf())
 
 
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
@@ -30,6 +31,8 @@ class ViewModelImpl(
         get() = _rightApi
     val curStation: NonNullLiveData<Station>
         get() = _curStation
+    val searchText: NonNullLiveData<MutableList<Station>>
+        get() = _searchText
 
     //초기값
     init {
@@ -66,12 +69,8 @@ class ViewModelImpl(
     }
 
     /** station 이름을 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
-    fun onStationSelect(stationName: String) {
-        stationRepository.search(stationName)
-        if (stationRepository.searchResultList.isNotEmpty()) {
-            println("새로운 curruent station set : ${stationRepository.searchResultList[0].stationName}")
-            newStation(stationRepository.searchResultList[0])
-        } else return
+    fun onStationSelect(stationId: Int) {
+        newStation(Subway.searchWithId(stationId))
     }
 
     /** 근접한 station으로 방향을 지정해 이동합니다. */
@@ -123,8 +122,8 @@ class ViewModelImpl(
         println("line changed : $lineNum")
         stationRepository.search(curStation.value.stationName)
         val list = stationRepository.searchResultList
-        for(station in list) {
-            if(station.id/100 == lineNum) {
+        for (station in list) {
+            if (station.id / 100 == lineNum) {
                 newStation(station)
             }
         }
@@ -136,23 +135,11 @@ class ViewModelImpl(
 
     }
 
-    /** Search Activity에서 검색결과를 선택했을 때, 그 결과로 cur station을 갱신합니다. */
-    fun onSearchResultClicked(stationId: Int) {
-        _curStation.value = Subway.searchWithId(stationId)
-    }
 
     /** Search Activity에서 검색 결과가 바뀔 때, Subway에 있는 map list와 비교해서 매칭한 결과를 livedata로 반영합니다. */
-    fun onSearchTextChanged(changedString: String) {
-
-    }
-
-    fun search(stationName: String) {
-        //stationRepository.search(stationName)
-        // adapter()
-    }
-
-    fun showSearchResult(stationName: String) {
-
+    fun onSearchTextChanged(changedString: String): MutableList<Station> {
+        _searchText.value = stationRepository.searchStationsWithName(changedString)
+        return _searchText.value
     }
 
     /** 즐겨찾기 목록에 현재 station을 넣습니다. */

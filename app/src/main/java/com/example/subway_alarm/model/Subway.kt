@@ -31,5 +31,5 @@ object Subway {
         lines.add(line)
     }
 
-    fun searchWithId(stationId: Int) = Subway.lines[stationId/100].stations[stationId%100]
+    fun searchWithId(stationId: Int) = lines[stationId/100 - 1].stations[stationId%100]
 }

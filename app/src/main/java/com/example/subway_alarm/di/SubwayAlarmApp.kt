@@ -11,7 +11,7 @@ class SubwayAlarmApp: Application() {
 
         startKoin {
             androidContext(this@SubwayAlarmApp)
-            modules(appModule, appViewModule)
+            modules(appModule)
         }
     }
     init{

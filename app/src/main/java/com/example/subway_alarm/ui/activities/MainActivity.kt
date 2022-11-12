@@ -7,20 +7,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import com.example.subway_alarm.R
+import androidx.fragment.app.setFragmentResultListener
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import com.example.subway_alarm.ui.fragments.MainFragment
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.launch
-import org.koin.android.ext.android.bind
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
+    private var stationId: Int = 0
 
     //Listener역할을 할 Interface 생성
     interface onBackPressedListener{
@@ -31,13 +26,13 @@ class MainActivity : AppCompatActivity() {
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
-    val viewModel: ViewModelImpl by viewModel()
+    val viewModel by inject<ViewModelImpl>()
     lateinit var binding: ActivityMainBinding
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
 
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
-    private fun replaceMainFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().run {
             replace(binding.frgMain.id, fragment)
             commit()
@@ -81,6 +76,12 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "setting 버튼 클릭!", Toast.LENGTH_SHORT).show()
             toggleFab()
         }
+
+        intent.extras?.getInt("clickedStationId")?.let {
+            replaceFragment(MainFragment.newInstance(it))
+        }
+
+
     }
 
     private fun toggleFab(){
