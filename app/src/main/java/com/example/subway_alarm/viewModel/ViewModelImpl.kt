@@ -136,7 +136,7 @@ class ViewModelImpl(
     }
 
 
-    /** Search Activity에서 검색 결과가 바뀔 때, Subway에 있는 map list와 비교해서 매칭한 결과를 livedata로 반영합니다. */
+    /** Search Activity에서 검색 결과가 바뀔 때, Subway에 있는 list와 비교해서 매칭한 결과를 livedata로 반영합니다. */
     fun onSearchTextChanged(changedString: String): MutableList<Station> {
         _searchText.value = stationRepository.searchStationsWithName(changedString)
         return _searchText.value
