@@ -27,7 +27,9 @@ class SearchActivity : AppCompatActivity(), OnSearchResultClick {
         super.onCreate(savedInstanceState)
         binding = ActivitySearchBinding.inflate(layoutInflater)
 
-        stationList = Subway.lines[0].stations
+        for(line in Subway.lines){
+            stationList.addAll(line.stations)
+        }
 
         // Toolbar에 뒤로가기 버튼, Title 추가
         setSupportActionBar(binding.Toolbar)
