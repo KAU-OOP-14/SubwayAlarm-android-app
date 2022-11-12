@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.fabSearch.setOnClickListener{
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, SearchActivity::class.java)
             startActivity(intent)
             toggleFab()
         }
