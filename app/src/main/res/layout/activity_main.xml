@@ -10,26 +10,37 @@
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <ImageView
-            android:id="@+id/stationImage"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="center"
-            android:visibility="visible"
-            app:srcCompat="@drawable/subway_image"
-            tools:layout_gravity="center" />
+            android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btn_station"
-            android:layout_width="64dp"
-            android:layout_height="32dp"
-            android:layout_marginLeft="145dp"
-            android:layout_marginTop="280dp"
-            android:text="홍대입구"
-            android:textSize="8sp" />
+            <Button
+                android:id="@+id/btn_station"
+                android:layout_width="64dp"
+                android:layout_height="32dp"
+                android:text="홍대입구"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/stationImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:visibility="visible"
+                app:srcCompat="@drawable/subway_image"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="40dp"
+                tools:layout_gravity="center" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <FrameLayout
             android:id="@+id/frgMain"

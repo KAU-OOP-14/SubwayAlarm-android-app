@@ -26,7 +26,7 @@ import org.koin.android.ext.android.inject
 
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener,
     OnAlarmSet {
-    var stationId: Int = 0
+    var stationId: Int =205 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by inject<ViewModelImpl>()
     var lineNumbers: Array<Int> = arrayOf()

@@ -78,7 +78,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         intent.extras?.getInt("clickedStationId")?.let {
-            replaceFragment(MainFragment.newInstance(it))
+            val bottomSheet = MainFragment()
+            val bundle = Bundle()
+            bundle.putInt("stationId", it)
+            bottomSheet.arguments = bundle
+            bottomSheet.show(supportFragmentManager,bottomSheet.tag)
+            //replaceFragment(MainFragment.newInstance(it))
         }
 
 
@@ -104,6 +109,7 @@ class MainActivity : AppCompatActivity() {
     override fun setFinishOnTouchOutside(finish: Boolean) {
         super.setFinishOnTouchOutside(finish)
     }
+
     override fun onBackPressed() {
         // main엑티비티에서 띄운 프래그먼트에서 뒤로가기를 누르게 되면
         // 프래그먼트에서 구현한 onBackPressed 함수가 실행되게 된다.
