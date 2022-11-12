@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.SearchedListStationsBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
 
-class SearchedListAdapter(val stationList: MutableList<Station>)
+class SearchedListAdapter(val stationList: MutableList<Station>, listener: OnSearchResultClick)
     : RecyclerView.Adapter<SearchedListAdapter.Holder>(){
+    val callback = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = SearchedListStationsBinding.inflate(LayoutInflater.from(parent.context))
@@ -25,7 +27,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>)
     override fun getItemCount() = stationList.size
 
 
-    class Holder(private val binding: SearchedListStationsBinding): RecyclerView.ViewHolder(binding.root){
+    inner class Holder(private val binding: SearchedListStationsBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(station: Station){
             binding.btnLine.setImageResource(when(station.id / 100){
                 1 -> R.drawable.line1
@@ -53,7 +55,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>)
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"호선: ${station.id/100} 이름 : ${station.stationName}",
                     Toast.LENGTH_SHORT).show()
-
+                callback.onSearchResultClick(station.id)
             }
         }
     }
