@@ -9,11 +9,12 @@ import org.koin.dsl.module
 /** 싱글톤 의존성 주입 */
 val appModule = module {
     single<StationRepository> { StationRepositoryImpl() }
+    single { ViewModelImpl(get()) }
 }
 
 /** viewModel 의존성 주입 */
 val appViewModule = module {
-    viewModel {
+    single {
         ViewModelImpl(get())
     }
 }
