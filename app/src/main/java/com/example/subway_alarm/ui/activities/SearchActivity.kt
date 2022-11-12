@@ -74,7 +74,6 @@ class SearchActivity : AppCompatActivity(), OnSearchResultClick {
     }
 
     override fun onSearchResultClick(stationId: Int) {
-        viewModel.onSearchResultClicked(stationId)
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("clickedStationId", stationId)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP;

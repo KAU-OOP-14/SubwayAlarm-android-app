@@ -135,25 +135,11 @@ class ViewModelImpl(
 
     }
 
-    /** Search Activity에서 검색결과를 선택했을 때, 그 결과로 cur station을 갱신합니다. */
-    fun onSearchResultClicked(stationId: Int) {
-        _curStation.value = Subway.searchWithId(stationId)
-        println("새로운 cur station set : ${_curStation.value.stationName}")
-    }
 
     /** Search Activity에서 검색 결과가 바뀔 때, Subway에 있는 map list와 비교해서 매칭한 결과를 livedata로 반영합니다. */
     fun onSearchTextChanged(changedString: String): MutableList<Station> {
         _searchText.value = stationRepository.searchStationsWithName(changedString)
         return _searchText.value
-    }
-
-    fun search(stationName: String) {
-        //stationRepository.search(stationName)
-        // adapter()
-    }
-
-    fun showSearchResult(stationName: String) {
-
     }
 
     /** 즐겨찾기 목록에 현재 station을 넣습니다. */
