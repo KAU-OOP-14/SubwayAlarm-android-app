@@ -141,7 +141,7 @@ class StationRepositoryImpl : StationRepository {
     }
 
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
-    override fun searchAndReturnMap(stringName: String): MutableList<Station>{
+    override fun searchStationsWithName(stringName: String): MutableList<Station>{
         val resultStationList: MutableList<Station> = mutableListOf()
         for (line in Subway.lines) {
             for(sta in line.stations){
