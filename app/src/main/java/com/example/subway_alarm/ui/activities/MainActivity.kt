@@ -3,6 +3,7 @@ package com.example.subway_alarm.ui.activities
 import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,11 +17,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private var stationId: Int = 0
-
-    //Listener역할을 할 Interface 생성
-    interface onBackPressedListener{
-        fun onBackPressed()
-    }
 
     /*
     view model DI(의존성 주입)
@@ -37,6 +33,11 @@ class MainActivity : AppCompatActivity() {
             replace(binding.frgMain.id, fragment)
             commit()
         }
+    }
+
+    //Listener역할을 할 Interface 생성
+    interface onBackPressedListener{
+        fun onBackPressed()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,6 +105,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         isFabOpen = !isFabOpen
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action){
+            MotionEvent.ACTION_DOWN -> {
+                println("Touch down evnet ${event.rawX}, ${event.rawY}")
+                if(isFabOpen)
+                    toggleFab()
+            }
+        }
+        return super.onTouchEvent(event)
     }
 
     override fun setFinishOnTouchOutside(finish: Boolean) {
