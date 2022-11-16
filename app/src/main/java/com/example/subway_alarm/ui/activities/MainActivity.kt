@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
-    val viewModel by inject<ViewModelImpl>()
+    val viewModel by viewModel<ViewModelImpl>()
     lateinit var binding: ActivityMainBinding
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
