@@ -23,6 +23,7 @@ import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 
+/*
 
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener,
     OnAlarmSet {
@@ -211,3 +212,4 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
     }
 
 }
+*/
