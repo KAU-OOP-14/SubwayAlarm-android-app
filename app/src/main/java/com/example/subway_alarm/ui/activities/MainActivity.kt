@@ -121,29 +121,15 @@ class MainActivity : AppCompatActivity() {
     override fun setFinishOnTouchOutside(finish: Boolean) {
         super.setFinishOnTouchOutside(finish)
     }
-
-    override fun onBackPressed() {
-        // main엑티비티에서 띄운 프래그먼트에서 뒤로가기를 누르게 되면
-        // 프래그먼트에서 구현한 onBackPressed 함수가 실행되게 된다.
-        val fragmentList = supportFragmentManager.fragments
-        for(fragment in fragmentList){
-            if(fragment is onBackPressedListener){
-                (fragment as onBackPressedListener).onBackPressed()
-                return
-            }
-        }
-
-        if(isFabOpen){  // 만약 플로팅 버튼이 활성화된 경우
-            toggleFab()
-        }
-        else{
-            if(System.currentTimeMillis() - lastTimeBackPressed < 1500){    // 앱 종료
-                finish()
-                return
-            }
-            lastTimeBackPressed = System.currentTimeMillis()
-            Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
     */
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - lastTimeBackPressed < 1500){    // 앱 종료
+            finish()
+            return
+        }
+        lastTimeBackPressed = System.currentTimeMillis()
+        Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+
+    }
+
 }
