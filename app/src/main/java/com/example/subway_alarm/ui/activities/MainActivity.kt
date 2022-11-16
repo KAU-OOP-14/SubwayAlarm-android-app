@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
-//import com.example.subway_alarm.ui.fragments.MainFragment
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -24,8 +23,8 @@ class MainActivity : AppCompatActivity() {
      */
     val viewModel by inject<ViewModelImpl>()
     lateinit var binding: ActivityMainBinding
-    private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
+
     /*
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceFragment(fragment: Fragment) {
@@ -34,11 +33,12 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
     }
+    */
 
     //Listener역할을 할 Interface 생성
     interface onBackPressedListener{
         fun onBackPressed()
-    }*/
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,30 +106,15 @@ class MainActivity : AppCompatActivity() {
 
         isFabOpen = !isFabOpen
     }
+    */
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
                 println("Touch down evnet ${event.rawX}, ${event.rawY}")
-                if(isFabOpen)
-                    toggleFab()
             }
         }
         return super.onTouchEvent(event)
-    }
-
-    override fun setFinishOnTouchOutside(finish: Boolean) {
-        super.setFinishOnTouchOutside(finish)
-    }
-    */
-    override fun onBackPressed() {
-        if(System.currentTimeMillis() - lastTimeBackPressed < 1500){    // 앱 종료
-            finish()
-            return
-        }
-        lastTimeBackPressed = System.currentTimeMillis()
-        Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-
     }
 
 }
