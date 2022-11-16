@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.databinding.FragmentEntryBinding
 
@@ -29,23 +30,26 @@ class EntryFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEntryBinding.inflate(inflater)
-        binding?.fabMain?.setOnClickListener{
-            toggleFab()
-        }
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding?.fabMain?.setOnClickListener{
+            toggleFab()
+        }
         binding?.fabSearch?.setOnClickListener(){
             findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
+            toggleFab()
         }
         binding?.fabBookmark?.setOnClickListener(){
             findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
+            toggleFab()
         }
         binding?.fabSetting?.setOnClickListener(){
             findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
+            toggleFab()
         }
     }
 
