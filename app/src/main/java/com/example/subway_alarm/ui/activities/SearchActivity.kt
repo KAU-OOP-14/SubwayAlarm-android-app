@@ -14,12 +14,13 @@ import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.ui.adapter.SearchedListAdapter
 import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchActivity : AppCompatActivity(), OnSearchResultClick {
     val searchActivity: SearchActivity = this
     lateinit var binding: ActivitySearchBinding
 
-    private val viewModel by inject<ViewModelImpl>()
+    private val viewModel by viewModel<ViewModelImpl>()
 
     var stationList: MutableList<Station> = mutableListOf()
 
