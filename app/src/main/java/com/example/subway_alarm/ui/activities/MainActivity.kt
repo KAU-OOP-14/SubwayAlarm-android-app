@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
-import com.example.subway_alarm.ui.fragments.MainFragment
+//import com.example.subway_alarm.ui.fragments.MainFragment
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-
+    /*
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().run {
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     //Listener역할을 할 Interface 생성
     interface onBackPressedListener{
         fun onBackPressed()
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         /* view와 activity binding */
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        /*
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
          모든 데이터 처리는 viewModel이 합니다 */
         binding.btnStation.setOnClickListener {
@@ -86,10 +86,10 @@ class MainActivity : AppCompatActivity() {
             bottomSheet.show(supportFragmentManager,bottomSheet.tag)
             //replaceFragment(MainFragment.newInstance(it))
         }
-
+        */
 
     }
-
+    /*
     private fun toggleFab(){
         if(isFabOpen){
             ObjectAnimator.ofFloat(binding.fabSetting, "translationY", 0f).apply { start() }
@@ -145,4 +145,5 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
         }
     }
+    */
 }
