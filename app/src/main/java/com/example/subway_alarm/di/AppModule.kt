@@ -14,7 +14,7 @@ val appModule = module {
 
 /** viewModel 의존성 주입 */
 val appViewModule = module {
-    single {
+    viewModel {
         ViewModelImpl(get())
     }
 }

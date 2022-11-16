@@ -68,7 +68,7 @@ class ViewModelImpl(
             .addTo(disposables)
     }
 
-    /** station 이름을 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
+    /** station id를 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
     fun onStationSelect(stationId: Int) {
         newStation(Subway.searchWithId(stationId))
     }
