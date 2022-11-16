@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.subway_alarm.EntryFragment
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel
@@ -23,21 +24,23 @@ import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
 
-/*
 
-class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener,
-    OnAlarmSet {
+// class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
+class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
+
     var stationId: Int =205 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by inject<ViewModelImpl>()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
-    lateinit var mainActivity: MainActivity
+    lateinit var entryFragment: EntryFragment
 
+    /*
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mainActivity = context as MainActivity
     }
+    */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,13 +49,17 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
         }
     }
 
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        mainActivity.binding.frgMain.visibility = View.VISIBLE
+        entryFragment = EntryFragment()
+        entryFragment.binding?.frgMain?.visibility = View.VISIBLE
 
         /* View Model과 View 연결 */
         viewModel.leftApi.observe(viewLifecycleOwner, Observer {
@@ -96,14 +103,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
         binding?.recRight?.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding?.recRight?.adapter = StationDataAdapter(apiModelList,this)
 
-        /*
-        //뒤로 버튼 클릭시 이벤트
-        binding?.btnBack?.setOnClickListener {
-            mainActivity.binding.frgMain.visibility = View.INVISIBLE
-            fragmentManager.beginTransaction().remove(this).commit()
-            fragmentManager.popBackStack()
-        }
-         */
 
         // 왼쪽 역 버튼 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
@@ -159,17 +158,13 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
 
     // 메모리 낭비를 줄이기
     override fun onDestroy() {
-        mainActivity.binding.frgMain.visibility = View.INVISIBLE
+        entryFragment.binding?.frgMain?.visibility = View.INVISIBLE
         super.onDestroy()
         binding = null
     }
     
     override fun changeLine(lineNum: Int) {
         viewModel.changeLine(lineNum)
-    }
-
-    override fun onBackPressed() {
-        requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
     }
 
     fun getColor(station: Station): Int {
@@ -210,6 +205,4 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onB
         //알람을 셋팅합니다.
         viewModel.setAlarm()
     }
-
 }
-*/
