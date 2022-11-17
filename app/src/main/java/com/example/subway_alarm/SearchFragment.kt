@@ -80,7 +80,6 @@ class SearchFragment : Fragment(), OnSearchResultClick {
         val bundle = bundleOf("open" to true)
         viewModel.onStationSelect(stationId)
         findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
-        //뒤로 돌아가기
     }
 
 
