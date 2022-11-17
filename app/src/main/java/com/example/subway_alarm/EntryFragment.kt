@@ -34,6 +34,7 @@ class EntryFragment : Fragment() {
         }
     }
 
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
@@ -71,8 +72,14 @@ class EntryFragment : Fragment() {
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
+        binding?.root?.setOnClickListener(){
+            if(isFabOpen)
+                toggleFab()
+        }
         return binding?.root
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
