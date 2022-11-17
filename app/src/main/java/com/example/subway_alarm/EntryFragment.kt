@@ -37,6 +37,7 @@ class EntryFragment : Fragment() {
          모든 데이터 처리는 viewModel이 합니다 */
 
         if(open) {
+            open = false
             val bottomSheet = MainFragment()
             val bundle = Bundle()
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
