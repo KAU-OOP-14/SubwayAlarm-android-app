@@ -6,13 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.LoadingActivity">
 
-    <TextView
-        android:id="@+id/txtLoading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <View
+        android:id="@+id/progressBack"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#36000000"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/progress"
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:background="#D203A9F4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.0" />
+
+    <ImageView
+        android:id="@+id/train"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/train"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/progress"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
