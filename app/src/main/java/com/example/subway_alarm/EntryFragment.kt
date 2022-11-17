@@ -72,7 +72,7 @@ class EntryFragment : Fragment() {
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
-        binding?.root?.setOnClickListener(){
+        binding?.stationImage?.setOnClickListener(){
             if(isFabOpen)
                 toggleFab()
         }

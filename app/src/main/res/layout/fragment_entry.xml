@@ -29,6 +29,8 @@
             android:layout_height="match_parent"
             android:scaleType="center"
             android:visibility="visible"
+            android:clickable="true"
+            android:focusable="true"
             app:srcCompat="@drawable/subway_image"
             tools:layout_editor_absoluteX="41dp"
             tools:layout_editor_absoluteY="142dp"
