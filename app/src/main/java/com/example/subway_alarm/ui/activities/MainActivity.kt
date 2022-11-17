@@ -89,24 +89,6 @@ class MainActivity : AppCompatActivity() {
         */
 
     }
-    /*
-    private fun toggleFab(){
-        if(isFabOpen){
-            ObjectAnimator.ofFloat(binding.fabSetting, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabBookmark, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION,360f, 0f).apply { start() }
-        }
-        else{
-            ObjectAnimator.ofFloat(binding.fabSetting, "translationY", 540f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabBookmark, "translationY", 360f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", 180f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION,-360f, 0f).apply { start() }
-        }
-
-        isFabOpen = !isFabOpen
-    }
-    */
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
