@@ -50,8 +50,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>, listener: OnSea
             })
             binding.txtSearchedStationName.text = station.stationName
 
-            // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시키고
-            // intent를 활용해서 main Activity로 이동?
+            // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"호선: ${station.id/100} 이름 : ${station.stationName}",
                     Toast.LENGTH_SHORT).show()
