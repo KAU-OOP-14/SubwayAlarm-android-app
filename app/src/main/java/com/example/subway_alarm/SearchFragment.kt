@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,9 +77,9 @@ class SearchFragment : Fragment(), OnSearchResultClick {
     }
 
     override fun onSearchResultClick(stationId: Int) {
+        val bundle = bundleOf("open" to true)
         viewModel.onStationSelect(stationId)
-        findNavController().navigate(R.id.action_searchFragment_to_entryFragment)
-        //뒤로 돌아가기
+        findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
     }
 
 

@@ -14,26 +14,21 @@ import com.example.subway_alarm.ui.fragments.MainFragment
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.databinding.FragmentEntryBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
-import org.koin.android.ext.android.inject
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class EntryFragment : Fragment() {
-    val viewModel by inject<ViewModelImpl>()
+    private val viewModel by viewModel<ViewModelImpl>()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
+    private var open = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+            open = it.getBoolean("open")
         }
     }
 
@@ -69,6 +64,16 @@ class EntryFragment : Fragment() {
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
          모든 데이터 처리는 viewModel이 합니다 */
 
+        if(open) {
+            open = false
+            val bottomSheet = MainFragment()
+            val bundle = Bundle()
+            // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
+            bundle.putInt("stationId", viewModel.curStation.value.id)
+            bottomSheet.arguments = bundle
+            bottomSheet.show(childFragmentManager,bottomSheet.tag)
+        }
+
         binding?.btnStation?.setOnClickListener {
             //입력한 역의 api 요청
             val bottomSheet = MainFragment()
@@ -82,7 +87,6 @@ class EntryFragment : Fragment() {
 
         return binding?.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -139,8 +143,6 @@ class EntryFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             EntryFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
