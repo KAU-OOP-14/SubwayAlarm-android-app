@@ -10,15 +10,12 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private var stationId: Int = 0
-
+    lateinit var binding: ActivityMainBinding
     /*
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
     val viewModel by viewModel<ViewModelImpl>()
-    lateinit var binding: ActivityMainBinding
-    var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-
     /*
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceFragment(fragment: Fragment) {
@@ -29,16 +26,10 @@ class MainActivity : AppCompatActivity() {
     }
     */
 
-    //Listener역할을 할 Interface 생성
-    interface onBackPressedListener{
-        fun onBackPressed()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /* view와 activity binding */
         binding = ActivityMainBinding.inflate(layoutInflater)
+        /* view와 activity binding */
         setContentView(binding.root)
         /*
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다

@@ -7,32 +7,49 @@
     android:layout_height="match_parent"
     tools:context=".SearchFragment">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/searchToolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
+        android:background="@color/light_blue_600"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/Toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#3461E3">
+        <ImageView
+            android:id="@+id/image_top"
+            android:layout_width="54dp"
+            android:layout_height="41dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/previous"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
-        </androidx.appcompat.widget.Toolbar>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/text_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="역검색"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <SearchView
         android:id="@+id/search_station"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/searchToolbarLayout"
         android:layout_marginBottom="10dp"
+        android:iconifiedByDefault="false"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:iconifiedByDefault="false"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchToolbarLayout" />
 
     <LinearLayout
         android:layout_width="match_parent"

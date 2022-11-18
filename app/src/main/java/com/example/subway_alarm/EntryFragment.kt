@@ -9,11 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
+import androidx.lifecycle.Observer
 import com.example.subway_alarm.ui.fragments.MainFragment
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.databinding.FragmentEntryBinding
-import com.example.subway_alarm.ui.activities.MainActivity
+import com.example.subway_alarm.viewModel.ViewModelImpl
+import org.koin.android.ext.android.inject
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +24,7 @@ private const val ARG_PARAM2 = "param2"
 
 
 class EntryFragment : Fragment() {
+    val viewModel by inject<ViewModelImpl>()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var binding : FragmentEntryBinding? = null
@@ -76,9 +79,9 @@ class EntryFragment : Fragment() {
             if(isFabOpen)
                 toggleFab()
         }
+
         return binding?.root
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
