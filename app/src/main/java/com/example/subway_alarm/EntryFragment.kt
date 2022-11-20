@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.Observer
 import com.example.subway_alarm.ui.fragments.MainFragment
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.databinding.FragmentEntryBinding
@@ -15,10 +17,12 @@ import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class EntryFragment : Fragment() {
+    private val viewModel by viewModel<ViewModelImpl>()
+    private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var binding : FragmentEntryBinding? = null
+    var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var open = false
-    private val viewModel by viewModel<ViewModelImpl>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,30 @@ class EntryFragment : Fragment() {
             open = it.getBoolean("open")
         }
     }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(isFabOpen)
+                    toggleFab()
+                else{
+                    if(System.currentTimeMillis() - lastTimeBackPressed < 1500){
+                        activity?.finish()
+                    }
+                    lastTimeBackPressed = System.currentTimeMillis()
+                    Toast.makeText(binding?.root?.context, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+        // onBackPressedDispatcher에 등록해준다.
+        // 이러면 OnBackPress()이벤트 발생시 BackPressedDispatcher에
+        // 등록된 리스너들 중 생명주기의 상태가 Alive 상태의 콜백 리스너들만 실행
+        // 단 main activity에서 onBackPressed함수를 override하면 안된다 ㅠ
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +80,11 @@ class EntryFragment : Fragment() {
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
+        binding?.stationImage?.setOnClickListener(){
+            if(isFabOpen)
+                toggleFab()
+        }
+
         return binding?.root
     }
 
@@ -96,5 +129,21 @@ class EntryFragment : Fragment() {
         }
 
         isFabOpen = !isFabOpen
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        // OnBackPressedCallBack 객체 제거
+        callback.remove()
+    }
+
+
+    companion object {
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            EntryFragment().apply {
+                arguments = Bundle().apply {
+                }
+            }
     }
 }

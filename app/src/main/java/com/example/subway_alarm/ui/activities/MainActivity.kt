@@ -1,14 +1,8 @@
 package com.example.subway_alarm.ui.activities
 
-import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.ext.android.inject
@@ -16,15 +10,12 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private var stationId: Int = 0
-
+    lateinit var binding: ActivityMainBinding
     /*
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
     val viewModel by viewModel<ViewModelImpl>()
-    lateinit var binding: ActivityMainBinding
-    var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-
     /*
     /** fragment를 열어주는 함수, 추후 리펙토링 예정 */
     private fun replaceFragment(fragment: Fragment) {
@@ -35,16 +26,10 @@ class MainActivity : AppCompatActivity() {
     }
     */
 
-    //Listener역할을 할 Interface 생성
-    interface onBackPressedListener{
-        fun onBackPressed()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        /* view와 activity binding */
         binding = ActivityMainBinding.inflate(layoutInflater)
+        /* view와 activity binding */
         setContentView(binding.root)
         /*
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
@@ -89,24 +74,6 @@ class MainActivity : AppCompatActivity() {
         */
 
     }
-    /*
-    private fun toggleFab(){
-        if(isFabOpen){
-            ObjectAnimator.ofFloat(binding.fabSetting, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabBookmark, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION,360f, 0f).apply { start() }
-        }
-        else{
-            ObjectAnimator.ofFloat(binding.fabSetting, "translationY", 540f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabBookmark, "translationY", 360f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabSearch, "translationY", 180f).apply { start() }
-            ObjectAnimator.ofFloat(binding.fabMain, View.ROTATION,-360f, 0f).apply { start() }
-        }
-
-        isFabOpen = !isFabOpen
-    }
-    */
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
@@ -116,5 +83,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onTouchEvent(event)
     }
+
 
 }
