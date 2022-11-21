@@ -10,6 +10,8 @@ import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
 
 class ViewModelImpl(
     private val stationRepository: StationRepository
@@ -21,9 +23,11 @@ class ViewModelImpl(
     private val _rightApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
     private val _searchText = NonNullMutableLiveData<MutableList<Station>>(mutableListOf())
+    private val _alarmTime = NonNullMutableLiveData<Int>(0)
 
 
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
+    private var job: Job? = null
 
     val leftApi: NonNullLiveData<List<ApiModel>>
         get() = _leftApi
@@ -33,6 +37,8 @@ class ViewModelImpl(
         get() = _curStation
     val searchText: NonNullLiveData<MutableList<Station>>
         get() = _searchText
+    val alarmTime: NonNullLiveData<Int>
+        get() = _alarmTime
 
     //초기값
     init {
@@ -131,7 +137,19 @@ class ViewModelImpl(
 
 
     /** Main Fragment에서 알람 버튼을 눌렀을 때 호출하는 함수입니다. */
-    fun setAlarm() {
+    fun setAlarm(time: Int) {
+        _alarmTime.value = time
+        job = CoroutineScope(IO).launch {
+            for(i in 0 until time) {
+                _alarmTime.postValue(_alarmTime.value - 1)
+                delay(1000)
+            }
+        }
+    }
+
+    fun resetAlarm(time :Int) {
+        if(job?.isActive == true) job?.cancel()
+        setAlarm(time)
 
     }
 
