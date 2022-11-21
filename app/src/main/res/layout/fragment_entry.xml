@@ -27,14 +27,36 @@
             android:id="@+id/stationImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="center"
-            android:visibility="visible"
-            android:clickable="true"
             android:focusable="true"
+            android:scaleType="centerInside"
+            android:visibility="visible"
             app:srcCompat="@drawable/subway_image"
             tools:layout_editor_absoluteX="41dp"
             tools:layout_editor_absoluteY="142dp"
             tools:layout_gravity="center" />
+
+        <Button
+            android:id="@+id/btn_zoom_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="650dp"
+            android:text="확대"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_zoom_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginBottom="650dp"
+            android:text="축소"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

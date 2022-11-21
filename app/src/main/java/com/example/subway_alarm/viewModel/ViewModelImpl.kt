@@ -22,7 +22,6 @@ class ViewModelImpl(
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
     private val _searchText = NonNullMutableLiveData<MutableList<Station>>(mutableListOf())
 
-
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
 
     val leftApi: NonNullLiveData<List<ApiModel>>
