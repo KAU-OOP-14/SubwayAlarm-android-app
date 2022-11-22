@@ -22,13 +22,10 @@ class LoadingActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.create()
         println("loading activity 생성")
-        super.onCreate(savedInstanceState)
         binding = ActivityLoadingBinding.inflate(layoutInflater)
-        println(binding.progress.width)
-        println(SubwayBuilder.progress)
-
 
         // layout의 크기를 px에서 dp로 설정하기 위해 변환하는 과정입니다.
         val height =
@@ -38,28 +35,34 @@ class LoadingActivity : AppCompatActivity() {
         val layout = ConstraintLayout.LayoutParams(0, height)
         layout.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
         layout.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
+        layout.matchConstraintPercentWidth = 0f
+
+        binding.progress.layoutParams = layout
 
         // SubwayBuilder의 progress live data를 관찰해서 progress bar를 채웁니다.
         SubwayBuilder.progress.observe(this, Observer {
-
             layout.matchConstraintPercentWidth = it / 100f
             binding.progress.layoutParams = layout
         })
 
-        setContentView(binding.root)
 
         lifecycleScope.launch {
             while (SubwayBuilder.loading) delay(100)
             startMainActivity()
+            finish()
         }
-
-
+        setContentView(binding.root)
     }
 
     private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("loading 파괴")
     }
 }

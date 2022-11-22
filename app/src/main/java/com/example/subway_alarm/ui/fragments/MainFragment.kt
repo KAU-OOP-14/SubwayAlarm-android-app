@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.subway_alarm.AlarmDialogFragment
-import com.example.subway_alarm.EntryFragment
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel

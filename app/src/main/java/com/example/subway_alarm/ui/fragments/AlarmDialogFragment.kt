@@ -1,17 +1,14 @@
-package com.example.subway_alarm
+package com.example.subway_alarm.ui.fragments
 
-import android.app.AlertDialog
-import android.content.DialogInterface
+import android.app.*
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.example.subway_alarm.databinding.FragmentAlarmDialogBinding
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.ViewModelImpl
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -57,6 +54,7 @@ class AlarmDialogFragment : DialogFragment(){
                     .setPositiveButton("OK") { _, _ ->
                         viewModel.resetAlarm(minute * 60 + second)
                         Toast.makeText(context, "새로운 알람이 설정되었습니다", Toast.LENGTH_SHORT).show()
+                        (activity as MainActivity).onAlarmSet()
                     }
                     .setNegativeButton("Cancel") { _, _ ->
 
@@ -66,6 +64,7 @@ class AlarmDialogFragment : DialogFragment(){
             else {
                 Toast.makeText(context, "알람이 설정되었습니다", Toast.LENGTH_SHORT).show()
                 viewModel.setAlarm(minute * 60 + second)
+                (activity as MainActivity).onAlarmSet()
                 this.dismiss()
             }
         }
