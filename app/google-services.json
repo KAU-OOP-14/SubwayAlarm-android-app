@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "995129877459",
+    "project_id": "subway-alarm-118ee",
+    "storage_bucket": "subway-alarm-118ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:995129877459:android:49cbfbe1993503f7e20526",
+        "android_client_info": {
+          "package_name": "com.example.subway_alarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "995129877459-3td8opqtdtgn3nb9nqgsh2cpi0pv64th.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcrmuiQs0j1Ndo6r6axnrsIg8iJjXbpXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "995129877459-3td8opqtdtgn3nb9nqgsh2cpi0pv64th.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

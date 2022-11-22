@@ -70,9 +70,9 @@ class SearchFragment : Fragment(), OnSearchResultClick {
             }
         // SearchView에 OnQueryTextLitener 부착
         binding?.searchStation?.setOnQueryTextListener(searchViewTextListener)
-
-
-
+        binding?.imageTop?.setOnClickListener(){
+            findNavController().navigate(R.id.action_searchFragment_to_entryFragment)
+        }
         return binding?.root
     }
 

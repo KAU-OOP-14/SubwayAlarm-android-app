@@ -25,7 +25,6 @@ class ViewModelImpl(
     private val _searchText = NonNullMutableLiveData<MutableList<Station>>(mutableListOf())
     private val _alarmTime = NonNullMutableLiveData<Int>(0)
 
-
     private val disposables = io.reactivex.rxjava3.disposables.CompositeDisposable()
     private var job: Job? = null
 
