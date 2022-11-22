@@ -1,4 +1,4 @@
-package com.example.subway_alarm
+package com.example.subway_alarm.ui.fragments
 
 import android.animation.ObjectAnimator
 import android.content.Context
@@ -11,9 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import com.example.subway_alarm.ui.fragments.MainFragment
 import androidx.navigation.fragment.findNavController
+import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentEntryBinding
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl

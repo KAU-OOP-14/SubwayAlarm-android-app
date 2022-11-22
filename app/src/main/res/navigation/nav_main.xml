@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/entryFragment"
-        android:name="com.example.subway_alarm.EntryFragment"
+        android:name="com.example.subway_alarm.ui.fragments.EntryFragment"
         android:label="fragment_entry"
         tools:layout="@layout/fragment_entry" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/bookmarkFragment"
-        android:name="com.example.subway_alarm.BookmarkFragment"
+        android:name="com.example.subway_alarm.ui.fragments.BookmarkFragment"
         android:label="fragment_bookmark"
         tools:layout="@layout/fragment_bookmark" >
         <action
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.example.subway_alarm.SearchFragment"
+        android:name="com.example.subway_alarm.ui.fragments.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" >
         <action
@@ -44,7 +44,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.subway_alarm.SettingFragment"
+        android:name="com.example.subway_alarm.ui.fragments.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action

@@ -1,4 +1,4 @@
-package com.example.subway_alarm
+package com.example.subway_alarm.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentSearchBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
