@@ -1,26 +1,37 @@
 package com.example.subway_alarm
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.subway_alarm.databinding.FragmentBookmarkBinding
+import com.example.subway_alarm.databinding.FragmentSearchBinding
+import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
+import com.example.subway_alarm.ui.activities.MainActivity
+import com.example.subway_alarm.ui.adapter.SearchedListAdapter
+import com.example.subway_alarm.ui.adapter.StationsAdapter
+import com.example.subway_alarm.ui.fragments.MainFragment
+import com.example.subway_alarm.viewModel.ViewModelImpl
+import com.example.subway_alarm.viewModel.listener.OnItemClick
+import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
+import org.koin.android.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-class BookmarkFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class BookmarkFragment : Fragment(), OnItemClick {
+    var binding: FragmentBookmarkBinding? = null
+    val viewModel by viewModel<ViewModelImpl>()
+    private var stations: MutableList<Station> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
         }
     }
 
@@ -29,26 +40,25 @@ class BookmarkFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bookmark, container, false)
+        binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+
+        for (line in Subway.lines) {
+            stations.addAll(line.stations)
+        }
+
+        // 리사이컬뷰를 adapter와 연결, adapter는 한번만 생성합니다.
+        binding?.recStations?.layoutManager = LinearLayoutManager(context)
+        binding?.recStations?.adapter = StationsAdapter(stations, this)
+
+        return binding?.root
+
+
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment BookmarkFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookmarkFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onItemClick(stationId: Int) {
+        val bundle = bundleOf("open" to true)
+        viewModel.onStationSelect(stationId)
+        findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
     }
+
 }
