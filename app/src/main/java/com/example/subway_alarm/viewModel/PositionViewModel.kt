@@ -14,18 +14,19 @@ class PositionViewModel : ViewModel(){
     private val _pos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
     private val _isMoving = NonNullMutableLiveData<Boolean>(false)
-    private val _state = NonNullMutableLiveData<Boolean>(false)
+    private val _state = NonNullMutableLiveData<Boolean>(false )
 
     val pos: NonNullLiveData<PointF>
         get() = _pos
+    val movePos : NonNullLiveData<PointF>
+        get() = _movePos
     val isMoving : NonNullLiveData<Boolean>
         get() = _isMoving
     val state  : NonNullLiveData<Boolean>
         get() = _state
-    val movePos : NonNullLiveData<PointF>
-        get() = _movePos
 
     var tempPos = PointF(0f, 0f)
+    var isSelected: Boolean = false
 
     private fun modifyPos(newPos: PointF){
         if(state.value) {
@@ -52,7 +53,6 @@ class PositionViewModel : ViewModel(){
 
     private fun changeMoving(newValue: Boolean){
         if(state.value) {
-            println("state is modified: $newValue")
             _isMoving.value = newValue
         }
     }
