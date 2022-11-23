@@ -50,6 +50,10 @@ class BookmarkFragment : Fragment(), OnItemClick {
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
         binding?.recStations?.adapter = StationsAdapter(stations, this)
 
+        binding?.btnBack2main?.setOnClickListener(){
+            findNavController().navigate(R.id.action_bookmarkFragment_to_entryFragment)
+        }
+
         return binding?.root
 
 
@@ -58,7 +62,7 @@ class BookmarkFragment : Fragment(), OnItemClick {
     override fun onItemClick(stationId: Int) {
         val bundle = bundleOf("open" to true)
         viewModel.onStationSelect(stationId)
-        findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
+        findNavController().navigate(R.id.action_bookmarkFragment_to_entryFragment, bundle)
     }
 
 }
