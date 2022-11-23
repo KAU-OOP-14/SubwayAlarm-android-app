@@ -10,19 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentEntryBinding
+import com.example.subway_alarm.model.repository.StationPositionRepository
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl
+import com.example.subway_alarm.viewModel.listener.OnStationIdResult
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class EntryFragment : Fragment() {
+class EntryFragment : Fragment(), OnStationIdResult {
     private val viewModel by viewModel<ViewModelImpl>()
     private val posViewModel: PositionViewModel by activityViewModels()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
+    private val repository = StationPositionRepository(this)
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var open = false
@@ -91,23 +95,28 @@ class EntryFragment : Fragment() {
         }
 
         binding?.btnZoomIn?.setOnClickListener{
+            /*
             val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
             val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
-            if(_scaleX < 5.0f) {
-                binding?.stationImage?.scaleX = _scaleX + 1f
-                binding?.stationImage?.scaleY = _scaleY + 1f
+            if(_scaleX < 4.0f) {
+                binding?.stationImage?.scaleX = _scaleX + 2.0f
+                binding?.stationImage?.scaleY = _scaleY + 2.0f
                 println("zoomin")
             }
+             */
         }
 
         binding?.btnZoomOut?.setOnClickListener{
+            /*
             val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
             val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
-            if(_scaleX > 1.0f) {
-                binding?.stationImage?.scaleX = _scaleX - 1f
-                binding?.stationImage?.scaleY = _scaleY - 1f
+            if(_scaleX > 2.0f) {
+                binding?.stationImage?.scaleX = _scaleX - 2.0f
+                binding?.stationImage?.scaleY = _scaleY - 2.0f
                 println("zoomout")
             }
+
+             */
         }
 
 
@@ -118,30 +127,40 @@ class EntryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         posViewModel.pos.observe(viewLifecycleOwner){
+            // 움직이다가 손을 뗀 경우
             if(posViewModel.isMoving.value){
-                println("moving end!")
                 binding?.stationImage?.translationX = valueX - (posViewModel.tempPos.x - it.x)
                 binding?.stationImage?.translationY = valueY - (posViewModel.tempPos.y - it.y)
                 valueX -= (posViewModel.tempPos.x - it.x)
                 valueY -= (posViewModel.tempPos.y - it.y)
                 println("valueX: $valueX, valueY: $valueY")
                 posViewModel.setMoving(false)
-                val _scale = binding?.stationImage?.scaleX ?: 1.0f
+                val _scale: Float = binding?.stationImage?.scaleX ?: 1.0f
                 totalValueX -= ((posViewModel.tempPos.x - it.x) / _scale)
                 totalValueY -= ((posViewModel.tempPos.y - it.y) / _scale)
             }
-            else {
-                println("station is selected!")
-                val _scale = binding?.stationImage?.scaleX ?: 1.0f
-                println("scale: $_scale")
-                println("totalx : $totalValueX, totaly : $totalValueY")
-                printReadPos(posViewModel.pos.value, _scale, totalValueX, totalValueY)
+            // 한번 살짝 터치한 경우
+            else{
+                // 마지막에 뗀 경우
+                if(posViewModel.isSelected) {
+                    posViewModel.isSelected = false
+                    if (isFabOpen) {
+                        toggleFab()
+                    } else {
+                        val _scale = binding?.stationImage?.scaleX ?: 1.0f
+                        repository.findObjectPos(posViewModel.pos.value, _scale, totalValueX, totalValueY)
+                    }
+                }
+                else{
+                    if (isFabOpen) {
+                        toggleFab()
+                    }
+                }
             }
 
         }
 
         posViewModel.movePos.observe(viewLifecycleOwner){
-            println("moving~")
             binding?.stationImage?.translationX = valueX - (posViewModel.pos.value.x - it.x)
             binding?.stationImage?.translationY = valueY - (posViewModel.pos.value.y - it.y)
         }
@@ -197,15 +216,17 @@ class EntryFragment : Fragment() {
         callback.remove()
     }
 
-    // 확대 및 축소를 해도 원래 좌표값(scale이 1일 때)을 출력하도록 하는 함수
-    fun printReadPos(pos: PointF, scale: Float, transX : Float = 0f, transY: Float = 0f){
-        val resultPos = PointF(0f, 0f)
-        //1080 * 2280
-        val x = (pos.x / scale) + (1080 * (scale - 1) / (2 * scale) ) - transX
-        val y = (pos.y / scale) + (2280 * (scale - 1) / (2 * scale) ) - transY
-        println("x : $x, y : $y")
+    override fun onStationIdResult(stationId: Int) {
+        println("listner is called..")
+        if(stationId != 0) {
+            val bottomSheet = MainFragment()
+            val bundle = Bundle()
+            // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
+            bundle.putInt("stationId", stationId)
+            bottomSheet.arguments = bundle
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
+        }
     }
-
 
 
     companion object {
