@@ -15,9 +15,9 @@ class StationsAdapter(val stations: MutableList<Station>, listener : OnItemClick
     : RecyclerView.Adapter<StationsAdapter.Holder>() {
     val callback = listener
 
-    class StationViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
-        val textView : TextView = itemView.findViewById(R.id.station_name)
-    }
+//    class StationViewHolder(itemView:View) : RecyclerView.ViewHolder(itemView) {
+//        val textView : TextView = itemView.findViewById(R.id.station_name)
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStatoinsBinding.inflate(LayoutInflater.from(parent.context))
