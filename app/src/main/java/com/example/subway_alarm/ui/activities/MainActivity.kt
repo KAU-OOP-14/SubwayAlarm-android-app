@@ -1,11 +1,9 @@
 package com.example.subway_alarm.ui.activities
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.app.PendingIntent.getActivity
 import android.content.Intent
+import android.graphics.PointF
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
@@ -36,7 +34,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     lateinit var alarmManager: AlarmManager
     lateinit var myIntent: Intent
     lateinit var pendingIntent: PendingIntent
-    val posViewModel: PositionViewModel by viewModel<PositionViewModel>()
+    private val posViewModel by viewModel<PositionViewModel>()
     var lastTimeTouchPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
 
 
@@ -62,6 +60,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
 
         //알람 리시버 생성
         myIntent = Intent(this, AlarmReceiver::class.java)
+
 
 
         /* view와 activity binding */
@@ -159,6 +158,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         myIntent.putExtra("state","off")
         sendBroadcast(myIntent)
     }
+
 
 
 }

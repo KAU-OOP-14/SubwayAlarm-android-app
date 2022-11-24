@@ -9,22 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentEntryBinding
 import com.example.subway_alarm.viewModel.PositionViewModel
-import com.example.subway_alarm.viewModel.ViewModelImpl
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class EntryFragment : Fragment() {
-    private val viewModel by viewModel<ViewModelImpl>()
-    private val positionViewModel: PositionViewModel by activityViewModels()
+    private val positionViewModel by sharedViewModel<PositionViewModel>()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-    private var open = false
+    private var paramStationId = 0
 
     var valueX = 0f         // 한번 드래그 할 때마다 움직인 x값
     var valueY = 0f
@@ -32,7 +29,7 @@ class EntryFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            open = it.getBoolean("open")
+            paramStationId = it.getInt("stationId")
         }
     }
 
@@ -71,12 +68,12 @@ class EntryFragment : Fragment() {
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
 
-        if(open) {
-            open = false
+        if(paramStationId > 0) {
             val bottomSheet = MainFragment()
             val bundle = Bundle()
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-            bundle.putInt("stationId", viewModel.curStation.value.id)
+            bundle.putInt("stationId", paramStationId)
+            paramStationId = 0
             bottomSheet.arguments = bundle
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
@@ -117,6 +114,7 @@ class EntryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        println("view created!!!")
         super.onViewCreated(view, savedInstanceState)
         positionViewModel.selectedPos.observe(viewLifecycleOwner){
             println("역선택한 경우!")

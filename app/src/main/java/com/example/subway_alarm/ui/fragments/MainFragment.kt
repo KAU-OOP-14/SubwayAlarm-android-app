@@ -21,6 +21,7 @@ import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.ext.android.inject
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
 // class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
@@ -28,7 +29,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
     var stationId: Int = 205 // 홍대입구
     var binding: FragmentMainBinding? = null
-    val viewModel by inject<ArrivalViewModel>()
+    val viewModel by sharedViewModel<ArrivalViewModel>()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
     lateinit var entryFragment: EntryFragment
