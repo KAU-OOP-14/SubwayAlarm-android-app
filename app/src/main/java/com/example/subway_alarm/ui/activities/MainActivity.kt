@@ -1,9 +1,11 @@
 package com.example.subway_alarm.ui.activities
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.PendingIntent.getActivity
 import android.content.Intent
-import android.graphics.PointF
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
@@ -71,35 +73,38 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     // 제스처 이벤트가 발생하면 실행되는 메소드
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         // 제스처 이벤트를 처리하는 메소드를 호출
-        println("current x: ${event?.x}, y : ${event?.y}")
-        when (event?.action) {
-            // 화면에 손가락이 닿음
-            MotionEvent.ACTION_DOWN -> {
-                val pos = PointF(event.x, event.y)
-                posViewModel.setPos(pos)
-                posViewModel.setMoving(true)
-                lastTimeTouchPressed = System.currentTimeMillis()
-                println("Touched")
-            }
-
-            // 화면에 손가락이 닿은 채로 움직이고 있음
-            MotionEvent.ACTION_MOVE -> {
-                println("moving")
-                val pos = PointF(event.x, event.y)
-                posViewModel.setMovePos(pos)
-            }
-
-            // 화면에서 손가락을 땜
-            MotionEvent.ACTION_UP -> {
-                println("end")
-                if (System.currentTimeMillis() - lastTimeTouchPressed < 200) {
-                    posViewModel.setMoving(false)
-                    posViewModel.isSelected = true
+        if(event != null){
+            val pos = PointF(event.x, event.y)
+            println("current x: ${event.x}, y : ${event.y}")
+            when (event.action) {
+                // 화면에 손가락이 닿음
+                MotionEvent.ACTION_DOWN -> {
+                    posViewModel.setPos(pos)
+                    posViewModel.setMoving(true)
+                    lastTimeTouchPressed = System.currentTimeMillis()
+                    println("Touched")
                 }
-                val pos = PointF(event.x, event.y)
-                posViewModel.setPos(pos)
+
+                // 화면에 손가락이 닿은 채로 움직이고 있음
+                MotionEvent.ACTION_MOVE -> {
+                    println("moving")
+                    posViewModel.setMovePos(pos)
+                }
+
+                // 화면에서 손가락을 땜
+                MotionEvent.ACTION_UP -> {
+                    println("end")
+                    posViewModel.setMoving(false)
+                    // 잠깐 터치한 경우는 selectedPos를 업데이트 한다
+                    if (System.currentTimeMillis() - lastTimeTouchPressed < 180)
+                        posViewModel.setSelectedPos(pos)
+                    else {
+                        posViewModel.setMovePos(pos)
+                    }
+                }
+
+                else -> return false
             }
-            else -> return false
         }
         return true
     }
