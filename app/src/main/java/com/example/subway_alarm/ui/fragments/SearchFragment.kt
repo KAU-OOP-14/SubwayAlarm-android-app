@@ -14,13 +14,13 @@ import com.example.subway_alarm.databinding.FragmentSearchBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.ui.adapter.SearchedListAdapter
-import com.example.subway_alarm.viewModel.ViewModelImpl
+import com.example.subway_alarm.viewModel.SearchViewModel
 import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment(), OnSearchResultClick {
     var binding: FragmentSearchBinding? = null
-    val viewModel by viewModel<ViewModelImpl>()
+    val viewModel by viewModel<SearchViewModel>()
     private var stationList: MutableList<Station> = mutableListOf()
 
 
@@ -76,8 +76,7 @@ class SearchFragment : Fragment(), OnSearchResultClick {
     }
 
     override fun onSearchResultClick(stationId: Int) {
-        val bundle = bundleOf("open" to true)
-        viewModel.onStationSelect(stationId)
+        val bundle = bundleOf("stationId" to stationId)
         findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
     }
 

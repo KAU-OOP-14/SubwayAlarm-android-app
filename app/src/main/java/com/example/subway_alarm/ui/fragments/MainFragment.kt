@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.api.dataModel.ApiModel
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
-import com.example.subway_alarm.viewModel.ViewModelImpl
-import com.example.subway_alarm.viewModel.ViewModelImpl.Direction
+import com.example.subway_alarm.viewModel.ArrivalViewModel
+import com.example.subway_alarm.viewModel.ArrivalViewModel.Direction
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -27,7 +28,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
     var stationId: Int = 205 // 홍대입구
     var binding: FragmentMainBinding? = null
-    val viewModel by inject<ViewModelImpl>()
+    val viewModel by inject<ArrivalViewModel>()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
     lateinit var entryFragment: EntryFragment
@@ -160,16 +161,19 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             activity?.let {
                 AlarmDialogFragment.newInstance().show(it.supportFragmentManager, "")
             }
+        }
 
+        binding?.btnAlarmOff?.setOnClickListener {
+            (activity as MainActivity).onAlarmOff()
         }
 
 
-    /*
-    //알람 버튼 클릭시 이벤트
-    binding?.btnAlarm?.setOnClickListener {
-        viewModel.setAlarm()
-    }
-     */
+        /*
+        //알람 버튼 클릭시 이벤트
+        binding?.btnAlarm?.setOnClickListener {
+            viewModel.setAlarm()
+        }
+         */
 
     viewModel.onStationSelect(stationId)
 

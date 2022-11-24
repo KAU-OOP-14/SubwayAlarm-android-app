@@ -2,7 +2,6 @@ package com.example.subway_alarm.ui.fragments
 
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.PointF
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,26 +9,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentEntryBinding
 import com.example.subway_alarm.model.repository.StationPositionRepository
 import com.example.subway_alarm.viewModel.PositionViewModel
-import com.example.subway_alarm.viewModel.ViewModelImpl
 import com.example.subway_alarm.viewModel.listener.OnStationIdResult
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class EntryFragment : Fragment(), OnStationIdResult {
-    private val viewModel by viewModel<ViewModelImpl>()
     private val posViewModel: PositionViewModel by activityViewModels()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     private val repository = StationPositionRepository(this)
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-    private var open = false
+    private var paramStationId = 0
     var valueX = 0f
     var valueY = 0f
     var totalValueX = 0f
@@ -38,7 +33,7 @@ class EntryFragment : Fragment(), OnStationIdResult {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            open = it.getBoolean("open")
+            paramStationId = it.getInt("stationId")
         }
     }
 
@@ -77,12 +72,12 @@ class EntryFragment : Fragment(), OnStationIdResult {
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
 
-        if(open) {
-            open = false
+        if(paramStationId > 0) {
             val bottomSheet = MainFragment()
             val bundle = Bundle()
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-            bundle.putInt("stationId", viewModel.curStation.value.id)
+            bundle.putInt("stationId", paramStationId)
+            paramStationId = 0
             bottomSheet.arguments = bundle
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
