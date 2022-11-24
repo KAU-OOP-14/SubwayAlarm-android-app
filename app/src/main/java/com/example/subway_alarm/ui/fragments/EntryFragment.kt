@@ -15,25 +15,21 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentEntryBinding
-import com.example.subway_alarm.model.repository.StationPositionRepository
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.ViewModelImpl
-import com.example.subway_alarm.viewModel.listener.OnStationIdResult
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class EntryFragment : Fragment(), OnStationIdResult {
+class EntryFragment : Fragment() {
     private val viewModel by viewModel<ViewModelImpl>()
-    private val posViewModel: PositionViewModel by activityViewModels()
+    private val positionViewModel: PositionViewModel by activityViewModels()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
-    private val repository = StationPositionRepository(this)
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var open = false
-    var valueX = 0f
+
+    var valueX = 0f         // 한번 드래그 할 때마다 움직인 x값
     var valueY = 0f
-    var totalValueX = 0f
-    var totalValueY = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +69,7 @@ class EntryFragment : Fragment(), OnStationIdResult {
         binding = FragmentEntryBinding.inflate(inflater)
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
          모든 데이터 처리는 viewModel이 합니다 */
-        posViewModel.setState(true)
+        positionViewModel.setState(true)
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
 
@@ -119,67 +115,66 @@ class EntryFragment : Fragment(), OnStationIdResult {
              */
         }
 
-
         return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        posViewModel.pos.observe(viewLifecycleOwner){
-            // 움직이다가 손을 뗀 경우
-            if(posViewModel.isMoving.value){
-                binding?.stationImage?.translationX = valueX - (posViewModel.tempPos.x - it.x)
-                binding?.stationImage?.translationY = valueY - (posViewModel.tempPos.y - it.y)
-                valueX -= (posViewModel.tempPos.x - it.x)
-                valueY -= (posViewModel.tempPos.y - it.y)
-                println("valueX: $valueX, valueY: $valueY")
-                posViewModel.setMoving(false)
-                val _scale: Float = binding?.stationImage?.scaleX ?: 1.0f
-                totalValueX -= ((posViewModel.tempPos.x - it.x) / _scale)
-                totalValueY -= ((posViewModel.tempPos.y - it.y) / _scale)
-            }
-            // 한번 살짝 터치한 경우
-            else{
-                // 마지막에 뗀 경우
-                if(posViewModel.isSelected) {
-                    posViewModel.isSelected = false
-                    if (isFabOpen) {
-                        toggleFab()
-                    } else {
-                        val _scale = binding?.stationImage?.scaleX ?: 1.0f
-                        repository.findObjectPos(posViewModel.pos.value, _scale, totalValueX, totalValueY)
-                    }
-                }
-                else{
-                    if (isFabOpen) {
-                        toggleFab()
-                    }
-                }
-            }
-
+        positionViewModel.selectedPos.observe(viewLifecycleOwner){
+            println("역선택한 경우!")
         }
 
-        posViewModel.movePos.observe(viewLifecycleOwner){
-            binding?.stationImage?.translationX = valueX - (posViewModel.pos.value.x - it.x)
-            binding?.stationImage?.translationY = valueY - (posViewModel.pos.value.y - it.y)
+        positionViewModel.stationId.observe(viewLifecycleOwner){
+            println("넘어온 id값: $it")
+            if(it != 0) {
+                val bottomSheet = MainFragment()
+                val bundle = Bundle()
+                // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
+                bundle.putInt("stationId", it)
+                bottomSheet.arguments = bundle
+                bottomSheet.show(childFragmentManager, bottomSheet.tag)
+            }
+        }
+        positionViewModel.pos.observe(viewLifecycleOwner){
+            // 항상 처음에 터치한 경우
+            if (isFabOpen){
+                toggleFab()
+            }
+        }
+
+        positionViewModel.movePos.observe(viewLifecycleOwner){
+            if(positionViewModel.isMoving.value){
+                binding?.stationImage?.translationX = valueX - positionViewModel.transValue.x
+                binding?.stationImage?.translationY = valueY - positionViewModel.transValue.y
+            }
+            else{
+                // 처음 터치한 좌표와 움직인 이후 손을 뗀 좌표 사이 거리를 계산한다
+                val tranX = positionViewModel.transValue.x
+                val tranY = positionViewModel.transValue.y
+                binding?.stationImage?.translationX = valueX - tranX
+                binding?.stationImage?.translationY = valueY - tranY
+                valueX -= tranX
+                valueY -= tranY
+                println("valueX: $valueX, valueY: $valueY")
+            }
+
         }
 
         binding?.fabMain?.setOnClickListener{
             toggleFab()
         }
         binding?.fabSearch?.setOnClickListener(){
-            posViewModel.setState(false)
+            positionViewModel.setState(false)
             findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
             toggleFab()
         }
         binding?.fabBookmark?.setOnClickListener(){
-            posViewModel.setState(false)
+            positionViewModel.setState(false)
             findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
             toggleFab()
         }
         binding?.fabSetting?.setOnClickListener(){
-            posViewModel.setState(false)
+            positionViewModel.setState(false)
             findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
             toggleFab()
         }
@@ -214,18 +209,6 @@ class EntryFragment : Fragment(), OnStationIdResult {
         super.onDetach()
         // OnBackPressedCallBack 객체 제거
         callback.remove()
-    }
-
-    override fun onStationIdResult(stationId: Int) {
-        println("listner is called..")
-        if(stationId != 0) {
-            val bottomSheet = MainFragment()
-            val bundle = Bundle()
-            // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-            bundle.putInt("stationId", stationId)
-            bottomSheet.arguments = bundle
-            bottomSheet.show(childFragmentManager, bottomSheet.tag)
-        }
     }
 
 
