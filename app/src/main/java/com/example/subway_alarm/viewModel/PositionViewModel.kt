@@ -9,7 +9,9 @@ import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.repository.StationPositionRepository
 import kotlinx.coroutines.launch
 
-class PositionViewModel : ViewModel(){
+class PositionViewModel(
+    private val stationPositionRepository: StationPositionRepository
+) : ViewModel(){
     private val _pos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
     private val _selectedPos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
@@ -17,7 +19,6 @@ class PositionViewModel : ViewModel(){
     private val _state = NonNullMutableLiveData<Boolean>(false )
     private val _stationId = NonNullMutableLiveData<Int>(0)
 
-    private val repository = StationPositionRepository()
     var scaleValue: Float = 4.0f
     var transValue: PointF = PointF(0f,0f)          // move한 좌표마다 처음 찍은 좌표와의 거리
     var totalTransValue: PointF = PointF(0f,0f)     // scale이 1이라고 가정할 때 움직인 거리
@@ -63,9 +64,9 @@ class PositionViewModel : ViewModel(){
     // 역 선택에 대한 터치가 끝난 후 호출되는 함수
     private fun modifySelectedPos(selectedPos: PointF){
         if(_state.value) {
-            //_selectedPos.value = selectedPos
+            _selectedPos.value = selectedPos
             viewModelScope.launch {
-                val id = repository.postSelectedId(selectedPos, scaleValue, totalTransValue, _stationId)
+                val id = stationPositionRepository.postSelectedId(selectedPos, scaleValue, totalTransValue, _stationId)
             }
         }
     }

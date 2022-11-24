@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.util.TypedValue
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayoutStates
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.subway_alarm.databinding.ActivityLoadingBinding
 import com.example.subway_alarm.model.db.SubwayBuilder
-import com.example.subway_alarm.viewModel.ViewModelImpl
+import com.example.subway_alarm.viewModel.ArrivalViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -18,13 +17,12 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoadingActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoadingBinding
-    val viewModel: ViewModelImpl by viewModel()
-
+    val viewModel by viewModel<ArrivalViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.create()
         println("loading activity 생성")
+        viewModel.onLoading()
         binding = ActivityLoadingBinding.inflate(layoutInflater)
 
         // layout의 크기를 px에서 dp로 설정하기 위해 변환하는 과정입니다.
