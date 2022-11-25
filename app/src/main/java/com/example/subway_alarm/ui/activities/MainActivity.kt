@@ -7,9 +7,12 @@ import android.graphics.PointF
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.model.AlarmReceiver
@@ -30,38 +33,23 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
     val viewModel by viewModel<ArrivalViewModel>()
-    //lateinit var nManager: NotificationManager
-    lateinit var alarmManager: AlarmManager
+    private val posViewModel by viewModel<PositionViewModel>()
+
+    // 알람 매니저 관련 변수
     lateinit var myIntent: Intent
     lateinit var pendingIntent: PendingIntent
-    private val posViewModel by viewModel<PositionViewModel>()
+    lateinit var alarmManager: AlarmManager
     var lastTimeTouchPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // 알람시간이 다 되는지 관찰합니다.
-        viewModel.alarmTime.observe(this) {
-            /*
-            if (it == 1) {
-                val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                val ringtone = RingtoneManager.getRingtone(applicationContext, notification).run {
-                    play()
-                }
-                nManager.cancelAll()
-            }
-             */
-        }
-
-        //알람 서비스 생성
-        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-        //알람 리시버 생성
         myIntent = Intent(this, AlarmReceiver::class.java)
-
-
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        pendingIntent = PendingIntent.getBroadcast(
+            this, AlarmReceiver.NOTIFICATION_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT
+        )
 
         /* view와 activity binding */
         setContentView(binding.root)
@@ -110,54 +98,18 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     }
 
 
-    /*
-    private fun showNotification(Title: String, Body: String) {
-        val pending = getActivity(
-            this, 0,
-            Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val builder = NotificationCompat.Builder(this, "id")
-        builder.setSmallIcon(R.drawable.train)
-            .setContentTitle(Title)
-            .setContentText(Body)
-            .setContentIntent(pending)
-            .setAutoCancel(false)
-            .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
-
-        nManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            nManager.createNotificationChannel(
-                NotificationChannel(
-                    "id",
-                    "name",
-                    NotificationManager.IMPORTANCE_HIGH
-                )
-            )
-        }
-        nManager.notify(0, builder.build())
-    }
-
-     */
-
     override fun onAlarmSet() {
-        /*
-        val now = System.currentTimeMillis()
-        val alarmTime = Date(now + viewModel.alarmTime.value * 1000)
-        val dateFormat = SimpleDateFormat("hh:mm:ss")
-        showNotification("알람 예약", "${dateFormat.format(alarmTime)} 에 알람이 울립니다")
-        println(viewModel.alarmTime.value)
-         */
-        myIntent.putExtra("state","on")
-        myIntent.putExtra("time",viewModel.alarmTime.value)
-        pendingIntent =
-            PendingIntent.getBroadcast(this, 0, myIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-        alarmManager.set(AlarmManager.RTC_WAKEUP, 1000, pendingIntent)
+        //알람 처리를 해주는 알람 매니저입니다.
+        // 메소드를 actiivity에서만 지원해서 콜백 구조로 구현했습니다.
+        val time = (SystemClock.elapsedRealtime() + 10 * 1000)
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, pendingIntent)
+        println("알람이 설정되었습니다.")
     }
 
     override fun onAlarmOff() {
         alarmManager.cancel(pendingIntent)
-        myIntent.putExtra("state","off")
-        sendBroadcast(myIntent)
+        println("알람이 해제되었습니다.")
+
     }
 
 

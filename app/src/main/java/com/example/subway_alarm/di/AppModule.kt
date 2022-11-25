@@ -1,5 +1,6 @@
 package com.example.subway_alarm.di
 
+import com.example.subway_alarm.model.repository.FirebaseRepository
 import com.example.subway_alarm.model.repository.StationPositionRepository
 import com.example.subway_alarm.model.repository.StationRepository
 import com.example.subway_alarm.model.repository.StationRepositoryImpl
@@ -10,6 +11,7 @@ import org.koin.dsl.module
 /** 싱글톤 의존성 주입 */
 val appModule = module {
     single<StationRepository> { StationRepositoryImpl() }
+    single<FirebaseRepository> { StationPositionRepository()}
     single { StationPositionRepository() }
 }
 
@@ -30,5 +32,4 @@ val appViewModule = module {
     viewModel {
         PositionViewModel(get())
     }
-
 }

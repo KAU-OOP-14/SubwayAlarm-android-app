@@ -17,5 +17,4 @@ class SearchViewModel(
         _searchText.value = stationRepository.searchStationsWithName(changedString)
         return _searchText.value
     }
-
 }
