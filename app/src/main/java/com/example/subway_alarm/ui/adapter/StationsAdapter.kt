@@ -2,6 +2,7 @@ package com.example.subway_alarm.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.databinding.ListStatoinsBinding
 import com.example.subway_alarm.model.Station
@@ -24,6 +25,10 @@ class StationsAdapter(val stations: MutableList<Station>)
     class Holder(private val binding: ListStatoinsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(station: Station) {
             binding.stationName.text = station.stationName
+            binding.root.setOnClickListener{
+                Toast.makeText(binding.root.context,"bookmark is selected",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
