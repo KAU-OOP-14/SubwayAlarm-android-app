@@ -16,6 +16,7 @@ import androidx.core.content.getSystemService
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.model.AlarmReceiver
+import com.example.subway_alarm.viewModel.AlarmViewModel
 import com.example.subway_alarm.viewModel.ArrivalViewModel
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.listener.OnAlarmOff
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
      */
     val viewModel by viewModel<ArrivalViewModel>()
     private val posViewModel by viewModel<PositionViewModel>()
+    private val alarmViewModel by viewModel<AlarmViewModel>()
 
     // 알람 매니저 관련 변수
     lateinit var myIntent: Intent
@@ -101,7 +103,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     override fun onAlarmSet() {
         //알람 처리를 해주는 알람 매니저입니다.
         // 메소드를 actiivity에서만 지원해서 콜백 구조로 구현했습니다.
-        val time = (SystemClock.elapsedRealtime() + 10 * 1000)
+        val time = (SystemClock.elapsedRealtime() + viewModel.alarmTime.value * 1000)
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, pendingIntent)
         println("알람이 설정되었습니다.")
     }

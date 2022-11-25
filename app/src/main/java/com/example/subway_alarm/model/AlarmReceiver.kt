@@ -11,6 +11,7 @@ import android.graphics.Color
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.example.subway_alarm.R
+import com.example.subway_alarm.ui.activities.LoadingActivity
 import com.example.subway_alarm.ui.activities.MainActivity
 
 class AlarmReceiver: BroadcastReceiver() {
@@ -48,16 +49,16 @@ class AlarmReceiver: BroadcastReceiver() {
     }
 
     private fun deliverNotification(context: Context) {
-        val contentIntent = Intent(context, MainActivity::class.java)
+        val contentIntent = Intent(context, LoadingActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(context, NOTIFICATION_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         //알람에 대한 설정을 합니다.
         val builder = NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
             .setSmallIcon(R.drawable.alarm)
             .setContentTitle("지하철 알람 앱")
-            .setContentText("00 분 후에 알람이 울립니다.")
+            .setContentText("설정한 시간이 되었습니다.")
             .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(false)
+            .setAutoCancel(true)
             .setDefaults(NotificationCompat.DEFAULT_ALL)
         //알람을 울립니다
         notificationManager.notify(NOTIFICATION_ID, builder.build())
