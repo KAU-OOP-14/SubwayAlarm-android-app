@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
-import com.example.subway_alarm.model.repository.StationPositionRepository
+import com.example.subway_alarm.model.repository.FirebaseRepository
 import kotlinx.coroutines.launch
 
 class PositionViewModel(
-    private val stationPositionRepository: StationPositionRepository
+    private val stationPositionRepository: FirebaseRepository
 ) : ViewModel(){
     private val _pos = NonNullMutableLiveData<PointF>(PointF(0f,0f))
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f,0f))

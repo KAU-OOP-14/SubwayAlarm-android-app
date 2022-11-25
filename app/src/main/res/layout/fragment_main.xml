@@ -63,13 +63,12 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.483" />
 
-            <Button
-                android:id="@+id/btnAlarmOff"
+            <ToggleButton
+                android:id="@+id/btnAlarmToggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="72dp"
-                android:text="Button"
-                app:layout_constraintStart_toStartOf="parent"
+                android:text="ToggleButton"
+                app:layout_constraintStart_toEndOf="@+id/txtAlarmTime"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

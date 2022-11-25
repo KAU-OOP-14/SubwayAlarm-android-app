@@ -20,11 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:targetApi="31">
-        <service
-            android:name=".model.AlarmService"
-            android:enabled="true"
-            android:exported="true"/>
-        <receiver android:name=".model.AlarmReceiver" />
+
+        <receiver android:name=".model.AlarmReceiver"
+            android:exported="false"/>
 
         <activity
             android:name=".ui.activities.MainActivity"
