@@ -23,9 +23,6 @@ class EntryFragment : Fragment() {
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var paramStationId = 0
 
-    var valueX = 0f         // 한번 드래그 할 때마다 움직인 x값
-    var valueY = 0f
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -86,7 +83,6 @@ class EntryFragment : Fragment() {
         }
 
         binding?.btnZoomIn?.setOnClickListener{
-            /*
             val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
             val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
             if(_scaleX < 4.0f) {
@@ -94,11 +90,9 @@ class EntryFragment : Fragment() {
                 binding?.stationImage?.scaleY = _scaleY + 2.0f
                 println("zoomin")
             }
-             */
         }
 
         binding?.btnZoomOut?.setOnClickListener{
-            /*
             val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
             val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
             if(_scaleX > 2.0f) {
@@ -107,7 +101,6 @@ class EntryFragment : Fragment() {
                 println("zoomout")
             }
 
-             */
         }
 
         return binding?.root
@@ -127,31 +120,29 @@ class EntryFragment : Fragment() {
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
                 bundle.putInt("stationId", it)
+                positionViewModel.setStationId(0)
                 bottomSheet.arguments = bundle
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
         }
         positionViewModel.pos.observe(viewLifecycleOwner){
             // 항상 처음에 터치한 경우
+            println("pos observe")
             if (isFabOpen){
                 toggleFab()
             }
         }
 
         positionViewModel.movePos.observe(viewLifecycleOwner){
+            println("move observe")
             if(positionViewModel.isMoving.value){
-                binding?.stationImage?.translationX = valueX - positionViewModel.transValue.x
-                binding?.stationImage?.translationY = valueY - positionViewModel.transValue.y
+                binding?.stationImage?.translationX = positionViewModel.transValue.x
+                binding?.stationImage?.translationY = positionViewModel.transValue.y
             }
             else{
                 // 처음 터치한 좌표와 움직인 이후 손을 뗀 좌표 사이 거리를 계산한다
-                val tranX = positionViewModel.transValue.x
-                val tranY = positionViewModel.transValue.y
-                binding?.stationImage?.translationX = valueX - tranX
-                binding?.stationImage?.translationY = valueY - tranY
-                valueX -= tranX
-                valueY -= tranY
-                println("valueX: $valueX, valueY: $valueY")
+                binding?.stationImage?.translationX = positionViewModel.transValue.x
+                binding?.stationImage?.translationY = positionViewModel.transValue.y
             }
 
         }
@@ -161,21 +152,23 @@ class EntryFragment : Fragment() {
         }
         binding?.fabSearch?.setOnClickListener(){
             positionViewModel.setState(false)
+            positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
             toggleFab()
         }
         binding?.fabBookmark?.setOnClickListener(){
             positionViewModel.setState(false)
+            positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
             toggleFab()
         }
         binding?.fabSetting?.setOnClickListener(){
             positionViewModel.setState(false)
+            positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
             toggleFab()
         }
     }
-
 
 
     override fun onDestroy() {

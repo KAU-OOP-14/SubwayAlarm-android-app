@@ -20,6 +20,7 @@ class PositionViewModel(
     private val _stationId = NonNullMutableLiveData<Int>(0)
 
     var scaleValue: Float = 4.0f
+    var value = PointF(0f, 0f)
     var transValue: PointF = PointF(0f,0f)          // move한 좌표마다 처음 찍은 좌표와의 거리
     var totalTransValue: PointF = PointF(0f,0f)     // scale이 1이라고 가정할 때 움직인 거리
 
@@ -50,10 +51,11 @@ class PositionViewModel(
     // 터치 이후 움직일 때 호출되는 함수
     private fun modifyMovePos(movePos: PointF){
         if(_state.value) {
-            transValue = _pos.value - movePos
+            transValue = value - (_pos.value - movePos)
             _movePos.value = movePos
             if(!_isMoving.value){   // 움직인 이후 손을 뗀 경우로 총 움직인 거리를 최신화한다.
-                totalTransValue -= PointF(transValue.x / scaleValue, transValue.y / scaleValue)
+                value = transValue
+                totalTransValue -= PointF((_pos.value - movePos).x / scaleValue, (_pos.value - movePos).y / scaleValue)
             }
         }
     }
@@ -66,7 +68,7 @@ class PositionViewModel(
         if(_state.value) {
             _selectedPos.value = selectedPos
             viewModelScope.launch {
-                val id = stationPositionRepository.postSelectedId(selectedPos, scaleValue, totalTransValue, _stationId)
+                stationPositionRepository.postSelectedId(selectedPos, scaleValue, totalTransValue, _stationId)
             }
         }
     }
@@ -91,5 +93,22 @@ class PositionViewModel(
     }
     fun setState(newState: Boolean){
         changeState(newState)
+    }
+
+    // 불필요한 observe 방지
+    private fun changeStationId(newId: Int){
+        _stationId.value = newId
+    }
+    fun setStationId(newId: Int){
+        changeStationId((newId))
+    }
+
+    private fun resetTransValue(){
+        value = PointF(0f, 0f)
+        transValue = PointF(0f,0f)          // move한 좌표마다 처음 찍은 좌표와의 거리
+        totalTransValue = PointF(0f,0f)
+    }
+    fun setTransValue(){
+        resetTransValue()
     }
 }
