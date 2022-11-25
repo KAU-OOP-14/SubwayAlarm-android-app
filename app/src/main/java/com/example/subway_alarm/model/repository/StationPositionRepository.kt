@@ -35,7 +35,6 @@ class StationPositionRepository{
                         println("x : $x, y: $y")
                         if( (x - 50.0f) < originX  && (originX < x  + 50.0f)){
                             if ((y - 50.0f) <originY  && originY < (y + 50.0f) ){
-                                println("founded")
                                 id = document.id.toInt()
                                 stationId.postValue(id)
                                 break
