@@ -5,26 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentBookmarkBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.ui.adapter.StationsAdapter
+import com.example.subway_alarm.viewModel.BookmarkViewModel
+import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
+import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-class BookmarkFragment : Fragment() {
+class BookmarkFragment : Fragment(), OnBookmarkClick {
     var binding: FragmentBookmarkBinding? = null
-    var stations: MutableList<Station> = mutableListOf(
-        Station("화전",1016, mutableListOf(10)),
-        Station("홍대입구",1016, mutableListOf(10)),
-        Station("강매",1016, mutableListOf(10)),
-        Station("수색",1016, mutableListOf(10)),
-    )
+    var stations: MutableList<Station> = mutableListOf()
+    val viewModel by sharedViewModel<BookmarkViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +39,40 @@ class BookmarkFragment : Fragment() {
         binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
-        binding?.recStations?.adapter = StationsAdapter(stations)
+        binding?.recStations?.adapter = StationsAdapter(stations, this)
 
         binding?.btnBack2main?.setOnClickListener{
             findNavController().navigate((R.id.action_bookmarkFragment_to_entryFragment))
         }
+
+        viewModel.favorites.observe(viewLifecycleOwner) { stationIdList->
+//            // 즐겨찾기 해제
+//            for (station in stations) {
+//                Subway.searchWithId(station.id).isFavorited = false
+//            }
+
+            stations.clear()
+            for ( id in stationIdList ) {
+                stations.add(
+                    //즐겨찾기 등록
+                    Subway.searchWithId(id).apply {
+//                        isFavorited = true
+                    }
+                )
+            }
+            binding?.recStations?.adapter?.notifyDataSetChanged()
+        }
+
         return binding?.root
     }
 
-    companion object {
 
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            BookmarkFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
+    override fun onBookmarkClick(stationId: Int) {
+        viewModel.onBookmarkClick(stationId)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

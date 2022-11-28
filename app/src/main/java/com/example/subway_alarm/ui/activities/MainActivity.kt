@@ -18,9 +18,14 @@ import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.model.AlarmReceiver
 import com.example.subway_alarm.viewModel.AlarmViewModel
 import com.example.subway_alarm.viewModel.ArrivalViewModel
+import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.listener.OnAlarmOff
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     val viewModel by viewModel<ArrivalViewModel>()
     private val posViewModel by viewModel<PositionViewModel>()
     private val alarmViewModel by viewModel<AlarmViewModel>()
+    private val bookmarkViewModel by viewModel<BookmarkViewModel>()
 
     // 알람 매니저 관련 변수
     lateinit var myIntent: Intent
@@ -52,6 +58,10 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         pendingIntent = PendingIntent.getBroadcast(
             this, AlarmReceiver.NOTIFICATION_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
+
+        CoroutineScope(Dispatchers.Main).launch {
+            bookmarkViewModel.getFavorites()
+        }
 
         /* view와 activity binding */
         setContentView(binding.root)

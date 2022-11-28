@@ -14,13 +14,17 @@ import com.example.subway_alarm.databinding.FragmentSearchBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.ui.adapter.SearchedListAdapter
+import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.SearchViewModel
+import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SearchFragment : Fragment(), OnSearchResultClick {
+class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
     var binding: FragmentSearchBinding? = null
-    val viewModel by viewModel<SearchViewModel>()
+    private val searchViewModel by viewModel<SearchViewModel>()
+    private val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
     private var stationList: MutableList<Station> = mutableListOf()
 
 
@@ -44,7 +48,7 @@ class SearchFragment : Fragment(), OnSearchResultClick {
 
         // 리사이컬뷰를 adapter와 연결, adapter는 한번만 생성합니다.
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
-        binding?.recStations?.adapter = SearchedListAdapter(stationList, this)
+        binding?.recStations?.adapter = SearchedListAdapter(stationList, this, this)
 
         val searchViewTextListener: SearchView.OnQueryTextListener =
             object : SearchView.OnQueryTextListener {
@@ -58,7 +62,7 @@ class SearchFragment : Fragment(), OnSearchResultClick {
                     s?.apply {
                         //새로운 어뎁터를 만들지 않고, 데이터만 변경한 후 변경사항을 어뎁터에게 notify
                         stationList.clear()
-                        for(station in viewModel.onSearchTextChanged(s)){
+                        for(station in searchViewModel.onSearchTextChanged(s)){
                             stationList.add(station)
                         }
                         binding?.recStations?.adapter?.notifyDataSetChanged()
@@ -78,6 +82,10 @@ class SearchFragment : Fragment(), OnSearchResultClick {
     override fun onSearchResultClick(stationId: Int) {
         val bundle = bundleOf("stationId" to stationId)
         findNavController().navigate(R.id.action_searchFragment_to_entryFragment, bundle)
+    }
+
+    override fun onBookmarkClick(stationId: Int) {
+        bookmarkViewModel.onBookmarkClick(stationId)
     }
 
 

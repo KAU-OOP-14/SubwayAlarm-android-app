@@ -6,9 +6,11 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.databinding.ListStatoinsBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 
-class StationsAdapter(val stations: MutableList<Station>)
+class StationsAdapter(val stations: MutableList<Station>, listener: OnBookmarkClick)
     : RecyclerView.Adapter<StationsAdapter.Holder>() {
+    val callback = listener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStatoinsBinding.inflate(LayoutInflater.from(parent.context))
@@ -22,12 +24,13 @@ class StationsAdapter(val stations: MutableList<Station>)
     override fun getItemCount() = stations.size
 
 
-    class Holder(private val binding: ListStatoinsBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Holder(private val binding: ListStatoinsBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(station: Station) {
             binding.stationName.text = station.stationName
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"bookmark is selected",
                     Toast.LENGTH_SHORT).show()
+                callback.onBookmarkClick(station.id)
             }
         }
 
