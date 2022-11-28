@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         // 알람시간이 다 되는지 관찰합니다.
         viewModel.alarmTime.observe(this) {
             /*
@@ -61,7 +60,26 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         //알람 리시버 생성
         myIntent = Intent(this, AlarmReceiver::class.java)
 
+        // dispaly의 픽셀 수 구하기
+        // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
+        val display = this.applicationContext.resources.displayMetrics
+        println("w: ${display.widthPixels}, h : ${display.heightPixels}")
 
+        var statusBarHeight = 0
+        var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            statusBarHeight = resources.getDimensionPixelSize(resourceId)
+        }
+        println("status : $statusBarHeight")
+
+        resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        var navigationBarHeight = 0
+        if (resourceId > 0) {
+            navigationBarHeight = resources.getDimensionPixelSize(resourceId)
+        }
+        println("devie: $navigationBarHeight")
+
+        posViewModel.setPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
         setContentView(binding.root)

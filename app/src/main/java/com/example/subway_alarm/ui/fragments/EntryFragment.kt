@@ -64,6 +64,7 @@ class EntryFragment : Fragment() {
         positionViewModel.setState(true)
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
+        positionViewModel.scaleValue = 4.0f
 
         if(paramStationId > 0) {
             val bottomSheet = MainFragment()
@@ -83,25 +84,26 @@ class EntryFragment : Fragment() {
         }
 
         binding?.btnZoomIn?.setOnClickListener{
-            val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
-            val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
-            if(_scaleX < 4.0f) {
-                binding?.stationImage?.scaleX = _scaleX + 2.0f
-                binding?.stationImage?.scaleY = _scaleY + 2.0f
+            if(positionViewModel.scaleValue < 8.0f) {
+                binding?.stationImage?.scaleX = 8.0f
+                binding?.stationImage?.scaleY = 8.0f
+                positionViewModel.scaleValue = 8.0f
                 println("zoomin")
+                positionViewModel.isScaleChanged = true
             }
         }
 
         binding?.btnZoomOut?.setOnClickListener{
-            val _scaleX = binding?.stationImage?.scaleX ?: 1.0f
-            val _scaleY = binding?.stationImage?.scaleY ?: 1.0f
-            if(_scaleX > 2.0f) {
-                binding?.stationImage?.scaleX = _scaleX - 2.0f
-                binding?.stationImage?.scaleY = _scaleY - 2.0f
+            if(positionViewModel.scaleValue > 4.0f) {
+                binding?.stationImage?.scaleX = 4.0f
+                binding?.stationImage?.scaleY = 4.0f
+                positionViewModel.scaleValue = 4.0f
                 println("zoomout")
+                positionViewModel.isScaleChanged = true
             }
 
         }
+
 
         return binding?.root
     }
@@ -125,6 +127,7 @@ class EntryFragment : Fragment() {
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
         }
+
         positionViewModel.pos.observe(viewLifecycleOwner){
             // 항상 처음에 터치한 경우
             println("pos observe")
@@ -136,6 +139,7 @@ class EntryFragment : Fragment() {
         positionViewModel.movePos.observe(viewLifecycleOwner){
             println("move observe")
             if(positionViewModel.isMoving.value){
+                println("transX: ${positionViewModel.transValue.x}, transY: ${positionViewModel.transValue.y}")
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
             }
