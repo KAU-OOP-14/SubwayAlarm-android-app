@@ -161,13 +161,9 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         }
 
         binding?.btnTempAlarm?.setOnClickListener {
-            /*
             activity?.let {
                 AlarmDialogFragment.newInstance().show(it.supportFragmentManager, "")
             }
-             */
-
-
         }
 
         binding?.btnAlarmToggle?.setOnCheckedChangeListener {  _, isChecked ->

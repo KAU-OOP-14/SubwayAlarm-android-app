@@ -30,6 +30,7 @@ class ArrivalViewModel(
         get() = _alarmTime
 
     private var job: Job? = null
+    var isLoaded = false
 
     /** repository의 api가 바뀌면 view에서 관찰하는 apis를 변경합니다. */
     private fun getRetrofit(stationName: String) {
