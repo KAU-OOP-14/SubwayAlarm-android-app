@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,15 +23,13 @@ import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.button.MaterialButton.OnCheckedChangeListener
-import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
 // class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
-    var stationId: Int = 205 // 홍대입구
+    private var paramId: Int = 205 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by sharedViewModel<ArrivalViewModel>()
     val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
@@ -50,7 +47,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            stationId = it.getInt("stationId")
+            paramId = it.getInt("stationId")
         }
     }
 
@@ -63,6 +60,8 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         binding = FragmentMainBinding.inflate(inflater, container, false)
         entryFragment = EntryFragment()
         entryFragment.binding?.frgMain?.visibility = View.VISIBLE
+
+        viewModel.onStationSelect(paramId)
 
         /* View Model과 View 연결 */
         viewModel.leftApi.observe(viewLifecycleOwner, Observer {
@@ -96,11 +95,14 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             binding?.txtRightDirection?.text = it.endPoint[1]
             lineNumbers = it.lineList.toTypedArray()
             binding?.recLine?.adapter = LineNumAdapter(lineNumbers, this)
-        })
 
-        //alarm time observe
-        viewModel.alarmTime.observe(viewLifecycleOwner, Observer {
-            binding?.txtAlarmTime?.text = it.toString()
+            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+                if (it.isFavorited) {
+                    binding?.btnStar?.setImageResource(R.drawable.fill_star)
+                } else {
+                    binding?.btnStar?.setImageResource(R.drawable.empty_star)
+                }
+            }
         })
 
         // adapter과 연결
@@ -115,8 +117,13 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         binding?.recRight?.adapter = StationDataAdapter(apiModelList, this)
 
         // 즐겨찾기가 되어 있다면 강조됩니다.
-        if (Subway.searchWithId(stationId).isFavorited)
-            binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24)
+        println(viewModel.curStation.value.id)
+        Subway.searchWithId(viewModel.curStation.value.id)?.let {
+            if (it.isFavorited){
+                binding?.btnStar?.setImageResource(R.drawable.fill_star)
+            }
+
+        }
 
 
         // 왼쪽 역 버튼 클릭시 이벤트
@@ -173,32 +180,20 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             }
         }
 
-        binding?.btnAlarmToggle?.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                (activity as MainActivity).onAlarmSet()
-            } else {
-                (activity as MainActivity).onAlarmOff()
-            }
-        }
-
         binding?.btnStar?.setOnClickListener {
-            if (Subway.searchWithId(stationId).isFavorited) {
-                binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24_white)
-            } else {
-                binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24)
+            // 즐겨찾기 취소
+            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+                if (it.isFavorited) {
+                    binding?.btnStar?.setImageResource(R.drawable.empty_star)
+                } else {
+                    binding?.btnStar?.setImageResource(R.drawable.fill_star)
+                }
             }
+
             bookmarkViewModel.onBookmarkClick(viewModel.curStation.value.id)
         }
 
 
-        /*
-        //알람 버튼 클릭시 이벤트
-        binding?.btnAlarm?.setOnClickListener {
-            viewModel.setAlarm()
-        }
-         */
-
-        viewModel.onStationSelect(stationId)
 
         return binding?.root
     }

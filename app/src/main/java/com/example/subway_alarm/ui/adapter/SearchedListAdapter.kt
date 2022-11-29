@@ -54,7 +54,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
             binding.txtSearchedStationName.text = station.stationName
             // 즐겨찾기 중이라면 색상을 노랗게 합니다.
             if(station.isFavorited) {
-                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24)
+                binding.btnFavorite.setImageResource(R.drawable.fill_star)
             }
 
             // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
@@ -65,10 +65,10 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
             }
             binding.btnFavorite.setOnClickListener {
                 if(station.isFavorited) {
-                    binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24_white)
+                    binding.btnFavorite.setImageResource(R.drawable.empty_star)
                 }
                 else {
-                    binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24)
+                    binding.btnFavorite.setImageResource(R.drawable.fill_star)
                 }
                 starCallback.onBookmarkClick(station.id)
             }

@@ -10,8 +10,8 @@ import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import com.example.subway_alarm.viewModel.listener.OnBookmarkDelete
 
-class StationsAdapter(val stations: MutableList<Station>, clickListener: OnBookmarkClick, deleteListener: OnBookmarkDelete )
-    : RecyclerView.Adapter<StationsAdapter.Holder>() {
+class BookmarkAdapter(val stations: MutableList<Station>, clickListener: OnBookmarkClick, deleteListener: OnBookmarkDelete )
+    : RecyclerView.Adapter<BookmarkAdapter.Holder>() {
     val clickCallback = clickListener
     val deleteCallback = deleteListener
 
