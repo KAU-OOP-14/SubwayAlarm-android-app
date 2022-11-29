@@ -29,13 +29,12 @@ object SubwayBuilder {
      */
     fun initSubway(): Subway {
         val lines: MutableList<Line> = mutableListOf()
-        val stationsMap: MutableMap<Int, String> = mutableMapOf()
         //Excel Thread에서 데이터를 추출합니다.
         val flow: Flow<Array<String>> = flow {
             //16개 line을 생성합니다.
             for (lineId in 1..16) {
                 lines.add(Line(lineId))
-            }
+            } // ??
 
             try {
                 var count = 0
