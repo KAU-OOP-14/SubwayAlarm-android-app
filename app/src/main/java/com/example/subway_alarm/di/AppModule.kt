@@ -24,7 +24,7 @@ val appViewModule = module {
         SearchViewModel(get())
     }
     viewModel {
-        BookmarkViewModel(get())
+        BookmarkViewModel(get(), get())
     }
     viewModel {
         AlarmViewModel()

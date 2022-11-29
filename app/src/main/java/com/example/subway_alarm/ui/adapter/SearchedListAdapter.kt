@@ -1,5 +1,6 @@
 package com.example.subway_alarm.ui.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.SearchedListStationsBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import com.example.subway_alarm.viewModel.listener.OnSearchResultClick
 
-class SearchedListAdapter(val stationList: MutableList<Station>, listener: OnSearchResultClick)
+class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: OnSearchResultClick, starListener: OnBookmarkClick)
     : RecyclerView.Adapter<SearchedListAdapter.Holder>(){
-    val callback = listener
+    val clickCallback = clickListener
+    val starCallback = starListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = SearchedListStationsBinding.inflate(LayoutInflater.from(parent.context))
@@ -49,12 +52,25 @@ class SearchedListAdapter(val stationList: MutableList<Station>, listener: OnSea
                 else -> R.drawable.circle   // 없는 경우 그냥 원 그리기
             })
             binding.txtSearchedStationName.text = station.stationName
+            // 즐겨찾기 중이라면 색상을 노랗게 합니다.
+            if(station.isFavorited) {
+                binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24)
+            }
 
             // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"호선: ${station.id/100} 이름 : ${station.stationName}",
                     Toast.LENGTH_SHORT).show()
-                callback.onSearchResultClick(station.id)
+                clickCallback.onSearchResultClick(station.id)
+            }
+            binding.btnFavorite.setOnClickListener {
+                if(station.isFavorited) {
+                    binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24_white)
+                }
+                else {
+                    binding.btnFavorite.setImageResource(R.drawable.ic_baseline_stars_24)
+                }
+                starCallback.onBookmarkClick(station.id)
             }
         }
     }
