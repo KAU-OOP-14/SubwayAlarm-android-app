@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 
 interface FirebaseRepository {
-    suspend fun postSelectedId(selectedPos: PointF, scale: Float, transValue: PointF, stationId: NonNullMutableLiveData<Int>)
+    suspend fun postSelectedId(width: Int, height: Int, statusBarHeight: Int,
+                               selectedPos: PointF, scale: Float, transValue: PointF, stationId: NonNullMutableLiveData<Int>)
+
     /** firebase에서부터 즐겨찾기 목록을 가져옵니다. */
     suspend fun getFavorites(favorites: NonNullMutableLiveData<List<Int>>)
 
@@ -14,5 +16,4 @@ interface FirebaseRepository {
 
     /** firebase 즐겨찾기 목록에서 제거합니다. */
     suspend fun deleteFavorite(stationId: Int)
-
 }

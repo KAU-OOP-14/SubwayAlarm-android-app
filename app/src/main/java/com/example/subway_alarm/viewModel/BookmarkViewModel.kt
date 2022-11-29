@@ -1,9 +1,7 @@
 package com.example.subway_alarm.viewModel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
-import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.repository.FirebaseRepository
 import com.example.subway_alarm.model.repository.StationRepository
 import kotlinx.coroutines.cancel
