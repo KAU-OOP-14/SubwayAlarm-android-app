@@ -75,9 +75,7 @@ class StationPositionRepository : FirebaseRepository {
     }
 
     override suspend fun postFavorites(stationId: Int) {
-        val id = hashMapOf(
-            "id" to stationId
-        )
+        val id = mapOf("id" to stationId)
         withContext(Dispatchers.IO) {
             db.collection("favorites").document(stationId.toString()).set(id)
                 .addOnSuccessListener {
