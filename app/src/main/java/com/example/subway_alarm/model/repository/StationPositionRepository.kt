@@ -1,16 +1,15 @@
 package com.example.subway_alarm.model.repository
 
 import android.graphics.PointF
-import android.widget.Toast
-import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class StationPositionRepository{
+class StationPositionRepository: FirebaseRepository{
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
+    override suspend fun postSelectedId(selectedPos: PointF, scale: Float, transValue: PointF, stationId: NonNullMutableLiveData<Int>) {
     suspend fun postSelectedId(width: Int, height: Int, statusBarHeight: Int,
                                selectedPos: PointF, scale: Float, transValue: PointF, stationId: NonNullMutableLiveData<Int>) {
        withContext(Dispatchers.IO) {
@@ -49,5 +48,4 @@ class StationPositionRepository{
                 }
         }
     }
-
 }

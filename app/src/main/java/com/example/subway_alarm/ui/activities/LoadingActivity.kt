@@ -23,6 +23,9 @@ class LoadingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         println("loading activity 생성")
         viewModel.onLoading()
+        if(viewModel.isLoaded) {
+            startMainActivity()
+        }
         binding = ActivityLoadingBinding.inflate(layoutInflater)
 
         // layout의 크기를 px에서 dp로 설정하기 위해 변환하는 과정입니다.
@@ -46,6 +49,7 @@ class LoadingActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             while (SubwayBuilder.loading) delay(100)
+            viewModel.isLoaded = true
             startMainActivity()
             finish()
         }
