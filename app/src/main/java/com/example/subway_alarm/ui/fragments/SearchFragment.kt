@@ -87,17 +87,4 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
     override fun onBookmarkClick(stationId: Int) {
         bookmarkViewModel.onBookmarkClick(stationId)
     }
-
-
-    /*
-    companion object {
-        @JvmStatic
-        fun newInstance(stationId: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, stationId)
-                }
-            }
-    }
-     */
 }

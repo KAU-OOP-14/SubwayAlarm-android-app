@@ -5,16 +5,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
-import com.example.subway_alarm.databinding.ListStatoinsBinding
+import com.example.subway_alarm.databinding.ListFavoritesBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
+import com.example.subway_alarm.viewModel.listener.OnBookmarkDelete
 
-class StationsAdapter(val stations: MutableList<Station>, listener: OnBookmarkClick)
+class StationsAdapter(val stations: MutableList<Station>, clickListener: OnBookmarkClick, deleteListener: OnBookmarkDelete )
     : RecyclerView.Adapter<StationsAdapter.Holder>() {
-    val callback = listener
+    val clickCallback = clickListener
+    val deleteCallback = deleteListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val binding = ListStatoinsBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ListFavoritesBinding.inflate(LayoutInflater.from(parent.context))
         return Holder(binding)
     }
 
@@ -25,7 +27,7 @@ class StationsAdapter(val stations: MutableList<Station>, listener: OnBookmarkCl
     override fun getItemCount() = stations.size
 
 
-    inner class Holder(private val binding: ListStatoinsBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Holder(private val binding: ListFavoritesBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(station: Station) {
             binding.stationName.text = station.stationName
             binding.btnLine2.setImageResource(when(station.id / 100){
@@ -50,7 +52,10 @@ class StationsAdapter(val stations: MutableList<Station>, listener: OnBookmarkCl
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"bookmark is selected",
                     Toast.LENGTH_SHORT).show()
-                callback.onBookmarkClick(station.id)
+                clickCallback.onBookmarkClick(station.id)
+            }
+            binding.btnDelete.setOnClickListener {
+                deleteCallback.onBookmarkDelete(station.id)
             }
         }
 
