@@ -5,22 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentBookmarkBinding
 import com.example.subway_alarm.model.Station
-import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.ui.adapter.StationsAdapter
 import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
+import com.example.subway_alarm.viewModel.ArrivalViewModel
+import com.example.subway_alarm.viewModel.SearchViewModel
+import com.example.subway_alarm.viewModel.listener.OnItemClick
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class BookmarkFragment : Fragment(), OnBookmarkClick {
+class BookmarkFragment : Fragment(), OnBookmarkClick, OnItemClick {
     var binding: FragmentBookmarkBinding? = null
     var stations: MutableList<Station> = mutableListOf()
     val viewModel by sharedViewModel<BookmarkViewModel>()
@@ -41,7 +45,7 @@ class BookmarkFragment : Fragment(), OnBookmarkClick {
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
         binding?.recStations?.adapter = StationsAdapter(stations, this)
 
-        binding?.btnBack2main?.setOnClickListener{
+        binding?.imageBack?.setOnClickListener{
             findNavController().navigate((R.id.action_bookmarkFragment_to_entryFragment))
         }
 
@@ -67,6 +71,8 @@ class BookmarkFragment : Fragment(), OnBookmarkClick {
     }
 
 
+
+
     override fun onBookmarkClick(stationId: Int) {
         viewModel.onBookmarkClick(stationId)
     }
@@ -74,5 +80,9 @@ class BookmarkFragment : Fragment(), OnBookmarkClick {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+    override fun onItemClick(stationId: Int) {
+        val bundle = bundleOf("stationId" to stationId)
+        findNavController().navigate(R.id.action_bookmarkFragment_to_entryFragment, bundle)
     }
 }
