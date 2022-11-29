@@ -18,9 +18,14 @@ import com.example.subway_alarm.databinding.ActivityMainBinding
 import com.example.subway_alarm.model.AlarmReceiver
 import com.example.subway_alarm.viewModel.AlarmViewModel
 import com.example.subway_alarm.viewModel.ArrivalViewModel
+import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.PositionViewModel
 import com.example.subway_alarm.viewModel.listener.OnAlarmOff
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     val viewModel by viewModel<ArrivalViewModel>()
     private val posViewModel by viewModel<PositionViewModel>()
     private val alarmViewModel by viewModel<AlarmViewModel>()
+    private val bookmarkViewModel by viewModel<BookmarkViewModel>()
 
     // 알람 매니저 관련 변수
     lateinit var myIntent: Intent
@@ -47,21 +53,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        // 알람시간이 다 되는지 관찰합니다.
-        viewModel.alarmTime.observe(this) {
-            /*
-            if (it == 1) {
-                val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-                val ringtone = RingtoneManager.getRingtone(applicationContext, notification).run {
-                    play()
-                }
-                nManager.cancelAll()
-            }
-             */
-        }
-
-        //알람 서비스 생성
-        myIntent = Intent(this, AlarmReceiver::class.java)
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
 
         //알람 리시버 생성
@@ -70,26 +61,10 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
             this, AlarmReceiver.NOTIFICATION_ID, myIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-
-        // dispaly의 픽셀 수 구하기
-        // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
-        val display = this.applicationContext.resources.displayMetrics
-        println("widthPiexels : ${display.widthPixels}, heightPixels : ${display.heightPixels}")
-
-        var statusBarHeight = 0
-        var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            statusBarHeight = resources.getDimensionPixelSize(resourceId)
+        CoroutineScope(Dispatchers.Main).launch {
+            bookmarkViewModel.getFavorites()
         }
-        println("status : $statusBarHeight")
 
-        resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        var navigationBarHeight = 0
-        if (resourceId > 0) {
-            navigationBarHeight = resources.getDimensionPixelSize(resourceId)
-        }
-        println("devie: $navigationBarHeight")
-        posViewModel.setPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
         /* view와 activity binding */
         setContentView(binding.root)
         //mImageView= FragmentEntryBinding?.bind(findViewById(R.id.stationImage))

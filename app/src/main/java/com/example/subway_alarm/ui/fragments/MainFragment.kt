@@ -10,14 +10,17 @@ import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.ArrivalViewModel
 import com.example.subway_alarm.viewModel.ArrivalViewModel.Direction
+import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import com.example.subway_alarm.viewModel.listener.OnLineChange
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -32,6 +35,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     var stationId: Int = 205 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by sharedViewModel<ArrivalViewModel>()
+    val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
     var lineNumbers: Array<Int> = arrayOf()
     var apiModelList: List<ApiModel> = listOf()
     lateinit var entryFragment: EntryFragment
@@ -49,7 +53,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             stationId = it.getInt("stationId")
         }
     }
-
 
 
     override fun onCreateView(
@@ -111,6 +114,10 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         binding?.recRight?.adapter = StationDataAdapter(apiModelList, this)
 
+        // 즐겨찾기가 되어 있다면 강조됩니다.
+        if (Subway.searchWithId(stationId).isFavorited)
+            binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24)
+
 
         // 왼쪽 역 버튼 클릭시 이벤트
         binding?.btnLeft?.setOnClickListener {
@@ -166,7 +173,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             }
         }
 
-        binding?.btnAlarmToggle?.setOnCheckedChangeListener {  _, isChecked ->
+        binding?.btnAlarmToggle?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 (activity as MainActivity).onAlarmSet()
             } else {
@@ -174,7 +181,14 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             }
         }
 
-
+        binding?.btnStar?.setOnClickListener {
+            if (Subway.searchWithId(stationId).isFavorited) {
+                binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24_white)
+            } else {
+                binding?.btnStar?.setImageResource(R.drawable.ic_baseline_stars_24)
+            }
+            bookmarkViewModel.onBookmarkClick(viewModel.curStation.value.id)
+        }
 
 
         /*
@@ -184,58 +198,58 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         }
          */
 
-    viewModel.onStationSelect(stationId)
+        viewModel.onStationSelect(stationId)
 
-    return binding?.root
-}
-
-// 메모리 낭비를 줄이기
-override fun onDestroy() {
-    entryFragment.binding?.frgMain?.visibility = View.INVISIBLE
-    super.onDestroy()
-    binding = null
-}
-
-override fun changeLine(lineNum: Int) {
-    viewModel.changeLine(lineNum)
-}
-
-fun getColor(station: Station): Int {
-    when (station.id / 100) {
-        1 -> return Color.parseColor("#FF0D3692")
-        2 -> return Color.parseColor("#FF33A23D")
-        3 -> return Color.parseColor("#FFFE5D10")
-        4 -> return Color.parseColor("#FF00A2D1")
-        5 -> return Color.parseColor("#FF8B50A4")
-        6 -> return Color.parseColor("#FFC55C1D")
-        7 -> return Color.parseColor("#FF54640D")
-        8 -> return Color.parseColor("#FFF14C82")
-        9 -> return Color.parseColor("#FFAA9872")
-        10 -> return Color.parseColor("#FF73C7A6")
-        11 -> return Color.parseColor("#FF3681B7")
-        12 -> return Color.parseColor("#FF32C6A6")
-        13 -> return Color.parseColor("#FFD49B3B")
-        14 -> return Color.parseColor("#FFC82127")
-        15 -> return Color.parseColor("#FFFFCD12")
-        16 -> return Color.parseColor("#FFB0CE18")
-        else -> return 0
+        return binding?.root
     }
-}
 
-companion object {
-    @JvmStatic
-    fun newInstance(stationId: Int) =
-        MainFragment().apply {
-            arguments = Bundle().apply {
-                putInt("stationId", stationId)
-            }
+    // 메모리 낭비를 줄이기
+    override fun onDestroy() {
+        entryFragment.binding?.frgMain?.visibility = View.INVISIBLE
+        super.onDestroy()
+        binding = null
+    }
+
+    override fun changeLine(lineNum: Int) {
+        viewModel.changeLine(lineNum)
+    }
+
+    fun getColor(station: Station): Int {
+        when (station.id / 100) {
+            1 -> return Color.parseColor("#FF0D3692")
+            2 -> return Color.parseColor("#FF33A23D")
+            3 -> return Color.parseColor("#FFFE5D10")
+            4 -> return Color.parseColor("#FF00A2D1")
+            5 -> return Color.parseColor("#FF8B50A4")
+            6 -> return Color.parseColor("#FFC55C1D")
+            7 -> return Color.parseColor("#FF54640D")
+            8 -> return Color.parseColor("#FFF14C82")
+            9 -> return Color.parseColor("#FFAA9872")
+            10 -> return Color.parseColor("#FF73C7A6")
+            11 -> return Color.parseColor("#FF3681B7")
+            12 -> return Color.parseColor("#FF32C6A6")
+            13 -> return Color.parseColor("#FFD49B3B")
+            14 -> return Color.parseColor("#FFC82127")
+            15 -> return Color.parseColor("#FFFFCD12")
+            16 -> return Color.parseColor("#FFB0CE18")
+            else -> return 0
         }
-}
+    }
 
-/** 알람을 설정했을 때 호출하는 callback 입니다.*/
-override fun onAlarmSet() {
-    Toast.makeText(this.context, "알람이 설정되었습니다.", Toast.LENGTH_SHORT).show()
-    //알람을 셋팅합니다.
-    //viewModel.setAlarm()
-}
+    companion object {
+        @JvmStatic
+        fun newInstance(stationId: Int) =
+            MainFragment().apply {
+                arguments = Bundle().apply {
+                    putInt("stationId", stationId)
+                }
+            }
+    }
+
+    /** 알람을 설정했을 때 호출하는 callback 입니다.*/
+    override fun onAlarmSet() {
+        Toast.makeText(this.context, "알람이 설정되었습니다.", Toast.LENGTH_SHORT).show()
+        //알람을 셋팅합니다.
+        //viewModel.setAlarm()
+    }
 }
