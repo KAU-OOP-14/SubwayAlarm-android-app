@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         // dispaly의 픽셀 수 구하기
         // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
         val display = this.applicationContext.resources.displayMetrics
-        println("w: ${display.widthPixels}, h : ${display.heightPixels}")
+        println("widthPiexels : ${display.widthPixels}, heightPixels : ${display.heightPixels}")
 
         var statusBarHeight = 0
         var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId)
         }
         println("devie: $navigationBarHeight")
-
         posViewModel.setPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */

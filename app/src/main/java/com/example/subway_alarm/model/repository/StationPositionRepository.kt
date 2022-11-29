@@ -16,20 +16,26 @@ class StationPositionRepository{
        withContext(Dispatchers.IO) {
            println("position이 repository에 post 되었습니다!")
            var id: Int = 0
+
+           // Pixel 4 API 32를 기준 x좌표로 변환
            val originX: Float = 1080f * ((selectedPos.x / scale) + (width * (scale - 1f) / (2f * scale) ) - transValue.x) / width
+
+           // Pixel 4 API 32를 기준 y좌표로 변환
            val tempY: Float = (((selectedPos.y - statusBarHeight)  / scale) + (height * (scale - 1f) / (2f * scale) ) - transValue.y)
-           println("tempY: $tempY") // scale이 1일 때 터치된 y 좌표(상태바의 크기만큼 뺀 값)
-           val originY: Float =   1151f - (2170f * (((height / 2f) - tempY) / height)) // Pixel 4 API 32를 기준의 좌표로 변환
+           println("tempY: $tempY") // scale이 1일 때 터치된 y좌표에서 상태바 height를 뺀 값
+           // 2170 = 2280 - 44(navigationBarHeight) - 66(statusBarHeight), 1151 = 2170 / 2 + 66
+           val originY: Float =   1151f - (2170f * (((height / 2f) - tempY) / height)) // 중앙을 기준으로 y좌표를 계산한다.
            println("originX : $originX, originY: $originY")
+
            db.collection("stationId")
                 .get()
                 .addOnSuccessListener { result ->
                     for (document in result) {
-                        val x = document.data.get("x").toString().toFloat()
-                        val y = document.data.get("y").toString().toFloat()
-                        println("x : $x, y: $y")
-                        if( (x - 20.0f) < originX  && (originX < x  + 20.0f)){
-                            if ((y - 20.0f) < originY  && originY < (y + 20.0f) ){
+                        val x = document.data.get("x")?.toString()?.toFloat() ?: 0f
+                        val y = document.data.get("y")?.toString()?.toFloat() ?: 0f
+                        println("firebase position value x : $x, y: $y")
+                        if( (x - 10.0f) < originX  && (originX < x  + 10.0f)){
+                            if ((y - 10.0f) < originY  && originY < (y + 10.0f) ){
                                 id = document.id.toInt()
                                 stationId.postValue(id)
                                 break

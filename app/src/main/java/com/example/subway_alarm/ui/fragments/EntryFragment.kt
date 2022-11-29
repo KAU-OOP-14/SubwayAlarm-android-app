@@ -22,6 +22,8 @@ class EntryFragment : Fragment() {
     var binding : FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var paramStationId = 0
+    private var heightPixel: Float = 0f
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,10 +63,12 @@ class EntryFragment : Fragment() {
         binding = FragmentEntryBinding.inflate(inflater)
         /* 이런식으로 viewModel을 통해 input값을 알려줍니다
          모든 데이터 처리는 viewModel이 합니다 */
-        positionViewModel.setState(true)
+
+        positionViewModel.setState(true) // activity에서의 onTouch 활성화
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
-        positionViewModel.scaleValue = 4.0f
+        positionViewModel.scaleValue = 4.0f // 처음 Image의 scale을 4f로 설정
+        heightPixel = positionViewModel.getHeightPixels().toFloat()
 
         if(paramStationId > 0) {
             val bottomSheet = MainFragment()
@@ -76,12 +80,14 @@ class EntryFragment : Fragment() {
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
 
+        /*
         binding?.btnStation?.setOnClickListener {
             //입력한 역의 api 요청
             val bottomSheet = MainFragment()
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
             bottomSheet.show(childFragmentManager,bottomSheet.tag)
         }
+        */
 
         binding?.btnZoomIn?.setOnClickListener{
             if(positionViewModel.scaleValue < 8.0f) {
@@ -138,11 +144,12 @@ class EntryFragment : Fragment() {
 
         positionViewModel.movePos.observe(viewLifecycleOwner){
             println("move observe")
+            // 움직이는 경우
             if(positionViewModel.isMoving.value){
-                println("transX: ${positionViewModel.transValue.x}, transY: ${positionViewModel.transValue.y}")
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
             }
+            // 움직임이 끝난 경우
             else{
                 // 처음 터치한 좌표와 움직인 이후 손을 뗀 좌표 사이 거리를 계산한다
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
@@ -189,9 +196,9 @@ class EntryFragment : Fragment() {
             ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,360f, 0f).apply { start() }
         }
         else{
-            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", 540f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", 360f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", 180f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", heightPixel/4f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", heightPixel/6f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", heightPixel/12f).apply { start() }
             ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,-360f, 0f).apply { start() }
         }
 

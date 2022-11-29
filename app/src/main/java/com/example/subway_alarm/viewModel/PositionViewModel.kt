@@ -14,23 +14,23 @@ class PositionViewModel(
 ) : ViewModel(){
     private val _pos = NonNullMutableLiveData<PointF>(PointF(0f,0f))        // 처음 터치 했을 때 바뀌는 데이터
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f,0f))    // 움직일 때 바뀌는 데이터
-    private val _selectedPos = NonNullMutableLiveData<PointF>(PointF(0f,0f)) // 역선택할 떄 바뀌는 데이터
+    private val _selectedPos = NonNullMutableLiveData<PointF>(PointF(0f,0f))// 역선택할 떄 바뀌는 데이터
 
 
-    private val _isMoving = NonNullMutableLiveData<Boolean>(false)
-    private val _state = NonNullMutableLiveData<Boolean>(false )
-    private val _stationId = NonNullMutableLiveData<Int>(0)
+    private val _isMoving = NonNullMutableLiveData<Boolean>(false)          // 드래그 중인지 체크하는 변수
+    private val _state = NonNullMutableLiveData<Boolean>(false)             // Mainactivity의 onTouch값을 받을 지 말지 결정
+    private val _stationId = NonNullMutableLiveData<Int>(0)                 // repository에서 반환된 결과 저장
 
-    private var widthPixels: Int = 0
-    private var heightPixels: Int = 0
-    private var statusBarHeight: Int = 0
-    private var navigationBarHeight: Int = 0
+    private var widthPixels: Int = 0            // 디바이스의 가로 pixel 수
+    private var heightPixels: Int = 0           // 디바이스의 세로 pixel 수
+    private var statusBarHeight: Int = 0        // 디바이스의 상태바 pixel 수
+    private var navigationBarHeight: Int = 0    // 디바이스의 네이게이션 pixel 수
 
-    var scaleValue: Float = 4.0f
-    var isScaleChanged: Boolean = false
-    var value = PointF(0f, 0f)
-    var transValue: PointF = PointF(0f,0f)          // move한 좌표마다 처음 찍은 좌표와의 거리
-    var totalTransValue: PointF = PointF(0f,0f)     // scale이 1이라고 가정할 때 움직인 거리
+    var scaleValue: Float = 4.0f                // entryFragment의 stationImage의 scaler값
+    var isScaleChanged: Boolean = false         // zoomIn, zoomOut이 일어났는가 체크하는 변수
+    var value = PointF(0f, 0f)           // scale에 상관없이 현재까지 move한 거리
+    var transValue: PointF = PointF(0f,0f)          // 한번 move했을 때 움직인 거리
+    var totalTransValue: PointF = PointF(0f,0f)     // scale이 1이라고 가정할 때 현재까지 움직인 거리
 
     val pos: NonNullLiveData<PointF>
         get() = _pos
@@ -45,7 +45,6 @@ class PositionViewModel(
     val stationId: NonNullLiveData<Int>
         get() = _stationId
 
-    // var isSelected: Boolean = false
 
     // 처음 터치가 일어났을 때 호출되는 함수
     private fun modifyPos(newPos: PointF){
@@ -60,13 +59,13 @@ class PositionViewModel(
     // 터치 이후 움직일 때 호출되는 함수
     private fun modifyMovePos(movePos: PointF){
         if(_state.value) {
-            // transvalue는 현재 scale에 맞춰서 이미지를 이동시킨다.
             if (isScaleChanged) {
                 totalTransValue.x = value.x / scaleValue
                 totalTransValue.y = value.y / scaleValue
                 isScaleChanged = false
             }
             //transValue = PointF(totalTransValue.x * scaleValue , totalTransValue.y * scaleValue) - (_pos.value - movePos)
+            // transvalue는 현재 scale에 맞춰서 이미지를 이동시킨다.
             transValue = value - (_pos.value - movePos)
             _movePos.value = movePos
             if(!_isMoving.value){   // 움직인 이후 손을 뗀 경우로 총 움직인 거리를 최신화한다.
@@ -103,8 +102,8 @@ class PositionViewModel(
         changeMoving(newValue)
     }
 
-    // state를 정의해서entryFragment에서 다른 Fragment로 전환할 시
-    // position 변경되지 않도록 한다
+    // state를 정의해서 entryFragment에서 다른 Fragment로 전환할 시
+    // MainActivity의 onTouch가 반영되지 않도록 한다.
     private fun changeState(newState: Boolean){
         _state.value = newState
     }
@@ -112,7 +111,8 @@ class PositionViewModel(
         changeState(newState)
     }
 
-    // 불필요한 observe 방지
+    // 불필요한 observe로 인한 버그 발생 방지를 위해
+    // Fragment 전환 시 stationId를 0으로 초기화 할 때 사용
     private fun changeStationId(newId: Int){
         _stationId.value = newId
     }
@@ -120,19 +120,25 @@ class PositionViewModel(
         changeStationId((newId))
     }
 
+    // Fragment 전환 시 지금까지 움직인 거리 초기화
     private fun resetTransValue(){
         value = PointF(0f, 0f)
-        transValue = PointF(0f,0f)          // move한 좌표마다 처음 찍은 좌표와의 거리
+        transValue = PointF(0f,0f)
         totalTransValue = PointF(0f,0f)
     }
     fun setTransValue(){
         resetTransValue()
     }
 
+    // MainActivity가 생성될 때 디바이스의 각 성분의 pixel을 세팅하는 함수
     fun setPixels(width: Int, height: Int, statusBarHeight: Int, navBarHeight: Int){
         widthPixels = width
         heightPixels = height
         this.statusBarHeight = statusBarHeight
         this.navigationBarHeight = navBarHeight
+    }
+
+    fun getHeightPixels(): Int{
+        return this.heightPixels
     }
 }
