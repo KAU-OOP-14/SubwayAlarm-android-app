@@ -12,12 +12,11 @@ import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentBookmarkBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
-import com.example.subway_alarm.ui.adapter.StationsAdapter
+import com.example.subway_alarm.ui.adapter.BookmarkAdapter
 import com.example.subway_alarm.viewModel.BookmarkViewModel
 import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import com.example.subway_alarm.viewModel.listener.OnBookmarkDelete
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-
 
 
 class BookmarkFragment : Fragment(), OnBookmarkClick, OnBookmarkDelete {
@@ -39,34 +38,25 @@ class BookmarkFragment : Fragment(), OnBookmarkClick, OnBookmarkDelete {
         binding = FragmentBookmarkBinding.inflate(inflater, container, false)
 
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
-        binding?.recStations?.adapter = StationsAdapter(stations, this, this)
+        binding?.recStations?.adapter = BookmarkAdapter(stations, this, this)
 
-        binding?.imageBack?.setOnClickListener{
+        binding?.imageBack?.setOnClickListener {
             findNavController().navigate((R.id.action_bookmarkFragment_to_entryFragment))
         }
 
-        viewModel.favorites.observe(viewLifecycleOwner) { stationIdList->
-//            // 즐겨찾기 해제
-//            for (station in stations) {
-//                Subway.searchWithId(station.id).isFavorited = false
-//            }
-
+        viewModel.favorites.observe(viewLifecycleOwner) { stationIdList ->
             stations.clear()
-            for ( id in stationIdList ) {
-                stations.add(
-                    //즐겨찾기 등록
-                    Subway.searchWithId(id).apply {
-//                        isFavorited = true
-                    }
-                )
+            for (id in stationIdList) { // 0 이 왜 있지
+                //즐겨찾기 등록
+                Subway.searchWithId(id)?.let {
+                    stations.add(it)
+                }
             }
             binding?.recStations?.adapter?.notifyDataSetChanged()
         }
 
         return binding?.root
     }
-
-
 
 
     override fun onBookmarkClick(stationId: Int) {

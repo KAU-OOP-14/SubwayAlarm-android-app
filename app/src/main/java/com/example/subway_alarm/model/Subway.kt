@@ -30,5 +30,12 @@ object Subway {
         lines.add(line)
     }
 
-    fun searchWithId(stationId: Int) = lines[(stationId/100) - 1].stations[stationId%100]
+    fun searchWithId(stationId: Int): Station?{
+        return try {
+            lines[(stationId / 100) - 1].stations[stationId % 100]
+        }catch (e: IndexOutOfBoundsException) {
+            println("index 오류 발생 ㅠㅠ : ${(stationId / 100)} / $e")
+            null
+        }
+    }
 }

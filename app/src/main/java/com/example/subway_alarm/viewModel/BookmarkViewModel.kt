@@ -41,16 +41,6 @@ class BookmarkViewModel(
         stationPositionRepository.getFavorites(_favorites)
     }
 
-    fun isFavorite(stationId: Int): Boolean {
-        for (station in _favorites.value) {
-            if (station == stationId) {
-                return true
-            }
-        }
-        return false
-    }
-
-
     /** 즐겨찾기 목록에 현재 station을 넣습니다. */
     private suspend fun addFavorite(stationId: Int) {
         stationPositionRepository.postFavorites(stationId)

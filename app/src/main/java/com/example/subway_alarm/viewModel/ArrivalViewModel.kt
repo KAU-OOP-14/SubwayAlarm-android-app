@@ -64,7 +64,9 @@ class ArrivalViewModel(
 
     /** station id를 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
     fun onStationSelect(stationId: Int) {
-        newStation(Subway.searchWithId(stationId))
+        Subway.searchWithId(stationId)?.let {
+            newStation(it)
+        }
     }
 
     /** 근접한 station으로 방향을 지정해 이동합니다. */

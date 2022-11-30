@@ -63,9 +63,11 @@ class StationPositionRepository : FirebaseRepository {
                     for (document in result) {
                         val newId = document.data.get("id")?.toString()?.toInt()
                             ?.let {
-                                stations.add(it)
                                 // 즐겨찾기 등록
-                                Subway.searchWithId(it).isFavorited = true
+                                Subway.searchWithId(it)?.let { searchResult ->
+                                    stations.add(it)
+                                    searchResult.isFavorited = true
+                                }
                             }
 
                     }
@@ -84,10 +86,10 @@ class StationPositionRepository : FirebaseRepository {
         withContext(Dispatchers.IO) {
             db.collection("favorites").document(stationId.toString()).set(id)
                 .addOnSuccessListener {
-                    println("성공적으로 firebase에 저장했습니다 : $stationId")
+                    println("성공적으로 firebase에 추가했습니다 : $stationId")
                 }
                 .addOnFailureListener {
-                    println("firebase에 저장하는데 실패했습니다.. : $it")
+                    println("firebase에 추가하는데 실패했습니다.. : $it")
                 }
         }
 
@@ -99,8 +101,10 @@ class StationPositionRepository : FirebaseRepository {
                 .document(stationId.toString()).delete()
                 .addOnSuccessListener {
                     //즐겨찾기 해제
-                    Subway.searchWithId(stationId).isFavorited = false
-                    println("$stationId 를 즐겨찾기에서 해제했습니다.")
+                    Subway.searchWithId(stationId)?.let {
+                        it.isFavorited = false
+                        println("$stationId 를 즐겨찾기에서 해제했습니다.")
+                    }
                 }
                 .addOnFailureListener {
                     println("firebase 에서 즐겨찾기 해제하는데 실패했습니다.")
