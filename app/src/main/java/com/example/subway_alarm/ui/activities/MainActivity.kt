@@ -1,21 +1,15 @@
 package com.example.subway_alarm.ui.activities
 
 import android.app.*
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.graphics.PointF
-import android.media.RingtoneManager
-import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
-import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ActivityMainBinding
-import com.example.subway_alarm.model.AlarmReceiver
+import com.example.subway_alarm.model.AlarmService
 import com.example.subway_alarm.viewModel.AlarmViewModel
 import com.example.subway_alarm.viewModel.ArrivalViewModel
 import com.example.subway_alarm.viewModel.PositionViewModel
@@ -24,7 +18,6 @@ import com.example.subway_alarm.viewModel.listener.OnAlarmOff
 import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -43,23 +36,16 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     private val alarmViewModel by viewModel<AlarmViewModel>()
     private val bookmarkViewModel by viewModel<BookmarkViewModel>()
 
-    // 알람 매니저 관련 변수
+
+    // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
+    var lastTimeTouchPressed = 0L
+
     lateinit var myIntent: Intent
-    lateinit var pendingIntent: PendingIntent
-    lateinit var alarmManager: AlarmManager
-    var lastTimeTouchPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-        //알람 리시버 생성
-        myIntent = Intent(this, AlarmReceiver::class.java)
-        pendingIntent = PendingIntent.getBroadcast(
-            this, AlarmReceiver.NOTIFICATION_ID, myIntent, PendingIntent.FLAG_IMMUTABLE
-        )
 
         CoroutineScope(Dispatchers.Main).launch {
             bookmarkViewModel.getFavorites()
@@ -133,17 +119,23 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
 
 
     override fun onAlarmSet() {
+        //알람 리시버 생성
+        println("알람이 설정되었습니다.")
+        myIntent = Intent(this, AlarmService::class.java)
+        myIntent.putExtra("message", "0시 0 분")
+        myIntent.putExtra("time", 20)
         //알람 처리를 해주는 알람 매니저입니다.
         // 메소드를 actiivity에서만 지원해서 콜백 구조로 구현했습니다.
-        val time = (SystemClock.elapsedRealtime() + viewModel.alarmTime.value * 1000)
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, time, pendingIntent)
-        println("알람이 설정되었습니다.")
+        //alarm 매니저 늦은 초기화
+        ContextCompat.startForegroundService(this, myIntent)
+
+
     }
 
     override fun onAlarmOff() {
-        alarmManager.cancel(pendingIntent)
+        // 알람 취소
         println("알람이 해제되었습니다.")
-
+        stopService(myIntent)
     }
 
 }

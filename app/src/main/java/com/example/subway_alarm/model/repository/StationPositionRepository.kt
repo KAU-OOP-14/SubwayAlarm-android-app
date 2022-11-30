@@ -111,4 +111,7 @@ class StationPositionRepository : FirebaseRepository {
                 }
         }
     }
+
+    override suspend fun getEdgeList() {
+    }
 }

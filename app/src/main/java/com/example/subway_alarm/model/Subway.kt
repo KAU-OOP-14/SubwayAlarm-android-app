@@ -3,6 +3,7 @@ package com.example.subway_alarm.model
 object Subway {
     val lines: MutableList<Line> = mutableListOf()
     private val edgeList = arrayOf(
+        // firebase로 이동
         listOf("소요산", "인천/신창", "인천", "광운대", "신창"),
         listOf("내선(시계)", "외선(반시계)", "내선/까치산", "까치산", "신도림", "외선/신설동", "성수", "신설동"),
         listOf("대화", "오금"),

@@ -38,7 +38,7 @@ object SubwayBuilder {
 
             try {
                 var count = 0
-                val context = SubwayAlarmApp.ApplicationContext()
+                val context = SubwayAlarmApp.instance.applicationContext
                 val myFileSystem = context.resources.assets.open("stationdata_new.xlsx")
                 val myWorkBook = XSSFWorkbook(myFileSystem)
                 val sheet = myWorkBook.getSheetAt(0)
