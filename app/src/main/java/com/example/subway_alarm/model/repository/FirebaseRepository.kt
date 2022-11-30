@@ -16,4 +16,7 @@ interface FirebaseRepository {
 
     /** firebase 즐겨찾기 목록에서 제거합니다. */
     suspend fun deleteFavorite(stationId: Int)
+
+    /** 호선 별 edge list를 가져옵니다. */
+    suspend fun getEdgeList()
 }
