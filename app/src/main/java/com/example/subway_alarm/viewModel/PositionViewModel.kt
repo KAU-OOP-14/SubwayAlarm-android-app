@@ -16,7 +16,6 @@ class PositionViewModel(
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f, 0f))    // 움직일 때 바뀌는 데이터
     private val _selectedPos = NonNullMutableLiveData<PointF>(PointF(0f, 0f))// 역선택할 떄 바뀌는 데이터
 
-
     private val _isMoving = NonNullMutableLiveData<Boolean>(false)          // 드래그 중인지 체크하는 변수
     private val _state =
         NonNullMutableLiveData<Boolean>(false)             // Mainactivity의 onTouch값을 받을 지 말지 결정
@@ -166,6 +165,6 @@ class PositionViewModel(
 
     fun onZoomOut() {
         _scaleValue.value = 4.0f
-        isScaleChanged = false
+        isScaleChanged = true
     }
 }

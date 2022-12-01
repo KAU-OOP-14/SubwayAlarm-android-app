@@ -1,16 +1,21 @@
 package com.example.subway_alarm.model.repository
 
 import android.graphics.PointF
-import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Subway
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class StationPositionRepository : FirebaseRepository {
-    var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    var db: FirebaseFirestore
+
+    init{
+        db = FirebaseFirestore.getInstance()
+        getEndPointList()
+    }
 
     override suspend fun postSelectedId(width: Int, height: Int, statusBarHeight: Int, selectedPos: PointF,
         scale: Float, transValue: PointF, stationId: NonNullMutableLiveData<Int>) {
@@ -64,7 +69,7 @@ class StationPositionRepository : FirebaseRepository {
                         val newId = document.data.get("id")?.toString()?.toInt()
                             ?.let {
                                 // 즐겨찾기 등록
-                                Subway.searchWithId(it)?.let { searchResult ->
+                                Subway.getStation(it)?.let { searchResult ->
                                     stations.add(it)
                                     searchResult.isFavorited = true
                                 }
@@ -100,7 +105,7 @@ class StationPositionRepository : FirebaseRepository {
                 .document(stationId.toString()).delete()
                 .addOnSuccessListener {
                     //즐겨찾기 해제
-                    Subway.searchWithId(stationId)?.let {
+                    Subway.getStation(stationId)?.let {
                         it.isFavorited = false
                         println("$stationId 를 즐겨찾기에서 해제했습니다.")
                     }
@@ -111,6 +116,18 @@ class StationPositionRepository : FirebaseRepository {
         }
     }
 
-    override suspend fun getEdgeList() {
+    override fun getEndPointList() {
+        db.collection("subwayEndPointList")
+            .get()
+            .addOnSuccessListener { result ->
+                val endPointmap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
+                for (document in result) {
+                    endPointmap.put(document.id.toInt(), document["종착역"] as ArrayList<String>)
+                }
+                Subway.initLines(endPointmap)
+            }
+            .addOnFailureListener {
+                println(it)
+            }
     }
 }
