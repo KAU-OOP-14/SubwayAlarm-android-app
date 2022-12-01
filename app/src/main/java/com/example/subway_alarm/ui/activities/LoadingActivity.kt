@@ -38,6 +38,7 @@ class LoadingActivity : AppCompatActivity() {
         layout.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
         layout.matchConstraintPercentWidth = 0f
 
+        // 수정한 레이아웃을 부착합니다.
         binding.progress.layoutParams = layout
 
         // SubwayBuilder의 progress live data를 관찰해서 progress bar를 채웁니다.
@@ -47,6 +48,7 @@ class LoadingActivity : AppCompatActivity() {
         })
 
 
+        // 로딩 과정
         lifecycleScope.launch {
             while (SubwayBuilder.loading) delay(100)
             viewModel.isLoaded = true

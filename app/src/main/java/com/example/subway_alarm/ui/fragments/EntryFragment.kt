@@ -19,7 +19,7 @@ class EntryFragment : Fragment() {
     private val positionViewModel by sharedViewModel<PositionViewModel>()
     private lateinit var callback: OnBackPressedCallback // 객체 선언
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
-    var binding : FragmentEntryBinding? = null
+    var binding: FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var paramStationId = 0
     private var heightPixel: Float = 0f
@@ -37,14 +37,18 @@ class EntryFragment : Fragment() {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(isFabOpen)
+                if (isFabOpen)
                     toggleFab()
-                else{
-                    if(System.currentTimeMillis() - lastTimeBackPressed < 1500){
+                else {
+                    if (System.currentTimeMillis() - lastTimeBackPressed < 1500) {
                         activity?.finish()
                     }
                     lastTimeBackPressed = System.currentTimeMillis()
-                    Toast.makeText(binding?.root?.context, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        binding?.root?.context,
+                        "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -67,17 +71,16 @@ class EntryFragment : Fragment() {
         positionViewModel.setState(true) // activity에서의 onTouch 활성화
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
-        positionViewModel.scaleValue = 4.0f // 처음 Image의 scale을 4f로 설정
         heightPixel = positionViewModel.getHeightPixels().toFloat()
 
-        if(paramStationId > 0) {
+        if (paramStationId > 0) {
             val bottomSheet = MainFragment()
             val bundle = Bundle()
             // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
             bundle.putInt("stationId", paramStationId)
             paramStationId = 0
             bottomSheet.arguments = bundle
-            bottomSheet.show(childFragmentManager,bottomSheet.tag)
+            bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
         /*
@@ -89,24 +92,20 @@ class EntryFragment : Fragment() {
         }
         */
 
-        binding?.btnZoomIn?.setOnClickListener{
-            if(positionViewModel.scaleValue < 8.0f) {
-                binding?.stationImage?.scaleX = 8.0f
-                binding?.stationImage?.scaleY = 8.0f
-                positionViewModel.scaleValue = 8.0f
-                println("zoomin")
-                positionViewModel.isScaleChanged = true
-            }
+        positionViewModel.scaleValue.observe(viewLifecycleOwner) {
+            binding?.stationImage?.scaleX = it
+            binding?.stationImage?.scaleY = it
         }
 
-        binding?.btnZoomOut?.setOnClickListener{
-            if(positionViewModel.scaleValue > 4.0f) {
-                binding?.stationImage?.scaleX = 4.0f
-                binding?.stationImage?.scaleY = 4.0f
-                positionViewModel.scaleValue = 4.0f
-                println("zoomout")
-                positionViewModel.isScaleChanged = true
-            }
+        binding?.btnZoomIn?.setOnClickListener {
+            positionViewModel.onZoomIn()
+            println("zoomin")
+        }
+
+        binding?.btnZoomOut?.setOnClickListener {
+
+            positionViewModel.onZoomOut()
+            println("zoomout")
 
         }
 
@@ -117,13 +116,13 @@ class EntryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         println("view created!!!")
         super.onViewCreated(view, savedInstanceState)
-        positionViewModel.selectedPos.observe(viewLifecycleOwner){
+        positionViewModel.selectedPos.observe(viewLifecycleOwner) {
             println("역선택한 경우!")
         }
 
-        positionViewModel.stationId.observe(viewLifecycleOwner){
+        positionViewModel.stationId.observe(viewLifecycleOwner) {
             println("넘어온 id값: $it")
-            if(it != 0) {
+            if (it != 0) {
                 val bottomSheet = MainFragment()
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
@@ -134,23 +133,23 @@ class EntryFragment : Fragment() {
             }
         }
 
-        positionViewModel.pos.observe(viewLifecycleOwner){
+        positionViewModel.pos.observe(viewLifecycleOwner) {
             // 항상 처음에 터치한 경우
             println("pos observe")
-            if (isFabOpen){
+            if (isFabOpen) {
                 toggleFab()
             }
         }
 
-        positionViewModel.movePos.observe(viewLifecycleOwner){
+        positionViewModel.movePos.observe(viewLifecycleOwner) {
             println("move observe")
             // 움직이는 경우
-            if(positionViewModel.isMoving.value){
+            if (positionViewModel.isMoving.value) {
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
             }
             // 움직임이 끝난 경우
-            else{
+            else {
                 // 처음 터치한 좌표와 움직인 이후 손을 뗀 좌표 사이 거리를 계산한다
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
@@ -158,22 +157,22 @@ class EntryFragment : Fragment() {
 
         }
 
-        binding?.fabMain?.setOnClickListener{
+        binding?.fabMain?.setOnClickListener {
             toggleFab()
         }
-        binding?.fabSearch?.setOnClickListener(){
+        binding?.fabSearch?.setOnClickListener() {
             positionViewModel.setState(false)
             positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
             toggleFab()
         }
-        binding?.fabBookmark?.setOnClickListener(){
+        binding?.fabBookmark?.setOnClickListener() {
             positionViewModel.setState(false)
             positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
             toggleFab()
         }
-        binding?.fabSetting?.setOnClickListener(){
+        binding?.fabSetting?.setOnClickListener() {
             positionViewModel.setState(false)
             positionViewModel.setTransValue()
             findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
@@ -188,18 +187,20 @@ class EntryFragment : Fragment() {
         binding = null
     }
 
-    private fun toggleFab(){
-        if(isFabOpen){
+    private fun toggleFab() {
+        if (isFabOpen) {
             ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,360f, 0f).apply { start() }
-        }
-        else{
-            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", heightPixel/4f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", heightPixel/6f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", heightPixel/12f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,-360f, 0f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION, 360f, 0f).apply { start() }
+        } else {
+            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", heightPixel / 4f)
+                .apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", heightPixel / 6f)
+                .apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", heightPixel / 12f)
+                .apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION, -360f, 0f).apply { start() }
         }
 
         isFabOpen = !isFabOpen
@@ -220,4 +221,5 @@ class EntryFragment : Fragment() {
                 }
             }
     }
+
 }

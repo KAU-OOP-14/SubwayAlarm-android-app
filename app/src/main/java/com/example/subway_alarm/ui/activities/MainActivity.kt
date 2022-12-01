@@ -1,10 +1,8 @@
 package com.example.subway_alarm.ui.activities
 
-import android.app.*
 import android.content.Intent
 import android.graphics.PointF
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -31,7 +29,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
-    val viewModel by viewModel<ArrivalViewModel>()
     private val posViewModel by viewModel<PositionViewModel>()
     private val alarmViewModel by viewModel<AlarmViewModel>()
     private val bookmarkViewModel by viewModel<BookmarkViewModel>()
@@ -69,7 +66,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId)
         }
         println("devie: $navigationBarHeight")
-        posViewModel.setPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
+        posViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
         setContentView(binding.root)
