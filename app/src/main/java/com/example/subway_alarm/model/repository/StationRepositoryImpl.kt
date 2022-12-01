@@ -49,7 +49,7 @@ class StationRepositoryImpl : StationRepository {
                             //1호선부터 9호선
                             when (val id = model.subwayId) {
                                 in 1001..1009 -> {
-                                    if (curStation.id / 100 == id % 10) {
+                                    if (curStation.id / 1000 == id % 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -58,7 +58,7 @@ class StationRepositoryImpl : StationRepository {
                                 }
                                 //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
                                 1063 -> {
-                                    if (curStation.id / 100 == 10) {
+                                    if (curStation.id / 1000 == 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -66,7 +66,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1065 -> {
-                                    if (curStation.id / 100 == 11) {
+                                    if (curStation.id / 1000 == 11) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -74,7 +74,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1067 -> {
-                                    if (curStation.id / 100 == 12) {
+                                    if (curStation.id / 1000 == 12) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -82,7 +82,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1075 -> {
-                                    if (curStation.id / 100 == 13) {
+                                    if (curStation.id / 1000 == 13) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -90,7 +90,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1077 -> {
-                                    if (curStation.id / 100 == 14) {
+                                    if (curStation.id / 1000 == 14) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -98,7 +98,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1091 -> {
-                                    if (curStation.id / 100 == 15) {
+                                    if (curStation.id / 1000 == 15) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -106,7 +106,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1092 -> {
-                                    if (curStation.id / 100 == 16) {
+                                    if (curStation.id / 1000 == 16) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else

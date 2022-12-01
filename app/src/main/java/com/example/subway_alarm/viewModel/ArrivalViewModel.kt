@@ -118,7 +118,7 @@ class ArrivalViewModel(
         println("line changed : $lineNum")
         val list = stationRepository.search(curStation.value.stationName)
         for (station in list) {
-            if (station.id / 100 == lineNum) {
+            if (station.id / 1000 == lineNum) {
                 newStation(station)
             }
         }

@@ -17,9 +17,9 @@ class Line(val lineId: Int = 0){
 
     fun getStationInLine(stationId: Int): Station?{
         return try {
-            _stationList[stationId % 100]
+            _stationList[stationId % 1000]
         }catch (e: IndexOutOfBoundsException) {
-            println("index 오류 발생 ㅠㅠ : ${(stationId % 100)} / $e")
+            println("index 오류 발생 ㅠㅠ : ${(stationId % 1000)} / $e")
             null
         }
     }

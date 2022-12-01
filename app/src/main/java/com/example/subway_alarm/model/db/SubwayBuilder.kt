@@ -82,7 +82,7 @@ object SubwayBuilder {
                         lineList.add(i.toInt())
                     }
                 }
-                lines[(id / 100) - 1].initStations(Station(row[2], id, lineList))
+                lines[(id / 1000) - 1].initStations(Station(row[2], id, lineList))
             }
         }
 

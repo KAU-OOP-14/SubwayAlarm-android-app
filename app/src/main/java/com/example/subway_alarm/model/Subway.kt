@@ -29,9 +29,9 @@ object Subway {
      */
     fun getStation(stationId: Int): Station?{
         return try {
-            lineList[(stationId / 100) - 1].getStationInLine(stationId)
+            lineList[(stationId / 1000) - 1].getStationInLine(stationId)
         }catch (e: IndexOutOfBoundsException) {
-            println("index 오류 발생 ㅠㅠ : ${(stationId / 100)} / $e")
+            println("index 오류 발생 ㅠㅠ : ${(stationId / 1000)} / $e")
             null
         }
     }

@@ -28,7 +28,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 // class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
-    private var paramId: Int = 205 // 홍대입구
+    private var paramId: Int = 2005 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by sharedViewModel<ArrivalViewModel>()
     val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
@@ -209,7 +209,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     }
 
     fun getColor(station: Station): Int {
-        when (station.id / 100) {
+        when (station.id / 1000) {
             1 -> return Color.parseColor("#FF0D3692")
             2 -> return Color.parseColor("#FF33A23D")
             3 -> return Color.parseColor("#FFFE5D10")
