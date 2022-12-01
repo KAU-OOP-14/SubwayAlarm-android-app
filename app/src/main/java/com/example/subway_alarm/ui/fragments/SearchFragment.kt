@@ -87,4 +87,9 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
     override fun onBookmarkClick(stationId: Int) {
         bookmarkViewModel.onBookmarkClick(stationId)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
 }

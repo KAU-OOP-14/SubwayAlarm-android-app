@@ -12,9 +12,9 @@ import io.reactivex.rxjava3.core.Single
 /** retrofit 데이터를 처리해주는 저장소입니다.
  * main fragment에서 보고 있는 station을 담고 있습니다. */
 class StationRepositoryImpl : StationRepository {
-    private val subway = SubwayBuilder.initSubway()
 
     init {
+        SubwayBuilder.initSubway()
         println("Subway 객체 -> 저장소에 저장됨")
     }
 

@@ -69,7 +69,6 @@ class StationPositionRepository : FirebaseRepository {
                                     searchResult.isFavorited = true
                                 }
                             }
-
                     }
                     favorites.postValue(stations)
                     println("정상적으로 firebase에서 favorites를 불러왔습니다. ${stations.size}")

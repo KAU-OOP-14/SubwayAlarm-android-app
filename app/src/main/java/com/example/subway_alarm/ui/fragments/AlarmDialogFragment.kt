@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentContainer
 import com.example.subway_alarm.databinding.FragmentAlarmDialogBinding
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.AlarmViewModel
@@ -75,11 +76,14 @@ class AlarmDialogFragment : DialogFragment(){
     }
 
     companion object {
-        const val Tag = "test"
         @JvmStatic
         fun newInstance() =
             AlarmDialogFragment().apply {
             }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
+    }
 }
