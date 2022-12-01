@@ -14,7 +14,6 @@ import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.ArrivalViewModel
@@ -96,7 +95,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             lineNumbers = it.lineList.toTypedArray()
             binding?.recLine?.adapter = LineNumAdapter(lineNumbers, this)
 
-            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+            Subway.getStation(viewModel.curStation.value.id)?.let {
                 if (it.isFavorited) {
                     binding?.btnStar?.setImageResource(R.drawable.fill_star)
                 } else {
@@ -118,7 +117,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
         // 즐겨찾기가 되어 있다면 강조됩니다.
         println(viewModel.curStation.value.id)
-        Subway.searchWithId(viewModel.curStation.value.id)?.let {
+        Subway.getStation(viewModel.curStation.value.id)?.let {
             if (it.isFavorited){
                 binding?.btnStar?.setImageResource(R.drawable.fill_star)
             }
@@ -182,7 +181,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
         binding?.btnStar?.setOnClickListener {
             // 즐겨찾기 취소
-            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+            Subway.getStation(viewModel.curStation.value.id)?.let {
                 if (it.isFavorited) {
                     binding?.btnStar?.setImageResource(R.drawable.empty_star)
                 } else {

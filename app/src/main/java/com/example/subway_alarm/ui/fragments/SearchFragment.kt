@@ -41,10 +41,7 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
         // Inflate the layout for this fragment
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        for (line in Subway.lines) {
-            stationList.addAll(line.stations)
-        }
-
+        stationList.addAll(Subway.returnStations())
 
         // 리사이컬뷰를 adapter와 연결, adapter는 한번만 생성합니다.
         binding?.recStations?.layoutManager = LinearLayoutManager(context)
@@ -58,11 +55,11 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
                 }
 
                 //텍스트 입력/수정시에 호출
-                override fun onQueryTextChange(s: String?): Boolean {
-                    s?.apply {
+                override fun onQueryTextChange(string: String?): Boolean {
+                    string?.apply {
                         //새로운 어뎁터를 만들지 않고, 데이터만 변경한 후 변경사항을 어뎁터에게 notify
                         stationList.clear()
-                        for(station in searchViewModel.onSearchTextChanged(s)){
+                        for(station in searchViewModel.onSearchTextChanged(string)){
                             stationList.add(station)
                         }
                         binding?.recStations?.adapter?.notifyDataSetChanged()

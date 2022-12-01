@@ -17,7 +17,7 @@ interface StationRepository {
     var favoriteStations: MutableList<Station>
 
     /** 전달받은 역 이름으로 역을 검색해서 searchResults에 업데이트합니다. */
-    fun search(stationName: String)
+    fun search(stationName: String): MutableList<Station>
 
     /** Retrofit에서 api 데이터를 받아옵니다. */
     fun retrofitGetArrivals(stationName: String): Single<ApiModelList>

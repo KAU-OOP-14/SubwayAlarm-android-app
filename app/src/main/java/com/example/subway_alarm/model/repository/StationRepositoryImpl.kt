@@ -32,21 +32,7 @@ class StationRepositoryImpl : StationRepository {
     override var favoriteStations: MutableList<Station> = mutableListOf()
 
     /** 역 검색 결과를 searchResultList에 저장합니다. */
-    override fun search(stationName: String) {
-        searchResultList.clear()     // serachResultList 초기화
-        if (stationName == "양평") {
-            searchResultList.add(Subway.lines[4].stations[12])
-            searchResultList.add(Subway.lines[9].stations[49])
-            return
-        }
-        for (line in Subway.lines) {
-            val tempStation: Station? = line.searchStationInLine(stationName)
-            if (tempStation != null) {
-                searchResultList.add(tempStation)
-            }
-        }
-        return
-    }
+    override fun search(stationName: String) = Subway.searchStation(stationName)
 
     /** api data를 map을 통해 조작해서 viewmodel에게 알려줍니다. */
     override fun retrofitGetArrivals(stationName: String): Single<ApiModelList> {
@@ -141,32 +127,21 @@ class StationRepositoryImpl : StationRepository {
     }
 
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
-    override fun searchStationsWithName(stringName: String): MutableList<Station>{
-        val resultStationList: MutableList<Station> = mutableListOf()
-        for (line in Subway.lines) {
-            for(sta in line.stations){
-                // 각각의 Station객체의 stationName이 stringName으로 시작한다면
-                // resultStationList에 추가
-                if(sta.stationName.startsWith(stringName))
-                    resultStationList.add(sta)
-            }
-        }
-        return resultStationList
-    }
+    override fun searchStationsWithName(stringName: String) = Subway.searchStationsWithName(stringName)
 
-    /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
+        /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
     override fun getCrossedLine(direction: String): Array<String>? {
         val stationList: Array<String> = Array(2) { "" }
         if (direction == "right") {
-            if (curStation.right2Station != null) {
+            if (curStation.secondRightStation != null) {
                 stationList[0] = (curStation.rightStation!!.stationName)
-                stationList[1] = (curStation.right2Station!!.stationName)
+                stationList[1] = (curStation.secondRightStation!!.stationName)
                 return stationList
             }
         } else if (direction == "left") {
-            if (curStation.left2Station != null) {
+            if (curStation.secondLeftStation != null) {
                 stationList[0] = (curStation.leftStation!!.stationName)
-                stationList[1] = (curStation.left2Station!!.stationName)
+                stationList[1] = (curStation.secondLeftStation!!.stationName)
                 return stationList
             }
         }
