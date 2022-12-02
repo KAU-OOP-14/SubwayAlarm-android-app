@@ -65,11 +65,11 @@
                 android:id="@+id/txtStationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:width="180dp"
                 android:background="@drawable/station_name_background"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:focusable="true"
-                android:width="180dp"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:maxWidth="200dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
@@ -79,63 +79,67 @@
                 android:textColor="#4CAF50"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/txtRightStation"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/txtLeftStation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/txtLeftStation"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:text="수색"
+                android:layout_marginStart="30dp"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:focusable="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
+                android:text="수색"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
-                app:layout_constraintStart_toEndOf="@+id/btnLeft"
-                app:layout_constraintTop_toTopOf="@+id/txtStationName" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/txtStationName"
+                app:layout_constraintVertical_bias="0.526" />
 
             <TextView
                 android:id="@+id/txtRightStation"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="30dp"
                 android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
                 android:focusable="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:singleLine="true"
                 android:text="강매"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="@+id/txtStationName"
-                app:layout_constraintEnd_toStartOf="@+id/btnRight"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/txtStationName" />
 
             <ImageButton
                 android:id="@+id/btnLeft"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="75dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="10dp"
                 android:background="#00FFFFFF"
+                android:scaleType="fitStart"
                 android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
-                app:layout_constraintBottom_toBottomOf="@+id/txtLeftStation"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtLeftStation" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/btnRight"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="75dp"
+                android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
                 android:background="#00FFFFFF"
                 android:rotation="180"
+                android:scaleType="fitStart"
                 android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
-                app:layout_constraintBottom_toBottomOf="@+id/txtRightStation"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/txtRightStation"
-                 />
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

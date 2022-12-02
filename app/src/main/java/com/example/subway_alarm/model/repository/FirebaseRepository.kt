@@ -18,5 +18,5 @@ interface FirebaseRepository {
     suspend fun deleteFavorite(stationId: Int)
 
     /** 호선 별 edge list를 가져옵니다. */
-    suspend fun getEdgeList()
+    fun getEndPointList()
 }

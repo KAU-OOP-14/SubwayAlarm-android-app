@@ -14,7 +14,6 @@ import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.ArrivalViewModel
@@ -29,7 +28,7 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 // class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
-    private var paramId: Int = 205 // 홍대입구
+    private var paramId: Int = 2005 // 홍대입구
     var binding: FragmentMainBinding? = null
     val viewModel by sharedViewModel<ArrivalViewModel>()
     val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
@@ -96,7 +95,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             lineNumbers = it.lineList.toTypedArray()
             binding?.recLine?.adapter = LineNumAdapter(lineNumbers, this)
 
-            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+            Subway.getStation(viewModel.curStation.value.id)?.let {
                 if (it.isFavorited) {
                     binding?.btnStar?.setImageResource(R.drawable.fill_star)
                 } else {
@@ -118,7 +117,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
         // 즐겨찾기가 되어 있다면 강조됩니다.
         println(viewModel.curStation.value.id)
-        Subway.searchWithId(viewModel.curStation.value.id)?.let {
+        Subway.getStation(viewModel.curStation.value.id)?.let {
             if (it.isFavorited){
                 binding?.btnStar?.setImageResource(R.drawable.fill_star)
             }
@@ -182,7 +181,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
         binding?.btnStar?.setOnClickListener {
             // 즐겨찾기 취소
-            Subway.searchWithId(viewModel.curStation.value.id)?.let {
+            Subway.getStation(viewModel.curStation.value.id)?.let {
                 if (it.isFavorited) {
                     binding?.btnStar?.setImageResource(R.drawable.empty_star)
                 } else {
@@ -210,7 +209,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     }
 
     fun getColor(station: Station): Int {
-        when (station.id / 100) {
+        when (station.id / 1000) {
             1 -> return Color.parseColor("#FF0D3692")
             2 -> return Color.parseColor("#FF33A23D")
             3 -> return Color.parseColor("#FFFE5D10")

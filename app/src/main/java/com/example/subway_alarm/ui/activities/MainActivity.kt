@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     view model DI(의존성 주입)
     view는 모든 로직 처리를 view model에게 접근해서 합니다.
      */
-    private val posViewModel by viewModel<PositionViewModel>()
+    val viewModel by viewModel<ArrivalViewModel>()
+    private val positionViewModel by viewModel<PositionViewModel>()
     private val alarmViewModel by viewModel<AlarmViewModel>()
     private val bookmarkViewModel by viewModel<BookmarkViewModel>()
 
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId)
         }
         println("devie: $navigationBarHeight")
-        posViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
+        positionViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
         setContentView(binding.root)
@@ -83,8 +84,8 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
             when (event.action) {
                 // 화면에 손가락이 닿음
                 MotionEvent.ACTION_DOWN -> {
-                    posViewModel.setPos(pos)
-                    posViewModel.setMoving(true)
+                    positionViewModel.setPos(pos)
+                    positionViewModel.setMoving(true)
                     lastTimeTouchPressed = System.currentTimeMillis()
                     println("Touched")
                 }
@@ -92,19 +93,19 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
                 // 화면에 손가락이 닿은 채로 움직이고 있음
                 MotionEvent.ACTION_MOVE -> {
                     println("moving")
-                    posViewModel.setMovePos(pos)
+                    positionViewModel.setMovePos(pos)
                 }
 
                 // 화면에서 손가락을 땜
                 MotionEvent.ACTION_UP -> {
                     println("end")
-                    posViewModel.setMoving(false)
+                    positionViewModel.setMoving(false)
                     // 잠깐 터치한 경우는 selectedPos를 업데이트 한다
                     if (System.currentTimeMillis() - lastTimeTouchPressed < 250)
-                        posViewModel.setSelectedPos(pos)
+                        positionViewModel.setSelectedPos(pos)
                     else {
                         println("move end")
-                        posViewModel.setMovePos(pos)
+                        positionViewModel.setMovePos(pos)
                     }
                 }
 

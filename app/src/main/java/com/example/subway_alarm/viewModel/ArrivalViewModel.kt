@@ -64,7 +64,7 @@ class ArrivalViewModel(
 
     /** station id를 전달받아 검색한 결과로 repository의 cur station을 새롭게 설정합니다. */
     fun onStationSelect(stationId: Int) {
-        Subway.searchWithId(stationId)?.let {
+        Subway.getStation(stationId)?.let {
             newStation(it)
         }
     }
@@ -76,11 +76,11 @@ class ArrivalViewModel(
         when (direction) {
             Direction.LEFT -> {
                 node1 = stationRepository.curStation.leftStation
-                node2 = stationRepository.curStation.left2Station
+                node2 = stationRepository.curStation.secondLeftStation
             }
             Direction.RIGHT -> {
                 node1 = stationRepository.curStation.rightStation
-                node2 = stationRepository.curStation.right2Station
+                node2 = stationRepository.curStation.secondRightStation
             }
             else -> return
         }
@@ -116,10 +116,9 @@ class ArrivalViewModel(
      * */
     fun changeLine(lineNum: Int) {
         println("line changed : $lineNum")
-        stationRepository.search(curStation.value.stationName)
-        val list = stationRepository.searchResultList
+        val list = stationRepository.search(curStation.value.stationName)
         for (station in list) {
-            if (station.id / 100 == lineNum) {
+            if (station.id / 1000 == lineNum) {
                 newStation(station)
             }
         }

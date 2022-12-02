@@ -48,7 +48,7 @@ class BookmarkFragment : Fragment(), OnBookmarkClick, OnBookmarkDelete {
             stations.clear()
             for (id in stationIdList) { // 0 이 왜 있지
                 //즐겨찾기 등록
-                Subway.searchWithId(id)?.let {
+                Subway.getStation(id)?.let {
                     stations.add(it)
                 }
             }

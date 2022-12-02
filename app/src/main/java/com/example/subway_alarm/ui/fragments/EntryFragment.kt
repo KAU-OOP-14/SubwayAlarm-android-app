@@ -17,12 +17,13 @@ import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class EntryFragment : Fragment() {
     private val positionViewModel by sharedViewModel<PositionViewModel>()
-    private lateinit var callback: OnBackPressedCallback // 객체 선언
+    private lateinit var callback: OnBackPressedCallback
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
+    private var heightPixel: Float = 0f
+
     var binding: FragmentEntryBinding? = null
     var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     private var paramStationId = 0
-    private var heightPixel: Float = 0f
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,18 +38,14 @@ class EntryFragment : Fragment() {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (isFabOpen)
+                if(isFabOpen)
                     toggleFab()
-                else {
-                    if (System.currentTimeMillis() - lastTimeBackPressed < 1500) {
+                else{
+                    if(System.currentTimeMillis() - lastTimeBackPressed < 1500){
                         activity?.finish()
                     }
                     lastTimeBackPressed = System.currentTimeMillis()
-                    Toast.makeText(
-                        binding?.root?.context,
-                        "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(binding?.root?.context, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -123,6 +120,9 @@ class EntryFragment : Fragment() {
         positionViewModel.stationId.observe(viewLifecycleOwner) {
             println("넘어온 id값: $it")
             if (it != 0) {
+                positionViewModel.setStationId(it)
+                binding?.stationImage?.translationX = positionViewModel.transValue.x
+                binding?.stationImage?.translationY = positionViewModel.transValue.y
                 val bottomSheet = MainFragment()
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
@@ -187,20 +187,18 @@ class EntryFragment : Fragment() {
         binding = null
     }
 
-    private fun toggleFab() {
-        if (isFabOpen) {
+    private fun toggleFab(){
+        if(isFabOpen){
             ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", 0f).apply { start() }
             ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", 0f).apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION, 360f, 0f).apply { start() }
-        } else {
-            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", heightPixel / 4f)
-                .apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", heightPixel / 6f)
-                .apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", heightPixel / 12f)
-                .apply { start() }
-            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION, -360f, 0f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,360f, 0f).apply { start() }
+        }
+        else{
+            ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", heightPixel/4f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabBookmark, "translationY", heightPixel/6f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabSearch, "translationY", heightPixel/12f).apply { start() }
+            ObjectAnimator.ofFloat(binding?.fabMain, View.ROTATION,-360f, 0f).apply { start() }
         }
 
         isFabOpen = !isFabOpen

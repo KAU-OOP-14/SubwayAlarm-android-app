@@ -16,7 +16,6 @@ class PositionViewModel(
     private val _movePos = NonNullMutableLiveData<PointF>(PointF(0f, 0f))    // 움직일 때 바뀌는 데이터
     private val _selectedPos = NonNullMutableLiveData<PointF>(PointF(0f, 0f))// 역선택할 떄 바뀌는 데이터
 
-
     private val _isMoving = NonNullMutableLiveData<Boolean>(false)          // 드래그 중인지 체크하는 변수
     private val _state =
         NonNullMutableLiveData<Boolean>(false)             // Mainactivity의 onTouch값을 받을 지 말지 결정
@@ -129,6 +128,14 @@ class PositionViewModel(
     // 불필요한 observe로 인한 버그 발생 방지를 위해
     // Fragment 전환 시 stationId를 0으로 초기화 할 때 사용
     private fun changeStationId(newId: Int) {
+        if(newId != 0){
+            val viewCenterPos = PointF(widthPixels/2f, heightPixels/2f)
+            transValue = value - (_pos.value - viewCenterPos)
+            value = transValue
+            totalTransValue -= PointF(
+                (_pos.value - viewCenterPos).x / _scaleValue.value,
+                (_pos.value - viewCenterPos).y / _scaleValue.value)
+            }
         _stationId.value = newId
     }
 
@@ -166,6 +173,6 @@ class PositionViewModel(
 
     fun onZoomOut() {
         _scaleValue.value = 4.0f
-        isScaleChanged = false
+        isScaleChanged = true
     }
 }

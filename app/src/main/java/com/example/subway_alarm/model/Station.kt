@@ -11,7 +11,7 @@ data class Station(
     var isFavorited = false // 즐겨찾기 포함 여부
     var leftStation: Station? = null
     var rightStation: Station? = null
-    var left2Station: Station? = null
-    var right2Station: Station? = null
+    var secondLeftStation: Station? = null
+    var secondRightStation: Station? = null
     var endPoint = arrayOfNulls<String>(2)
 }

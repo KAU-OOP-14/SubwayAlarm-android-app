@@ -8,9 +8,7 @@ import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import org.apache.poi.xssf.usermodel.XSSFCell
@@ -64,9 +62,7 @@ object SubwayBuilder {
                  */
                 loading = false
                 //station이 모두 들어간 뒤, line을 subway에 넣습니다.
-                for (line in lines) {
-                    Subway.addLines(line)
-                }
+                Subway.addLines(lines)
             } catch (e: Exception) {
                 println("엑셀 파일을 읽지 못했습니다.")
             }
@@ -77,16 +73,16 @@ object SubwayBuilder {
 
             flow.collect() { row ->
                 val id: Int = row[1].substringBefore(".").toInt()
-                val linelist: MutableList<Int> = mutableListOf()
+                val lineList: MutableList<Int> = mutableListOf()
                 if (row[0].contains(".")) {
-                    linelist.add(row[0].substringBefore('.').toInt())
+                    lineList.add(row[0].substringBefore('.').toInt())
                 } else {
                     val tempList = row[0].split(",")
                     for (i in tempList) {
-                        linelist.add(i.toInt())
+                        lineList.add(i.toInt())
                     }
                 }
-                lines[(id / 100) - 1].addStations(Station(row[2], id, linelist))
+                lines[(id / 1000) - 1].initStations(Station(row[2], id, lineList))
             }
         }
 

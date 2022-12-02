@@ -32,7 +32,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
 
     inner class Holder(private val binding: SearchedListStationsBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(station: Station){
-            binding.btnLine.setImageResource(when(station.id / 100){
+            binding.btnLine.setImageResource(when(station.id / 1000){
                 1 -> R.drawable.line1
                 2 -> R.drawable.line2
                 3 -> R.drawable.line3
