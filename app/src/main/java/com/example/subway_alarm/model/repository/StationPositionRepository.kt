@@ -82,7 +82,6 @@ class StationPositionRepository : FirebaseRepository {
                     println("favorites를 firebase에서 가져오지 못했습니다.. : $it")
                 }
         }
-
     }
 
     override suspend fun postFavorites(stationId: Int) {

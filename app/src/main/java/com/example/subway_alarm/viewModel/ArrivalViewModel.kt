@@ -124,23 +124,6 @@ class ArrivalViewModel(
         }
     }
 
-    /** Main Fragment에서 알람 버튼을 눌렀을 때 호출하는 함수입니다. */
-    fun setAlarm(time: Int) {
-        _alarmTime.value = time + 1
-        job = CoroutineScope(Dispatchers.IO).launch {
-            for (i in 0 until time) {
-                _alarmTime.postValue(_alarmTime.value - 1)
-                delay(1000)
-            }
-            _alarmTime.postValue(0)
-        }
-    }
-
-    fun resetAlarm(time: Int) {
-        if (job?.isActive == true) job?.cancel()
-        setAlarm(time)
-
-    }
 
     fun onLoading(){}
 
