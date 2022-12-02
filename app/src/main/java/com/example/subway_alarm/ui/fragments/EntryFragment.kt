@@ -120,6 +120,9 @@ class EntryFragment : Fragment() {
         positionViewModel.stationId.observe(viewLifecycleOwner) {
             println("넘어온 id값: $it")
             if (it != 0) {
+                positionViewModel.setStationId(it)
+                binding?.stationImage?.translationX = positionViewModel.transValue.x
+                binding?.stationImage?.translationY = positionViewModel.transValue.y
                 val bottomSheet = MainFragment()
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용

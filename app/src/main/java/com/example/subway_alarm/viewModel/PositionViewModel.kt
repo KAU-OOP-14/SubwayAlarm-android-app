@@ -128,6 +128,14 @@ class PositionViewModel(
     // 불필요한 observe로 인한 버그 발생 방지를 위해
     // Fragment 전환 시 stationId를 0으로 초기화 할 때 사용
     private fun changeStationId(newId: Int) {
+        if(newId != 0){
+            val viewCenterPos = PointF(widthPixels/2f, heightPixels/2f)
+            transValue = value - (_pos.value - viewCenterPos)
+            value = transValue
+            totalTransValue -= PointF(
+                (_pos.value - viewCenterPos).x / _scaleValue.value,
+                (_pos.value - viewCenterPos).y / _scaleValue.value)
+            }
         _stationId.value = newId
     }
 
