@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.subway_alarm.ui.activities.MainActivity
 import java.util.*
 
 class AlarmService: Service() {
@@ -58,8 +57,10 @@ class AlarmService: Service() {
         isServiceOn = true
          startForeground(SERVICE_ID, notificationBuilder.build())
 
+        // 설정한 시간을 보다 정확히 count하기 위해 timer를 사용합니다.
         timerTask = object : TimerTask() {
             override fun run() {
+                //count가 완료되면 다른 종류의 알람을 울립니다.
                 if (timeCount <= 0) {
                     notificationBuilder
                         .setContentText("설정한 시간이 되었습니다!")
@@ -92,6 +93,7 @@ class AlarmService: Service() {
         stopSelf()
     }
 
+    // activity에 broadcast message를 보냅니다.
     private fun sendMessage() {
         val intent = Intent("alarm")
         intent.putExtra("alarmStop", true)
