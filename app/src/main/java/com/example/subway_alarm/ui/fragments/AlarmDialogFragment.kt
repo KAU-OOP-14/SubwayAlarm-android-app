@@ -11,12 +11,13 @@ import androidx.fragment.app.FragmentContainer
 import com.example.subway_alarm.databinding.FragmentAlarmDialogBinding
 import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.AlarmViewModel
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class AlarmDialogFragment : DialogFragment(){
     var binding: FragmentAlarmDialogBinding?  = null
-    private val viewModel by viewModel<AlarmViewModel>()
+    private val viewModel by sharedViewModel<AlarmViewModel>()
     private var minute: Int = 0
     private var second: Int = 0
 

@@ -2,7 +2,6 @@ package com.example.subway_alarm.viewModel
 
 import android.graphics.PointF
 import androidx.core.graphics.minus
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData

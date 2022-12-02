@@ -1,7 +1,6 @@
 package com.example.subway_alarm.model.repository
 
 import android.graphics.PointF
-import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 
 interface FirebaseRepository {

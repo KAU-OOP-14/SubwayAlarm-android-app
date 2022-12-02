@@ -14,6 +14,7 @@ import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.ArrivalViewModel
@@ -173,7 +174,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             }
         }
 
-        binding?.btnTempAlarm?.setOnClickListener {
+        binding?.btnAlarm?.setOnClickListener {
             activity?.let {
                 AlarmDialogFragment.newInstance().show(it.supportFragmentManager, "")
             }
@@ -191,7 +192,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
             bookmarkViewModel.onBookmarkClick(viewModel.curStation.value.id)
         }
-
 
 
         return binding?.root
