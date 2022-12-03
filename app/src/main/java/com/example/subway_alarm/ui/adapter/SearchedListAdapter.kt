@@ -56,10 +56,13 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
             if(station.isFavorited) {
                 binding.btnFavorite.setImageResource(R.drawable.fill_star)
             }
+            else {
+                binding.btnFavorite.setImageResource(R.drawable.empty_star)
+            }
 
             // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
             binding.root.setOnClickListener{
-                Toast.makeText(binding.root.context,"호선: ${station.id/100} 이름 : ${station.stationName}",
+                Toast.makeText(binding.root.context,"호선: ${station.id/1000} 이름 : ${station.stationName}",
                     Toast.LENGTH_SHORT).show()
                 clickCallback.onSearchResultClick(station.id)
             }
