@@ -4,10 +4,14 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import com.example.subway_alarm.R
 import java.util.*
+
 
 class AlarmService: Service() {
 
@@ -64,10 +68,10 @@ class AlarmService: Service() {
                 if (timeCount <= 0) {
                     notificationBuilder
                         .setContentText("설정한 시간이 되었습니다!")
-                        .setDefaults(Notification.DEFAULT_VIBRATE or Notification.DEFAULT_SOUND)
                         .setOngoing(false)
                         .setAutoCancel(true)
                         .clearActions()
+                    ring()
                     notiManager.notify(SERVICE_ID, notificationBuilder.build())
                     this.cancel()
                     stopForeground(STOP_FOREGROUND_DETACH)
@@ -98,6 +102,18 @@ class AlarmService: Service() {
         val intent = Intent("alarm")
         intent.putExtra("alarmStop", true)
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+    }
+
+    // ringtone을 울립니다.
+    private fun ring() {
+        try {
+            val defaultSoundUri: Uri =
+                RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+            val ringtone = RingtoneManager.getRingtone(applicationContext, defaultSoundUri)
+            ringtone.play()
+        } catch (e: Exception) {
+            println(e)
+        }
     }
 
 

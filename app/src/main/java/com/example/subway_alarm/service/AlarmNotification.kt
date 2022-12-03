@@ -4,10 +4,12 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.app.NotificationCompat
 import com.example.subway_alarm.R
 import com.example.subway_alarm.di.SubwayAlarmApp
 import com.example.subway_alarm.ui.activities.MainActivity
+import java.net.URI
 
 object AlarmNotification: Notification() {
 
@@ -21,11 +23,12 @@ object AlarmNotification: Notification() {
         cancelIntent.putExtra("cancelFlag", true)
         cancelIntent.action = AlarmService.STOP_FOREGROUND
         val pendingCancelIntent =
-            PendingIntent.getService(context, 0, cancelIntent, PendingIntent.FLAG_CANCEL_CURRENT)
+            PendingIntent.getService(context, 0, cancelIntent, PendingIntent.FLAG_IMMUTABLE)
 
         return NotificationCompat.Builder(context, SubwayAlarmApp.ALARM_CHANNEL_ID)
             .setContentTitle("지하철 알람 앱")
             .setSmallIcon(R.mipmap.ic_subway_alarm_round)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(true)
             .setContentIntent(pendingIntent)
             .addAction(
