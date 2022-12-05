@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     private var stationId: Int = 0
     lateinit var binding: ActivityMainBinding
 
-    //private lateinit var mImageView: ImageView
 
     /*
     view model DI(의존성 주입)
@@ -86,7 +85,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
 
         /* view와 activity binding */
         setContentView(binding.root)
-        //mImageView= FragmentEntryBinding?.bind(findViewById(R.id.stationImage))
     }
 
 

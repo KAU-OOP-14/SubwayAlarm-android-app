@@ -4,12 +4,10 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.core.app.NotificationCompat
 import com.example.subway_alarm.R
 import com.example.subway_alarm.di.SubwayAlarmApp
 import com.example.subway_alarm.ui.activities.MainActivity
-import java.net.URI
 
 object AlarmNotification: Notification() {
 

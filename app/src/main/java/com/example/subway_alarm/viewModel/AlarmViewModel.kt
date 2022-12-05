@@ -1,11 +1,8 @@
 package com.example.subway_alarm.viewModel
 
-import androidx.lifecycle.viewModelScope
 import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
-import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.concurrent.timer
 
 class AlarmViewModel: BaseViewModel() {
     private val _alarmTime = NonNullMutableLiveData<Int>(0)

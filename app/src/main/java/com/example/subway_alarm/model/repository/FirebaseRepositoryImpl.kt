@@ -5,15 +5,12 @@ import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Subway
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class StationPositionRepository : FirebaseRepository {
-    var db: FirebaseFirestore
+class FirebaseRepositoryImpl : FirebaseRepository {
+    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     init{
-        db = FirebaseFirestore.getInstance()
         getEndPointList()
     }
 

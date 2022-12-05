@@ -1,6 +1,5 @@
 package com.example.subway_alarm.viewModel
 
-import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.repository.StationRepository

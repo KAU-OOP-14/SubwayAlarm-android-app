@@ -3,13 +3,10 @@ package com.example.subway_alarm.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ListStationArrivalBinding
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.viewModel.listener.OnAlarmSet
 
-class StationDataAdapter(val apiModelList: List<ApiModel>, listener: OnAlarmSet): RecyclerView.Adapter<StationDataAdapter.Holder>(){
-    val callback = listener
+class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter<StationDataAdapter.Holder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStationArrivalBinding.inflate(LayoutInflater.from(parent.context))
@@ -29,10 +26,6 @@ class StationDataAdapter(val apiModelList: List<ApiModel>, listener: OnAlarmSet)
         fun bind(apiModel: ApiModel) {
             binding.txtDestination.text = apiModel.bstatnNm
             binding.txtArrivalTime.text = apiModel.arvlMsg2
-            binding.btnAlarm.setImageResource(R.drawable.ic_baseline_alarm_24)
-            binding.btnAlarm.setOnClickListener {
-                callback.onAlarmSet()
-            }
         }
     }
 }

@@ -80,15 +80,6 @@ class EntryFragment : Fragment() {
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        /*
-        binding?.btnStation?.setOnClickListener {
-            //입력한 역의 api 요청
-            val bottomSheet = MainFragment()
-            // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-            bottomSheet.show(childFragmentManager,bottomSheet.tag)
-        }
-        */
-
         positionViewModel.scaleValue.observe(viewLifecycleOwner) {
             binding?.stationImage?.scaleX = it
             binding?.stationImage?.scaleY = it
