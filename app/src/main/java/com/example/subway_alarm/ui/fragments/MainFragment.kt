@@ -109,7 +109,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         binding?.recRight?.adapter = StationDataAdapter(apiModelList)
 
         // 즐겨찾기가 되어 있다면 강조됩니다.
-        println(viewModel.curStation.value.id)
         Subway.getStation(viewModel.curStation.value.id)?.let {
             if (it.isFavorited){
                 binding?.btnStar?.setImageResource(R.drawable.fill_star)

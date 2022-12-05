@@ -43,8 +43,6 @@ class PositionViewModel(
         get() = _selectedPos
     val isMoving: NonNullLiveData<Boolean>
         get() = _isMoving
-    val state: NonNullLiveData<Boolean>
-        get() = _state
     val stationId: NonNullLiveData<Int>
         get() = _stationId
 

@@ -132,7 +132,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     override fun onAlarmSet() {
         //알람 리시버 생성
         val myIntent = Intent(this, AlarmService::class.java)
-        println(alarmViewModel.alarmTime.value)
         myIntent.putExtra("time", alarmViewModel.alarmTime.value)
         myIntent.action = AlarmService.START_FOREGROUND
         //알람 처리를 해주는 알람 매니저입니다.
