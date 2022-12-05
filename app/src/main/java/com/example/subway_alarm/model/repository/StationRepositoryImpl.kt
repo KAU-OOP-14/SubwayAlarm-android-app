@@ -15,7 +15,6 @@ class StationRepositoryImpl : StationRepository {
 
     init {
         SubwayBuilder.initSubway()
-        println("Subway 객체 -> 저장소에 저장됨")
     }
 
     /** 노선도 클릭이나, 검색, 즐겨찾기를 통해 불러온 current station 입니다. */
@@ -23,7 +22,6 @@ class StationRepositoryImpl : StationRepository {
 
     override var curStation: Station = station
         set(value) {
-            println("새로운 curStation set : ${value.stationName}")
             field = value
         }
 
@@ -45,7 +43,7 @@ class StationRepositoryImpl : StationRepository {
                     val apiModelList = it.leftList
                     if (apiModelList != null) {
                         for (model in apiModelList) {
-                            println("호선 : ${model.subwayId}")
+                            //println("호선 : ${model.subwayId}")
                             //1호선부터 9호선
                             when (val id = model.subwayId) {
                                 in 1001..1009 -> {

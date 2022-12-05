@@ -26,10 +26,7 @@ class ArrivalViewModel(
         get() = _rightApi
     val curStation: NonNullLiveData<Station>
         get() = _curStation
-    val alarmTime: NonNullLiveData<Int>
-        get() = _alarmTime
 
-    private var job: Job? = null
     var isLoaded = false
 
     /** repository의 api가 바뀌면 view에서 관찰하는 apis를 변경합니다. */
@@ -115,7 +112,6 @@ class ArrivalViewModel(
      * 리팩토링 필요 : 호선을 바꿀 때마다 검색을 해야하는 것이 번거로움
      * */
     fun changeLine(lineNum: Int) {
-        println("line changed : $lineNum")
         val list = stationRepository.search(curStation.value.stationName)
         for (station in list) {
             if (station.id / 1000 == lineNum) {
@@ -124,7 +120,7 @@ class ArrivalViewModel(
         }
     }
 
-
+    // loading시 repository의 DI를 위한 함수입니다.
     fun onLoading(){}
 
 }

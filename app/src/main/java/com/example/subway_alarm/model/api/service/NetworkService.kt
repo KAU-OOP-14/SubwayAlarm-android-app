@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface NetworkService {
-    @GET("api/subway/7a5370504e6868743131324443656265/json/realtimeStationArrival/0/5/{post}")
+    @GET("api/subway/7a5370504e6868743131324443656265/json/realtimeStationArrival/0/8/{post}")
     fun getStationArrivals(@Path("post") post: String): Single<ApiModelList>
 }

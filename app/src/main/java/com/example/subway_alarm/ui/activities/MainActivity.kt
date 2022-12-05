@@ -66,21 +66,21 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         // dispaly의 픽셀 수 구하기
         // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
         val display = this.applicationContext.resources.displayMetrics
-        println("widthPiexels : ${display.widthPixels}, heightPixels : ${display.heightPixels}")
+        //println("widthPiexels : ${display.widthPixels}, heightPixels : ${display.heightPixels}")
 
         var statusBarHeight = 0
         var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
             statusBarHeight = resources.getDimensionPixelSize(resourceId)
         }
-        println("status : $statusBarHeight")
+        //println("status : $statusBarHeight")
 
         resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         var navigationBarHeight = 0
         if (resourceId > 0) {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId)
         }
-        println("devie: $navigationBarHeight")
+        //println("devie: $navigationBarHeight")
         positionViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
@@ -93,31 +93,31 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         // 제스처 이벤트를 처리하는 메소드를 호출
         if(event != null){
             val pos = PointF(event.x, event.y)
-            println("current x: ${event.x}, y : ${event.y}")
+            //println("current x: ${event.x}, y : ${event.y}")
             when (event.action) {
                 // 화면에 손가락이 닿음
                 MotionEvent.ACTION_DOWN -> {
                     positionViewModel.setPos(pos)
                     positionViewModel.setMoving(true)
                     lastTimeTouchPressed = System.currentTimeMillis()
-                    println("Touched")
+                    //println("Touched")
                 }
 
                 // 화면에 손가락이 닿은 채로 움직이고 있음
                 MotionEvent.ACTION_MOVE -> {
-                    println("moving")
+                    //println("moving")
                     positionViewModel.setMovePos(pos)
                 }
 
                 // 화면에서 손가락을 땜
                 MotionEvent.ACTION_UP -> {
-                    println("end")
+                    //println("end")
                     positionViewModel.setMoving(false)
                     // 잠깐 터치한 경우는 selectedPos를 업데이트 한다
                     if (System.currentTimeMillis() - lastTimeTouchPressed < 250)
                         positionViewModel.setSelectedPos(pos)
                     else {
-                        println("move end")
+                        //println("move end")
                         positionViewModel.setMovePos(pos)
                     }
                 }
@@ -131,7 +131,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
 
     override fun onAlarmSet() {
         //알람 리시버 생성
-        println("알람이 설정되었습니다.")
         val myIntent = Intent(this, AlarmService::class.java)
         println(alarmViewModel.alarmTime.value)
         myIntent.putExtra("time", alarmViewModel.alarmTime.value)
@@ -144,7 +143,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
 
     override fun onAlarmOff() {
         // 알람 취소
-        println("알람이 해제되었습니다.")
         val myIntent = Intent(this, AlarmService::class.java)
         myIntent.action = AlarmService.STOP_FOREGROUND
         ContextCompat.startForegroundService(this, myIntent)

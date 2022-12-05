@@ -23,7 +23,6 @@ class AlarmService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        println("새로운 intent : $intent / $this")
 
         val time = intent?.getIntExtra("time", 0)?:0
         when(intent?.action){
@@ -55,7 +54,6 @@ class AlarmService: Service() {
 
         val timer = Timer()
         var timeCount = time
-        println(timeCount)
         isServiceOn = true
          startForeground(SERVICE_ID, notificationBuilder.build())
 

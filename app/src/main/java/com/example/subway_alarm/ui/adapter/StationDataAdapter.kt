@@ -15,6 +15,8 @@ class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        // 최대 3개의 api 데이터를 보여줍니다.
+        if (position >= 3) return
         holder.bind(apiModelList[position])
     }
 
