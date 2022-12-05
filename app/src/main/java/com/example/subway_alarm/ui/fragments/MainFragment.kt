@@ -14,7 +14,6 @@ import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
-import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
 import com.example.subway_alarm.viewModel.ArrivalViewModel
@@ -26,7 +25,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 
-// class MainFragment : BottomSheetDialogFragment(), OnLineChange, MainActivity.onBackPressedListener, OnAlarmSet {
 class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
     private var paramId: Int = 2005 // 홍대입구
@@ -37,12 +35,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     var apiModelList: List<ApiModel> = listOf()
     lateinit var entryFragment: EntryFragment
 
-    /*
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
-    */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +59,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         viewModel.leftApi.observe(viewLifecycleOwner, Observer {
             var data = ""
             apiModelList = it
-            binding?.recLeft?.adapter = StationDataAdapter(apiModelList, this)
+            binding?.recLeft?.adapter = StationDataAdapter(apiModelList)
             for (model in it) {
                 data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
@@ -75,7 +67,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         viewModel.rightApi.observe(viewLifecycleOwner, Observer {
             var data = ""
             apiModelList = it
-            binding?.recRight?.adapter = StationDataAdapter(apiModelList, this)
+            binding?.recRight?.adapter = StationDataAdapter(apiModelList)
             for (model in it) {
                 data += "${model.bstatnNm}|${model.trainLineNm}|${model.arvlMsg2}\n"
             }
@@ -111,13 +103,12 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         binding?.recLine?.adapter = LineNumAdapter(lineNumbers, this)
         binding?.recLeft?.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding?.recLeft?.adapter = StationDataAdapter(apiModelList, this)
+        binding?.recLeft?.adapter = StationDataAdapter(apiModelList)
         binding?.recRight?.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding?.recRight?.adapter = StationDataAdapter(apiModelList, this)
+        binding?.recRight?.adapter = StationDataAdapter(apiModelList)
 
         // 즐겨찾기가 되어 있다면 강조됩니다.
-        println(viewModel.curStation.value.id)
         Subway.getStation(viewModel.curStation.value.id)?.let {
             if (it.isFavorited){
                 binding?.btnStar?.setImageResource(R.drawable.fill_star)
@@ -243,7 +234,5 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     /** 알람을 설정했을 때 호출하는 callback 입니다.*/
     override fun onAlarmSet() {
         Toast.makeText(this.context, "알람이 설정되었습니다.", Toast.LENGTH_SHORT).show()
-        //알람을 셋팅합니다.
-        //viewModel.setAlarm()
     }
 }

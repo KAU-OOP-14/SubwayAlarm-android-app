@@ -1,9 +1,6 @@
 package com.example.subway_alarm.viewModel
 
 import androidx.lifecycle.ViewModel
-import com.example.subway_alarm.extensions.NonNullLiveData
-import com.example.subway_alarm.extensions.NonNullMutableLiveData
-import com.example.subway_alarm.model.Station
 import io.reactivex.rxjava3.disposables.Disposable
 
 open class BaseViewModel : ViewModel() {

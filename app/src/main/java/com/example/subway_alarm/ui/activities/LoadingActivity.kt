@@ -21,7 +21,6 @@ class LoadingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        println("loading activity 생성")
         viewModel.onLoading()
         if(viewModel.isLoaded) {
             startMainActivity()
@@ -67,6 +66,5 @@ class LoadingActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        println("loading 파괴")
     }
 }

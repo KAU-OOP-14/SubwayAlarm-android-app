@@ -22,27 +22,15 @@
         android:id="@+id/txtArrivalTime"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:text="3전역 도착"
+        android:layout_marginStart="30dp"
         android:ellipsize="end"
         android:singleLine="true"
+        android:text="3전역 도착"
         android:textColor="#2196F3"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnAlarm"
+        app:layout_constraintBottom_toBottomOf="@+id/txtDestination"
         app:layout_constraintStart_toEndOf="@+id/txtDestination"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtDestination"
         app:layout_constraintVertical_bias="0.476" />
 
-    <ImageButton
-
-        android:id="@+id/btnAlarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="#00FFFFFF"
-        android:scaleX="1"
-        android:scaleY="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/alarm" />
 </androidx.constraintlayout.widget.ConstraintLayout>

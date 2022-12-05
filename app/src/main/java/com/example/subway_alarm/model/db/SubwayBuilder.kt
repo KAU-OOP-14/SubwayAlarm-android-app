@@ -32,7 +32,7 @@ object SubwayBuilder {
             //16개 line을 생성합니다.
             for (lineId in 1..16) {
                 lines.add(Line(lineId))
-            } // ??
+            }
 
             try {
                 var count = 0
@@ -56,10 +56,6 @@ object SubwayBuilder {
                     }
                     emit(item)
                 }
-                println("로딩 완료...")
-                /**
-                 * 로딩완료 구현 필요
-                 */
                 loading = false
                 //station이 모두 들어간 뒤, line을 subway에 넣습니다.
                 Subway.addLines(lines)

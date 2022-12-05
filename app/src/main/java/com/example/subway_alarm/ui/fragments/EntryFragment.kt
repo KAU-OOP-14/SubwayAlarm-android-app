@@ -80,15 +80,6 @@ class EntryFragment : Fragment() {
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        /*
-        binding?.btnStation?.setOnClickListener {
-            //입력한 역의 api 요청
-            val bottomSheet = MainFragment()
-            // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-            bottomSheet.show(childFragmentManager,bottomSheet.tag)
-        }
-        */
-
         positionViewModel.scaleValue.observe(viewLifecycleOwner) {
             binding?.stationImage?.scaleX = it
             binding?.stationImage?.scaleY = it
@@ -96,14 +87,10 @@ class EntryFragment : Fragment() {
 
         binding?.btnZoomIn?.setOnClickListener {
             positionViewModel.onZoomIn()
-            println("zoomin")
         }
 
         binding?.btnZoomOut?.setOnClickListener {
-
             positionViewModel.onZoomOut()
-            println("zoomout")
-
         }
 
 
@@ -111,14 +98,12 @@ class EntryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        println("view created!!!")
         super.onViewCreated(view, savedInstanceState)
         positionViewModel.selectedPos.observe(viewLifecycleOwner) {
-            println("역선택한 경우!")
+            //something
         }
 
         positionViewModel.stationId.observe(viewLifecycleOwner) {
-            println("넘어온 id값: $it")
             if (it != 0) {
                 positionViewModel.setStationId(it)
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
@@ -135,14 +120,12 @@ class EntryFragment : Fragment() {
 
         positionViewModel.pos.observe(viewLifecycleOwner) {
             // 항상 처음에 터치한 경우
-            println("pos observe")
             if (isFabOpen) {
                 toggleFab()
             }
         }
 
         positionViewModel.movePos.observe(viewLifecycleOwner) {
-            println("move observe")
             // 움직이는 경우
             if (positionViewModel.isMoving.value) {
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
@@ -209,15 +192,4 @@ class EntryFragment : Fragment() {
         // OnBackPressedCallBack 객체 제거
         callback.remove()
     }
-
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            EntryFragment().apply {
-                arguments = Bundle().apply {
-                }
-            }
-    }
-
 }

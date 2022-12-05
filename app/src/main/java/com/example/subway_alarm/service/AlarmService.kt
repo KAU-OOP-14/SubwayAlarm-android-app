@@ -1,6 +1,5 @@
 package com.example.subway_alarm.service
 
-import android.app.Notification
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
@@ -9,7 +8,6 @@ import android.net.Uri
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.example.subway_alarm.R
 import java.util.*
 
 
@@ -25,7 +23,6 @@ class AlarmService: Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        println("새로운 intent : $intent / $this")
 
         val time = intent?.getIntExtra("time", 0)?:0
         when(intent?.action){
@@ -57,7 +54,6 @@ class AlarmService: Service() {
 
         val timer = Timer()
         var timeCount = time
-        println(timeCount)
         isServiceOn = true
          startForeground(SERVICE_ID, notificationBuilder.build())
 
