@@ -99,6 +99,9 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        positionViewModel.selectedPos.observe(viewLifecycleOwner) {
+            //something
+        }
 
         positionViewModel.stationId.observe(viewLifecycleOwner) {
             if (it != 0) {
