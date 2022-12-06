@@ -114,10 +114,6 @@ class EntryFragment : Fragment() {
             binding?.stationImage?.translationY = positionViewModel.transValue.y
         }
 
-        positionViewModel.selectedPos.observe(viewLifecycleOwner) {
-            //something
-        }
-
         positionViewModel.stationId.observe(viewLifecycleOwner) { stationId ->
             if (stationId != 0) {
                 positionViewModel.setStationId(stationId)

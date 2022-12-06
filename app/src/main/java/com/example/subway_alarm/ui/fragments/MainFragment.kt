@@ -115,20 +115,20 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
         }
 
 
-        // 왼쪽 역 버튼 클릭시 이벤트
+        // 왼쪽 역 버튼 클릭시 발생하는 이벤트
         binding?.btnLeft?.setOnClickListener {
-            val array: Array<String>? = viewModel.onCrossedLine("left")
-            if (array == null)
+            val crossRailRoad: Array<String>? = viewModel.onCrossedLine("left")
+            if (crossRailRoad == null)
                 viewModel.gotoStation(Direction.LEFT)
             else {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
                     .setTitle("Selct Station")
-                    .setItems(array) { _, which ->
+                    .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${array[which]} is Selected",
+                            "${crossRailRoad[which]} is Selected",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which
@@ -138,20 +138,20 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
             }
         }
 
-        //오른쪽 역 버튼 클릭시 이벤트
+        //오른쪽 역 버튼 클릭시 발생하는 이벤트
         binding?.btnRight?.setOnClickListener {
-            val array: Array<String>? = viewModel.onCrossedLine("right")
-            if (array == null)
+            val crossRailRoad: Array<String>? = viewModel.onCrossedLine("right")
+            if (crossRailRoad == null)
                 viewModel.gotoStation(Direction.RIGHT)
             else {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
                     .setTitle("Selct Station")
-                    .setItems(array) { _, which ->
+                    .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${array[which]} is Selected",
+                            "${crossRailRoad[which]} is Selected",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which

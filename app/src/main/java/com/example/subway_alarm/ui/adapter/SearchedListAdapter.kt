@@ -61,7 +61,7 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
 
             // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
             binding.root.setOnClickListener{
-                Toast.makeText(binding.root.context,"${station.id/ Subway.STATION_ID_UNIT}호선 ${station.stationName}역",
+                Toast.makeText(binding.root.context,"${station.stationName}역이 선택되었습니다.",
                     Toast.LENGTH_SHORT).show()
                 clickCallback.onSearchResultClick(station.id)
             }

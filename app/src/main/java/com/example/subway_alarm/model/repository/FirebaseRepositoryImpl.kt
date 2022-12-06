@@ -29,12 +29,12 @@ class FirebaseRepositoryImpl(
             // 2170 = 2280 - 44(navigationBarHeight) - 66(statusBarHeight), 1151 = 2170 / 2 + 66
             val originY: Float =
                 1151f - (2170f * (((height / 2f) - tempY) / height)) // 중앙을 기준으로 y좌표를 계산한다.
-            println("originX : $originX, originY : $originY")
+            //println("originX : $originX, originY : $originY")
             database.collection("stationId")
                 .get()
                 .addOnSuccessListener { result ->
                     val possibleStationMap: MutableMap<Float, Int> = mutableMapOf()
-                    val scope = 100f / scale
+                    val scope = 100f / scale // 확대 정도에 따라 역을 선택하는 scope 조절
                     for (document in result) {
                         val x = document.data.get("x")?.toString()?.toFloat() ?: 0f
                         val y = document.data.get("y")?.toString()?.toFloat() ?: 0f
@@ -124,7 +124,7 @@ class FirebaseRepositoryImpl(
                     val firebaseList = document.data["종착역"] as? ArrayList<*> ?: arrayListOf<String>()
                     val temp: ArrayList<String> = arrayListOf()
                     for (item in firebaseList){
-                        if(item is String) temp.add(item)
+                        if(item is String) temp.add(item) // is를 통한 스마트 캐스팅
                     }
                     endPointMap[document.id.toInt()] = temp
                 }

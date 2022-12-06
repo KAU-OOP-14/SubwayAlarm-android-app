@@ -70,6 +70,7 @@ class AlarmService: Service() {
                         .clearActions()
                         .setDefaults(Notification.DEFAULT_ALL)
                         .priority = NotificationCompat.PRIORITY_HIGH
+
                     ring()
                     notiManager.notify(SERVICE_ID, notificationBuilder.build())
                     this.cancel()

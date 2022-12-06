@@ -74,7 +74,7 @@ object SubwayBuilder {
                 val lineList: ArrayList<Int> = arrayListOf()
                 if (row[0].contains(".")) {
                     lineList.add(row[0].substringBefore('.').toInt())
-                } else {
+                } else { // 환승역의 경우
                     val tempList = row[0].split(",")
                     for (i in tempList) {
                         lineList.add(i.toInt())
