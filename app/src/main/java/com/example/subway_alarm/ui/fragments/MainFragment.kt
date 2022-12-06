@@ -124,11 +124,11 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
-                    .setTitle("Selct Station")
+                    .setTitle("Select Station")
                     .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${crossRailRoad[which]} is Selected",
+                            "${crossRailRoad[which]}역이 선택되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which
@@ -147,11 +147,11 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
-                    .setTitle("Selct Station")
+                    .setTitle("Select Station")
                     .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${crossRailRoad[which]} is Selected",
+                            "${crossRailRoad[which]}역이 선택되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which

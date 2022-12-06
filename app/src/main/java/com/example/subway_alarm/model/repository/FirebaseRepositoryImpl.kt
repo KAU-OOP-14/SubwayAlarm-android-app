@@ -121,6 +121,7 @@ class FirebaseRepositoryImpl(
                 val endPointMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
                 for (document in result) {
                     // @Suppress("UNCHECKED_CAST")
+                    // as?로 타입 변환 시도하고 실패 시 null 반환
                     val firebaseList = document.data["종착역"] as? ArrayList<*> ?: arrayListOf<String>()
                     val temp: ArrayList<String> = arrayListOf()
                     for (item in firebaseList){

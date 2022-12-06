@@ -38,11 +38,11 @@ class PositionViewModel(
     private var state: Boolean = false                                  // Mainactivity의 onTouch값을 받을 지 말지 결정
     private var isMoving: Boolean = false                               // 드래그 중인지 상태를 체크하는 변수
     private var isScaleChanged: Boolean = false                         // zoomIn, zoomOut이 일어났는가 체크하는 변수
-    private var currentScaleTransValue = PointF(0f, 0f)          // scale에 상관없이 현재까지 move한 거리
-    private var totalTransValue = PointF(0f, 0f)                 // scale이 1이라고 가정할 때 현재까지 움직인 거리
+    private var currentScaleTransValue = PointF(0f, 0f)            // scale에 상관없이 현재까지 move한 거리
+    private var totalTransValue = PointF(0f, 0f)                   // scale이 1이라고 가정할 때 현재까지 움직인 거리
 
     // 밖에서는 볼 수 있지만, 변경 불가능하도록 변경
-    var transValue: PointF = PointF(0f, 0f)                      // 한번 move했을 때 view가 움직일 거리
+    var transValue: PointF = PointF(0f, 0f)                        // 한번 move했을 때 view가 움직일 거리
         private set
     var heightPixels: Int  = display.heightPixels                       // 디바이스의 세로 pixel 수
         private set
@@ -156,20 +156,12 @@ class PositionViewModel(
     /** stationId를 바꾸어 주는 함수
      *  id가 0이 아니면 역을 제대로 선택한 경우로 화면 중앙으로 이동시킨다.
      * */
-    private fun modifyStationId(newId: Int) {
-        if(newId != 0){
-            val viewCenterPos = PointF(widthPixels/2f, heightPixels/2f)
-            transValue = currentScaleTransValue - (_pos.value - viewCenterPos)
-            currentScaleTransValue = transValue
-            totalTransValue -= PointF(
-                (_pos.value - viewCenterPos).x / _scaleValue.value,
-                (_pos.value - viewCenterPos).y / _scaleValue.value)
-            }
-        _stationId.value = newId
+    private fun modifyStationId(stationId: Int) {
+        _stationId.value =  stationId
     }
 
-    fun setStationId(newId: Int) {
-        modifyStationId((newId))
+    fun setStationId(stationId: Int) {
+        modifyStationId((stationId))
     }
 
     /** transValue들을 초기화해주는 함수 */
@@ -183,7 +175,7 @@ class PositionViewModel(
         modifyTranslationValue(PointF(0f, 0f), PointF(0f, 0f), PointF(0f, 0f))
     }
 
-    /** 들어온 scaleValue를 가지고  */
+    /** 들어온 scaleValue를 가지고 확대,축소하는 함수 */
     private fun modifyScaleValue(inputScaleValue: Float){
         val tempScaleValue = _scaleValue.value + inputScaleValue
         // 들어온 scaleValue를 반영한 값이 2f .. 6f 범위 안에 있다면 그 값을 대입
@@ -199,5 +191,17 @@ class PositionViewModel(
     fun onZoomOut() {
         // 축소
         modifyScaleValue(-2f)
+    }
+
+    /** view에서 repository에서 올바른 stationId 값이 넘어 온것을
+     *  확인하고 이 함수를 호출함으로 이동해야할 값을 계산하고 이동한다.
+     */
+    fun modifyTransValue(){
+        val viewCenterPos = PointF(widthPixels/2f, heightPixels/2f)
+            transValue = currentScaleTransValue - (_pos.value - viewCenterPos)
+            currentScaleTransValue = transValue
+            totalTransValue -= PointF(
+                (_pos.value - viewCenterPos).x / _scaleValue.value,
+                (_pos.value - viewCenterPos).y / _scaleValue.value)
     }
 }

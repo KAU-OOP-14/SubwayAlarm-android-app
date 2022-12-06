@@ -66,10 +66,11 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
                     }
                     return false
                 }
-
             }
+
         // SearchView에 OnQueryTextLitener 부착
         binding?.searchStation?.setOnQueryTextListener(searchViewTextListener)
+
         binding?.btnTop?.setOnClickListener(){
             findNavController().navigate(R.id.action_searchFragment_to_entryFragment)
         }
