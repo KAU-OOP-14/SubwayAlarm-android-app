@@ -36,7 +36,7 @@ class ArrivalViewModel(
             stationRepository.retrofitGetArrivals(stationName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ it ->
+                .subscribe({ //성공시
                     try {
                         _rightApi.value = it.rightList!!
                         _leftApi.value = it.leftList!!
@@ -47,7 +47,7 @@ class ArrivalViewModel(
                         _rightApi.value = listOf()
                         _leftApi.value = listOf()
                     }
-                }, {
+                }, { //실패시
                     println("api를 받지 못했습니다..ㅠㅠ")
                 })
         )

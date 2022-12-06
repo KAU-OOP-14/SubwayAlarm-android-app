@@ -10,13 +10,10 @@ class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStationArrivalBinding.inflate(LayoutInflater.from(parent.context))
-        val holder = Holder(binding)
-        return holder
+        return Holder(binding)
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        // 최대 3개의 api 데이터를 보여줍니다.
-        if (position >= 3) return
         holder.bind(apiModelList[position])
     }
 

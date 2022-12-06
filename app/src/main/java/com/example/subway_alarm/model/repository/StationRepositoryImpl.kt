@@ -6,13 +6,15 @@ import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.api.dataModel.ApiModelList
-import com.example.subway_alarm.model.api.service.NetworkManager
+import com.example.subway_alarm.model.api.service.NetworkService
 import io.reactivex.rxjava3.core.Single
 
 
 /** retrofit 데이터를 처리해주는 저장소입니다.
  * main fragment에서 보고 있는 station을 담고 있습니다. */
-class StationRepositoryImpl : StationRepository {
+class StationRepositoryImpl(
+    val stationApi: NetworkService
+) : StationRepository {
 
     init {
         SubwayBuilder.initSubway()
@@ -22,10 +24,6 @@ class StationRepositoryImpl : StationRepository {
     val station: Station = Station("초기값", 0, arrayListOf())
 
     override var curStation: Station = station
-        set(value) {
-            field = value
-        }
-
     override val afterSearchedResultList: MutableList<Station> = mutableListOf()
     override var searchResultList: MutableList<Station> = mutableListOf()
     override var favoriteStations: MutableList<Station> = mutableListOf()
@@ -35,7 +33,7 @@ class StationRepositoryImpl : StationRepository {
 
     /** api data를 map을 통해 조작해서 viewmodel에게 알려줍니다. */
     override fun retrofitGetArrivals(stationName: String): Single<ApiModelList> {
-        return NetworkManager.subwayApi.getStationArrivals(stationName)
+        return stationApi.getStationArrivals(stationName)
             //map을 통해 데이터를 가공합니다.
             .map {
                 it.let {
