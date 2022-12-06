@@ -1,10 +1,16 @@
 package com.example.subway_alarm.di
 
+import android.app.PendingIntent
+import android.content.Intent
+import androidx.core.app.NotificationCompat
+import com.example.subway_alarm.R
 import com.example.subway_alarm.model.api.service.NetworkService
 import com.example.subway_alarm.model.repository.FirebaseRepository
 import com.example.subway_alarm.model.repository.FirebaseRepositoryImpl
 import com.example.subway_alarm.model.repository.StationRepository
 import com.example.subway_alarm.model.repository.StationRepositoryImpl
+import com.example.subway_alarm.service.AlarmService
+import com.example.subway_alarm.ui.activities.MainActivity
 import com.example.subway_alarm.viewModel.*
 import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.android.viewmodel.dsl.viewModel

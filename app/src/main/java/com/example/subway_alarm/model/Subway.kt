@@ -1,8 +1,9 @@
 package com.example.subway_alarm.model
 
-const val STATION_ID_UNIT = 1000
 
 object Subway {
+    /** station 역 id 단위입니다. */
+    const val STATION_ID_UNIT = 1000
     private val lineList: ArrayList<Line> = arrayListOf()
 
     init {

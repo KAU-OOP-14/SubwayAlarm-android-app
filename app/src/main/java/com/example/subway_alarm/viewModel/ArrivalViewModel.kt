@@ -4,7 +4,6 @@ import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
-import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -19,10 +18,11 @@ class ArrivalViewModel(
     private val _leftApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _rightApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, arrayListOf()))
-    private val _alarmTime = NonNullMutableLiveData<Int>(0)
 
+    //왼쪽 방향 api
     val leftApi: NonNullLiveData<List<ApiModel>>
         get() = _leftApi
+    //오른쪽 방향 api
     val rightApi: NonNullLiveData<List<ApiModel>>
         get() = _rightApi
     val curStation: NonNullLiveData<Station>
@@ -83,37 +83,32 @@ class ArrivalViewModel(
             else -> return
         }
         //새로운 api를 호출합니다.
-        if (i == -1) {
+        if (i == -1) { // 종착역인 경우
             node1?.let{
                 newStation(node1)
             }
-        } else {
+        } else { // 역 노드가 하나인 경우
             if (i == 0)
                 node1?.let {
                     newStation(node1)
                 }
             else
-                node2?.let {
+                node2?.let { // 역 노드가 두 개인 경우
                     newStation(node2)
                 }
         }
     }
 
-    /**
-     * Main Fragment에서 이동할 때 갈림길이 있는지 판단하는 함수.
-     * null를 반환하면 갈림길이 아니라는 의미입니다.
-     */
+    /** 갈림길이 있을 경우 선택지 역에 대한 배열을 반환합니다. */
     fun onCrossedLine(direction: String): Array<String>? {
         return stationRepository.getCrossedLine(direction)
     }
 
-    /** line을 바꿀 때 호출되는 함수입니다.
-     * 리팩토링 필요 : 호선을 바꿀 때마다 검색을 해야하는 것이 번거로움
-     * */
+    /** line을 바꿀 때 호출되는 함수입니다. */
     fun changeLine(lineNum: Int) {
         val list = stationRepository.search(curStation.value.stationName)
         for (station in list) {
-            if (station.id / STATION_ID_UNIT == lineNum) {
+            if (station.id / Subway.STATION_ID_UNIT == lineNum) {
                 newStation(station)
             }
         }

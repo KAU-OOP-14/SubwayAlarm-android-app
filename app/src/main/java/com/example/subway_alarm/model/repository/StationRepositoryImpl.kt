@@ -1,6 +1,5 @@
 package com.example.subway_alarm.model.repository
 
-import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.db.SubwayBuilder
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
@@ -13,7 +12,7 @@ import io.reactivex.rxjava3.core.Single
 /** retrofit 데이터를 처리해주는 저장소입니다.
  * main fragment에서 보고 있는 station을 담고 있습니다. */
 class StationRepositoryImpl(
-    val stationApi: NetworkService
+    private val stationApi: NetworkService
 ) : StationRepository {
 
     init {
@@ -46,7 +45,7 @@ class StationRepositoryImpl(
                             //1호선부터 9호선
                             when (val id = model.subwayId) {
                                 in 1001..1009 -> {
-                                    if (curStation.id / STATION_ID_UNIT == id % 10) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == id % 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -55,7 +54,7 @@ class StationRepositoryImpl(
                                 }
                                 //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
                                 1063 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 10) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -63,7 +62,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1065 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 11) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 11) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -71,7 +70,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1067 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 12) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 12) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -79,7 +78,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1075 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 13) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 13) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -87,7 +86,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1077 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 14) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 14) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -95,7 +94,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1091 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 15) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 15) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -103,7 +102,7 @@ class StationRepositoryImpl(
                                     }
                                 }
                                 1092 -> {
-                                    if (curStation.id / STATION_ID_UNIT == 16) {
+                                    if (curStation.id / Subway.STATION_ID_UNIT == 16) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
