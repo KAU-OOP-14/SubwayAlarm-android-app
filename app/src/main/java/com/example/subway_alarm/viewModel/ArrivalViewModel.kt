@@ -4,6 +4,7 @@ import com.example.subway_alarm.extensions.NonNullLiveData
 import com.example.subway_alarm.extensions.NonNullMutableLiveData
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
+import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -17,7 +18,7 @@ class ArrivalViewModel(
 
     private val _leftApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
     private val _rightApi = NonNullMutableLiveData<List<ApiModel>>(listOf(ApiModel()))
-    private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, mutableListOf()))
+    private val _curStation = NonNullMutableLiveData<Station>(Station("초기값", 0, arrayListOf()))
     private val _alarmTime = NonNullMutableLiveData<Int>(0)
 
     val leftApi: NonNullLiveData<List<ApiModel>>
@@ -83,10 +84,8 @@ class ArrivalViewModel(
         }
         //새로운 api를 호출합니다.
         if (i == -1) {
-            if (node1 != null) {
+            node1?.let{
                 newStation(node1)
-            } else {
-                println("다음 역이 없습니다.")
             }
         } else {
             if (i == 0)
@@ -114,7 +113,7 @@ class ArrivalViewModel(
     fun changeLine(lineNum: Int) {
         val list = stationRepository.search(curStation.value.stationName)
         for (station in list) {
-            if (station.id / 1000 == lineNum) {
+            if (station.id / STATION_ID_UNIT == lineNum) {
                 newStation(station)
             }
         }
