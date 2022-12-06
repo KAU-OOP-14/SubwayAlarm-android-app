@@ -1,5 +1,6 @@
 package com.example.subway_alarm.model.repository
 
+import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.db.SubwayBuilder
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
@@ -18,7 +19,7 @@ class StationRepositoryImpl : StationRepository {
     }
 
     /** 노선도 클릭이나, 검색, 즐겨찾기를 통해 불러온 current station 입니다. */
-    val station: Station = Station("초기값", 0, mutableListOf())
+    val station: Station = Station("초기값", 0, arrayListOf())
 
     override var curStation: Station = station
         set(value) {
@@ -47,7 +48,7 @@ class StationRepositoryImpl : StationRepository {
                             //1호선부터 9호선
                             when (val id = model.subwayId) {
                                 in 1001..1009 -> {
-                                    if (curStation.id / 1000 == id % 10) {
+                                    if (curStation.id / STATION_ID_UNIT == id % 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -56,7 +57,7 @@ class StationRepositoryImpl : StationRepository {
                                 }
                                 //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
                                 1063 -> {
-                                    if (curStation.id / 1000 == 10) {
+                                    if (curStation.id / STATION_ID_UNIT == 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -64,7 +65,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1065 -> {
-                                    if (curStation.id / 1000 == 11) {
+                                    if (curStation.id / STATION_ID_UNIT == 11) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -72,7 +73,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1067 -> {
-                                    if (curStation.id / 1000 == 12) {
+                                    if (curStation.id / STATION_ID_UNIT == 12) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -80,7 +81,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1075 -> {
-                                    if (curStation.id / 1000 == 13) {
+                                    if (curStation.id / STATION_ID_UNIT == 13) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -88,7 +89,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1077 -> {
-                                    if (curStation.id / 1000 == 14) {
+                                    if (curStation.id / STATION_ID_UNIT == 14) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -96,7 +97,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1091 -> {
-                                    if (curStation.id / 1000 == 15) {
+                                    if (curStation.id / STATION_ID_UNIT == 15) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -104,7 +105,7 @@ class StationRepositoryImpl : StationRepository {
                                     }
                                 }
                                 1092 -> {
-                                    if (curStation.id / 1000 == 16) {
+                                    if (curStation.id / STATION_ID_UNIT == 16) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
                                             leftCheckedList.add(model)
                                         else
@@ -127,19 +128,19 @@ class StationRepositoryImpl : StationRepository {
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
     override fun searchStationsWithName(stringName: String) = Subway.searchStationsWithName(stringName)
 
-        /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
+    /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
     override fun getCrossedLine(direction: String): Array<String>? {
         val stationList: Array<String> = Array(2) { "" }
         if (direction == "right") {
             if (curStation.secondRightStation != null) {
-                stationList[0] = (curStation.rightStation!!.stationName)
-                stationList[1] = (curStation.secondRightStation!!.stationName)
+                stationList[0] = (curStation.rightStation?.stationName ?: "")
+                stationList[1] = (curStation.secondRightStation?.stationName ?: "")
                 return stationList
             }
         } else if (direction == "left") {
             if (curStation.secondLeftStation != null) {
-                stationList[0] = (curStation.leftStation!!.stationName)
-                stationList[1] = (curStation.secondLeftStation!!.stationName)
+                stationList[0] = (curStation.leftStation?.stationName ?: "")
+                stationList[1] = (curStation.secondLeftStation?.stationName ?: "")
                 return stationList
             }
         }

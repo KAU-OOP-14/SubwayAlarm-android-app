@@ -1,10 +1,10 @@
 package com.example.subway_alarm.model
 
 class Line(val lineId: Int = 0){
-    private val _stationList: MutableList<Station> = mutableListOf()
-    private var endPointList: ArrayList<String> = arrayListOf()
+    private val _stationList: ArrayList<Station> = arrayListOf()
+    private var endPointList: List<String> = arrayListOf()
 
-    val stationList: MutableList<Station>
+    val stationList: ArrayList<Station>
         get() = _stationList
 
     /** Line의 stationList에서 staitonName을 가지는 Station 객체를 찾는 함수 */
@@ -17,9 +17,9 @@ class Line(val lineId: Int = 0){
 
     fun getStationInLine(stationId: Int): Station?{
         return try {
-            _stationList[stationId % 1000]
+            _stationList[stationId % STATION_ID_UNIT]
         }catch (e: IndexOutOfBoundsException) {
-            println("index 오류 발생 ㅠㅠ : ${(stationId % 1000)} / $e")
+            println("index 오류 발생 ㅠㅠ : ${(stationId % STATION_ID_UNIT)} / $e")
             null
         }
     }

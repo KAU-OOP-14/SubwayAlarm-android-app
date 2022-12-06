@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.di.SubwayAlarmApp
 import com.example.subway_alarm.model.Line
+import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import kotlinx.coroutines.CoroutineScope
@@ -26,7 +27,7 @@ object SubwayBuilder {
      * Station Repository가 생성될 때 한번만 호출되는 함수입니다.
      */
     fun initSubway(): Subway {
-        val lines: MutableList<Line> = mutableListOf()
+        val lines: ArrayList<Line> = arrayListOf()
         //Excel Thread에서 데이터를 추출합니다.
         val flow: Flow<Array<String>> = flow {
             //16개 line을 생성합니다.
@@ -69,7 +70,7 @@ object SubwayBuilder {
 
             flow.collect() { row ->
                 val id: Int = row[1].substringBefore(".").toInt()
-                val lineList: MutableList<Int> = mutableListOf()
+                val lineList: ArrayList<Int> = arrayListOf()
                 if (row[0].contains(".")) {
                     lineList.add(row[0].substringBefore('.').toInt())
                 } else {
@@ -78,7 +79,7 @@ object SubwayBuilder {
                         lineList.add(i.toInt())
                     }
                 }
-                lines[(id / 1000) - 1].initStations(Station(row[2], id, lineList))
+                lines[(id / STATION_ID_UNIT) - 1].initStations(Station(row[2], id, lineList))
             }
         }
 

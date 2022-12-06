@@ -1,5 +1,6 @@
 package com.example.subway_alarm.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -51,6 +52,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
     var lastTimeTouchPressed = 0L
 
+    @SuppressLint("InternalInsetResource", "DiscouragedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -66,21 +68,18 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         // dispaly의 픽셀 수 구하기
         // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
         val display = this.applicationContext.resources.displayMetrics
-        //println("widthPiexels : ${display.widthPixels}, heightPixels : ${display.heightPixels}")
 
         var statusBarHeight = 0
         var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {
             statusBarHeight = resources.getDimensionPixelSize(resourceId)
         }
-        //println("status : $statusBarHeight")
 
         resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         var navigationBarHeight = 0
         if (resourceId > 0) {
             navigationBarHeight = resources.getDimensionPixelSize(resourceId)
         }
-        //println("devie: $navigationBarHeight")
         positionViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
