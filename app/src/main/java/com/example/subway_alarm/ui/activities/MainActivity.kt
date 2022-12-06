@@ -26,7 +26,6 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
-    private var stationId: Int = 0
     lateinit var binding: ActivityMainBinding
 
 

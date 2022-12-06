@@ -8,8 +8,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class FirebaseRepositoryImpl : FirebaseRepository {
-    private var db: FirebaseFirestore = FirebaseFirestore.getInstance()
+class FirebaseRepositoryImpl(
+    private val database: FirebaseFirestore
+) : FirebaseRepository {
 
     init{
         getEndPointList()
@@ -29,7 +30,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
             val originY: Float =
                 1151f - (2170f * (((height / 2f) - tempY) / height)) // 중앙을 기준으로 y좌표를 계산한다.
 
-            db.collection("stationId")
+            database.collection("stationId")
                 .get()
                 .addOnSuccessListener { result ->
                     val possibleStationMap: MutableMap<Float, Int> = mutableMapOf()
@@ -57,7 +58,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
     override suspend fun getFavorites(favorites: NonNullMutableLiveData<List<Int>>) {
         withContext(Dispatchers.IO) {
-            db.collection("favorites")
+            database.collection("favorites")
                 .get()
                 .addOnSuccessListener { result ->
                     val stations: MutableList<Int> = mutableListOf()
@@ -83,7 +84,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
     override suspend fun postFavorites(stationId: Int) {
         val id = mapOf("id" to stationId)
         withContext(Dispatchers.IO) {
-            db.collection("favorites").document(stationId.toString()).set(id)
+            database.collection("favorites").document(stationId.toString()).set(id)
                 .addOnSuccessListener {
                     println("성공적으로 firebase에 추가했습니다 : $stationId")
                 }
@@ -96,7 +97,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
     override suspend fun deleteFavorite(stationId: Int) {
         withContext(Dispatchers.IO) {
-            db.collection("favorites")
+            database.collection("favorites")
                 .document(stationId.toString()).delete()
                 .addOnSuccessListener {
                     //즐겨찾기 해제
@@ -113,7 +114,7 @@ class FirebaseRepositoryImpl : FirebaseRepository {
 
     /** firebase에서 각 호선에 대한 종착역 리스트를 받아오는 함수 */
     override fun getEndPointList() {
-        db.collection("subwayEndPointList")
+        database.collection("subwayEndPointList")
             .get()
             .addOnSuccessListener { result ->
                 val endPointMap: MutableMap<Int, ArrayList<String>> = mutableMapOf()
