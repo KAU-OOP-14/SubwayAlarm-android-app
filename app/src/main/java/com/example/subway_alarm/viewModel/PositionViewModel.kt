@@ -69,7 +69,14 @@ class PositionViewModel(
 
     // 처음 터치가 일어났을 때 호출되는 함수
     private fun modifyPos(newPos: PointF) {
-        if (state) _pos.value = newPos
+        if (state) {
+            if (isScaleChanged) {
+                totalTransValue.x = currentScaleTransValue.x / _scaleValue.value
+                totalTransValue.y = currentScaleTransValue.y / _scaleValue.value
+                isScaleChanged = false
+            }
+            _pos.value = newPos
+        }
     }
 
     fun setPos(newPos: PointF) {
@@ -79,11 +86,6 @@ class PositionViewModel(
     // 터치 이후 움직일 때 호출되는 함수
     private fun modifyMovePos(movePos: PointF) {
         if (state) {
-            if (isScaleChanged) {
-                totalTransValue.x = currentScaleTransValue.x / _scaleValue.value
-                totalTransValue.y = currentScaleTransValue.y / _scaleValue.value
-                isScaleChanged = false
-            }
             // transvalue는 현재 scale에 맞춰서 이미지를 이동시킨다.
             transValue = currentScaleTransValue - (_pos.value - movePos)
             if (!isMoving) {   // 움직인 이후 손을 뗀 경우로 총 움직인 거리를 최신화한다.
@@ -179,9 +181,7 @@ class PositionViewModel(
 
     private fun modifyScaleValue(newScaleValue: Float){
         val tempScaleValue = _scaleValue.value + newScaleValue
-        when(tempScaleValue){
-            in 2f .. 6f -> _scaleValue.value = tempScaleValue
-        }
+        if(tempScaleValue in 2f .. 6f) _scaleValue.value = tempScaleValue
         isScaleChanged = true
     }
 
