@@ -26,7 +26,6 @@ object AlarmNotification: Notification() {
         return NotificationCompat.Builder(context, SubwayAlarmApp.ALARM_CHANNEL_ID)
             .setContentTitle("지하철 알람 앱")
             .setSmallIcon(R.mipmap.ic_subway_alarm_round)
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setOngoing(true)
             .setContentIntent(pendingIntent)
             .addAction(

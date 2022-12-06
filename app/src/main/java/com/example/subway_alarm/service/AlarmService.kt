@@ -1,5 +1,6 @@
 package com.example.subway_alarm.service
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
@@ -67,6 +68,8 @@ class AlarmService: Service() {
                         .setOngoing(false)
                         .setAutoCancel(true)
                         .clearActions()
+                        .setDefaults(Notification.DEFAULT_ALL)
+                        .priority = NotificationCompat.PRIORITY_HIGH
                     ring()
                     notiManager.notify(SERVICE_ID, notificationBuilder.build())
                     this.cancel()
