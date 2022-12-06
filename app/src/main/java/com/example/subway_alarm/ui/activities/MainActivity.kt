@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
                     //println("end")
                     positionViewModel.setMoving(false)
                     // 잠깐 터치한 경우는 selectedPos를 업데이트 한다
-                    if (System.currentTimeMillis() - lastTimeTouchPressed < 250)
+                    if (System.currentTimeMillis() - lastTimeTouchPressed < 150)
                         positionViewModel.setSelectedPos(pos)
                     else {
                         //println("move end")

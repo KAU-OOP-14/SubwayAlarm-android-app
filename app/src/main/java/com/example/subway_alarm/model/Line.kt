@@ -1,7 +1,7 @@
 package com.example.subway_alarm.model
 
 class Line(val lineId: Int = 0){
-    private val _stationList: ArrayList<Station> = arrayListOf()
+    private val _stationList: ArrayList<Station> = arrayListOf()    // Subway에서 접근 하기에
     private var endPointList: List<String> = arrayListOf()
 
     val stationList: ArrayList<Station>
@@ -15,6 +15,7 @@ class Line(val lineId: Int = 0){
         return null
     }
 
+    /** stationId를 가지고 Station 객체를 반환하는 함수 */
     fun getStationInLine(stationId: Int): Station?{
         return try {
             _stationList[stationId % Subway.STATION_ID_UNIT]
@@ -29,6 +30,7 @@ class Line(val lineId: Int = 0){
         _stationList.add(newStation)
     }
 
+    /** Line 객채의 endPointList를 초기화해주는 함수 */
     fun initEndPointList(endPointList: ArrayList<String>){
         this.endPointList = endPointList
     }
