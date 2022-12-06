@@ -13,7 +13,6 @@ import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.FragmentMainBinding
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
-import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.ui.adapter.LineNumAdapter
 import com.example.subway_alarm.ui.adapter.StationDataAdapter
@@ -198,7 +197,7 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     }
 
     fun getColor(station: Station): Int {
-        when (station.id / STATION_ID_UNIT) {
+        when (station.id / Subway.STATION_ID_UNIT) {
             1 -> return Color.parseColor("#FF0D3692")
             2 -> return Color.parseColor("#FF33A23D")
             3 -> return Color.parseColor("#FFFE5D10")
