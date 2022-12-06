@@ -17,13 +17,13 @@ interface StationRepository {
     var favoriteStations: MutableList<Station>
 
     /** 전달받은 역 이름으로 역을 검색해서 searchResults에 업데이트합니다. */
-    fun search(stationName: String): MutableList<Station>
+    fun searchStationName(stationName: String): MutableList<Station>
 
     /** Retrofit에서 api 데이터를 받아옵니다. */
     fun retrofitGetArrivals(stationName: String): Single<ApiModelList>
 
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
-    fun searchStationsWithName(stringName: String): MutableList<Station>
+    fun searchStationContainingStr(stringName: String): MutableList<Station>
 
     /** 갈림길이 있을 경우 선택지 역에 대한 배열을 반환합니다.*/
     fun getCrossedLine(direction: String): Array<String>?

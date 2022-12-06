@@ -8,7 +8,6 @@ import com.example.subway_alarm.model.api.dataModel.ApiModel
 import com.example.subway_alarm.model.repository.StationRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.*
 
 class ArrivalViewModel(
     private val stationRepository: StationRepository
@@ -106,7 +105,7 @@ class ArrivalViewModel(
 
     /** line을 바꿀 때 호출되는 함수입니다. */
     fun changeLine(lineNum: Int) {
-        val list = stationRepository.search(curStation.value.stationName)
+        val list = stationRepository.searchStationName(curStation.value.stationName)
         for (station in list) {
             if (station.id / Subway.STATION_ID_UNIT == lineNum) {
                 newStation(station)

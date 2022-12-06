@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/btn_line"
+        android:id="@+id/line_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -25,7 +25,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_line"
+        app:layout_constraintStart_toEndOf="@+id/line_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.521"
         tools:textStyle="bold" />
@@ -39,7 +39,7 @@
         android:scaleType="fitCenter"
         android:src="@drawable/empty_star"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_line"
+        app:layout_constraintStart_toEndOf="@+id/line_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 </androidx.constraintlayout.widget.ConstraintLayout>

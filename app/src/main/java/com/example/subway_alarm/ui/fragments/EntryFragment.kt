@@ -20,10 +20,11 @@ class EntryFragment : Fragment() {
     private lateinit var callback: OnBackPressedCallback
     private var isFabOpen = false // Fab 버튼으로 처음에 fasle로 초기화
     private var heightPixel: Float = 0f
+    private var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
+    private var paramStationId = 0
 
     var binding: FragmentEntryBinding? = null
-    var lastTimeBackPressed = 0L  // 두 번 뒤로가기 버튼 눌려서 앱 종료하기 위한 변수
-    private var paramStationId = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +42,8 @@ class EntryFragment : Fragment() {
                 if(isFabOpen)
                     toggleFab()
                 else{
-                    if(System.currentTimeMillis() - lastTimeBackPressed < 1500){
+                    if(System.currentTimeMillis() - lastTimeBackPressed < 1500)
                         activity?.finish()
-                    }
                     lastTimeBackPressed = System.currentTimeMillis()
                     Toast.makeText(binding?.root?.context, "'뒤로' 버튼을 한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
                 }
@@ -68,7 +68,7 @@ class EntryFragment : Fragment() {
         positionViewModel.setState(true) // activity에서의 onTouch 활성화
         binding?.stationImage?.scaleX = 4.0f
         binding?.stationImage?.scaleY = 4.0f
-        heightPixel = positionViewModel.getHeightPixels().toFloat()
+        heightPixel = positionViewModel.heightPixels.toFloat()
 
         if (paramStationId > 0) {
             val bottomSheet = MainFragment()
@@ -80,9 +80,8 @@ class EntryFragment : Fragment() {
             bottomSheet.show(childFragmentManager, bottomSheet.tag)
         }
 
-        positionViewModel.scaleValue.observe(viewLifecycleOwner) {
-            binding?.stationImage?.scaleX = it
-            binding?.stationImage?.scaleY = it
+        binding?.fabMain?.setOnClickListener {
+            toggleFab()
         }
 
         binding?.btnZoomIn?.setOnClickListener {
@@ -99,77 +98,74 @@ class EntryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        positionViewModel.scaleValue.observe(viewLifecycleOwner) { scaleValue ->
+            binding?.stationImage?.scaleX = scaleValue
+            binding?.stationImage?.scaleY = scaleValue
+        }
+
+        // 항상 처음에 터치한 경우
+        positionViewModel.pos.observe(viewLifecycleOwner) {
+            if (isFabOpen) toggleFab()
+        }
+
+        positionViewModel.movePos.observe(viewLifecycleOwner) {
+            binding?.stationImage?.translationX = positionViewModel.transValue.x
+            binding?.stationImage?.translationY = positionViewModel.transValue.y
+        }
+
         positionViewModel.selectedPos.observe(viewLifecycleOwner) {
             //something
         }
 
-        positionViewModel.stationId.observe(viewLifecycleOwner) {
-            if (it != 0) {
-                positionViewModel.setStationId(it)
+        positionViewModel.stationId.observe(viewLifecycleOwner) { stationId ->
+            if (stationId != 0) {
+                positionViewModel.setStationId(stationId)
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
                 val bottomSheet = MainFragment()
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-                bundle.putInt("stationId", it)
+                bundle.putInt("stationId", stationId)
                 positionViewModel.setStationId(0)
                 bottomSheet.arguments = bundle
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
             }
         }
 
-        positionViewModel.pos.observe(viewLifecycleOwner) {
-            // 항상 처음에 터치한 경우
-            if (isFabOpen) {
-                toggleFab()
-            }
-        }
-
-        positionViewModel.movePos.observe(viewLifecycleOwner) {
-            // 움직이는 경우
-            if (positionViewModel.isMoving.value) {
-                binding?.stationImage?.translationX = positionViewModel.transValue.x
-                binding?.stationImage?.translationY = positionViewModel.transValue.y
-            }
-            // 움직임이 끝난 경우
-            else {
-                // 처음 터치한 좌표와 움직인 이후 손을 뗀 좌표 사이 거리를 계산한다
-                binding?.stationImage?.translationX = positionViewModel.transValue.x
-                binding?.stationImage?.translationY = positionViewModel.transValue.y
-            }
-
-        }
-
-        binding?.fabMain?.setOnClickListener {
-            toggleFab()
-        }
         binding?.fabSearch?.setOnClickListener() {
             positionViewModel.setState(false)
-            positionViewModel.setTransValue()
-            findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
+            positionViewModel.resetTranslationValue()
             toggleFab()
+            findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
         }
         binding?.fabBookmark?.setOnClickListener() {
             positionViewModel.setState(false)
-            positionViewModel.setTransValue()
-            findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
+            positionViewModel.resetTranslationValue()
             toggleFab()
+            findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
         }
         binding?.fabSetting?.setOnClickListener() {
             positionViewModel.setState(false)
-            positionViewModel.setTransValue()
-            findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
+            positionViewModel.resetTranslationValue()
             toggleFab()
+            findNavController().navigate(R.id.action_entryFragment_to_settingFragment)
         }
     }
 
-
+    // 메모리 관리를 위해서
     override fun onDestroy() {
         super.onDestroy()
-        // 메모리 관리를 위해서
         binding = null
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        // OnBackPressedCallBack 객체 제거
+        callback.remove()
+    }
+
+    /** Floating action button를 isFabOpen변수의 condition에 따라 움직여줍니다 */
     private fun toggleFab(){
         if(isFabOpen){
             ObjectAnimator.ofFloat(binding?.fabSetting, "translationY", 0f).apply { start() }
@@ -185,11 +181,5 @@ class EntryFragment : Fragment() {
         }
 
         isFabOpen = !isFabOpen
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        // OnBackPressedCallBack 객체 제거
-        callback.remove()
     }
 }

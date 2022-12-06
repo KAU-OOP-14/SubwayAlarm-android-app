@@ -24,10 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
-
 class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     lateinit var binding: ActivityMainBinding
-
 
     /*
     view model DI(의존성 주입)
@@ -63,23 +61,6 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
         CoroutineScope(Dispatchers.Main).launch {
             bookmarkViewModel.getFavorites()
         }
-
-        // dispaly의 픽셀 수 구하기
-        // height는 상단의 상태 바와 하단의 navigationBar 크기를 제외한 픽셀 수가 나온다.
-        val display = this.applicationContext.resources.displayMetrics
-
-        var statusBarHeight = 0
-        var resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            statusBarHeight = resources.getDimensionPixelSize(resourceId)
-        }
-
-        resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        var navigationBarHeight = 0
-        if (resourceId > 0) {
-            navigationBarHeight = resources.getDimensionPixelSize(resourceId)
-        }
-        positionViewModel.initPixels(display.widthPixels, display.heightPixels, statusBarHeight, navigationBarHeight)
 
         /* view와 activity binding */
         setContentView(binding.root)

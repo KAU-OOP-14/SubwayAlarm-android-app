@@ -11,18 +11,18 @@
         android:id="@+id/searchToolbarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_blue_600"
+        android:background="@color/light_blue_A200"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/image_top"
+            android:id="@+id/btn_top"
             android:layout_width="54dp"
             android:layout_height="41dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:src="@drawable/previous"
             android:clickable="true"
+            android:src="@drawable/previous"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -7,7 +7,7 @@
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/btn_line2"
+        android:id="@+id/line_image"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
@@ -25,21 +25,20 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_line2"
+        app:layout_constraintStart_toEndOf="@+id/line_image"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.521"
         tools:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/btn_delete"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="300dp"
-        android:background="#FFFFFF"
-        android:scaleX="1.3"
-        android:scaleY="1.3"
-        android:src="@drawable/delete"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        android:src="@drawable/trash_can"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_line2"
+        app:layout_constraintStart_toEndOf="@+id/line_image"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

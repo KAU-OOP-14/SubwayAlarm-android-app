@@ -25,7 +25,7 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
     var binding: FragmentSearchBinding? = null
     private val searchViewModel by viewModel<SearchViewModel>()
     private val bookmarkViewModel by sharedViewModel<BookmarkViewModel>()
-    private var stationList: MutableList<Station> = mutableListOf()
+    private var stationList: ArrayList<Station> = arrayListOf()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +70,7 @@ class SearchFragment : Fragment(), OnSearchResultClick, OnBookmarkClick {
             }
         // SearchView에 OnQueryTextLitener 부착
         binding?.searchStation?.setOnQueryTextListener(searchViewTextListener)
-        binding?.imageTop?.setOnClickListener(){
+        binding?.btnTop?.setOnClickListener(){
             findNavController().navigate(R.id.action_searchFragment_to_entryFragment)
         }
         return binding?.root
