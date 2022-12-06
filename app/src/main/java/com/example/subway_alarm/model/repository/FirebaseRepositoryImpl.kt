@@ -29,7 +29,7 @@ class FirebaseRepositoryImpl(
             // 2170 = 2280 - 44(navigationBarHeight) - 66(statusBarHeight), 1151 = 2170 / 2 + 66
             val originY: Float =
                 1151f - (2170f * (((height / 2f) - tempY) / height)) // 중앙을 기준으로 y좌표를 계산한다.
-
+            println("originX : $originX, originY : $originY")
             database.collection("stationId")
                 .get()
                 .addOnSuccessListener { result ->
