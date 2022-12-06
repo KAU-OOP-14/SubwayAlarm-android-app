@@ -9,7 +9,9 @@ import com.example.subway_alarm.model.Subway
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.apache.poi.xssf.usermodel.XSSFCell
 import org.apache.poi.xssf.usermodel.XSSFRow
@@ -67,7 +69,7 @@ object SubwayBuilder {
         val lifecycleScope = CoroutineScope(Dispatchers.IO)
         lifecycleScope.launch {
 
-            flow.collect() { row ->
+            flow.buffer().collect() { row ->
                 val id: Int = row[1].substringBefore(".").toInt()
                 val lineList: ArrayList<Int> = arrayListOf()
                 if (row[0].contains(".")) {
