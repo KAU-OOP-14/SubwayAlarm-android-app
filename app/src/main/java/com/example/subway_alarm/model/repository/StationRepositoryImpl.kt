@@ -29,7 +29,7 @@ class StationRepositoryImpl(
     override var favoriteStations: MutableList<Station> = mutableListOf()
 
     /** 역 검색 결과를 searchResultList에 저장합니다. */
-    override fun search(stationName: String) = Subway.searchStation(stationName)
+    override fun searchStationName(stationName: String) = Subway.searchStation(stationName)
 
     /** api data를 map을 통해 조작해서 viewmodel에게 알려줍니다. */
     override fun retrofitGetArrivals(stationName: String): Single<ApiModelList> {
@@ -124,7 +124,7 @@ class StationRepositoryImpl(
     }
 
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
-    override fun searchStationsWithName(stringName: String) = Subway.searchStationsWithName(stringName)
+    override fun searchStationContainingStr(stringName: String) = Subway.searchStationsWithName(stringName)
 
     /** 갈림길이 나올 경우 선택지에 대한 배열을 반환합니다. */
     override fun getCrossedLine(direction: String): Array<String>? {

@@ -30,7 +30,8 @@
             android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_baseline_zoom_out_map"
+            android:src="@drawable/zoom_out"
+            app:backgroundTint="@color/purple_200"
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +43,8 @@
             android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_baseline_zoom_in_map_24"
+            android:src="@drawable/zoom_in"
+            app:backgroundTint="@color/purple_200"
             app:fabSize="mini"
             app:layout_constraintEnd_toStartOf="@+id/btn_zoom_out"
             app:layout_constraintTop_toTopOf="@+id/btn_zoom_out" />
