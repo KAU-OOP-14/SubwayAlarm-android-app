@@ -178,15 +178,18 @@ class PositionViewModel(
     }
 
     private fun modifyScaleValue(newScaleValue: Float){
-        _scaleValue.value = newScaleValue
+        val tempScaleValue = _scaleValue.value + newScaleValue
+        when(tempScaleValue){
+            in 2f .. 6f -> _scaleValue.value = tempScaleValue
+        }
         isScaleChanged = true
     }
 
     fun onZoomIn() {
-        modifyScaleValue(8f)
+        modifyScaleValue(2f)
     }
 
     fun onZoomOut() {
-        modifyScaleValue(4f)
+        modifyScaleValue(-2f)
     }
 }
