@@ -25,5 +25,6 @@ interface StationRepository {
     /** 검색한 String을 포함한 모든 Staion List를 반환하는 함수입니다.*/
     fun searchStationContainingStr(stringName: String): MutableList<Station>
 
+    /** 갈림길이 있을 경우 선택지 역에 대한 배열을 반환합니다.*/
     fun getCrossedLine(direction: String): Array<String>?
 }

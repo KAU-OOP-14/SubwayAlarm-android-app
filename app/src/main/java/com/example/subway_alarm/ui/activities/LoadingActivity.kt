@@ -63,8 +63,4 @@ class LoadingActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

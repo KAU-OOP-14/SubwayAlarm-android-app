@@ -6,8 +6,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.R
 import com.example.subway_alarm.databinding.ListFavoritesBinding
-import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.Station
+import com.example.subway_alarm.model.Subway
 import com.example.subway_alarm.viewModel.listener.OnBookmarkClick
 import com.example.subway_alarm.viewModel.listener.OnBookmarkDelete
 

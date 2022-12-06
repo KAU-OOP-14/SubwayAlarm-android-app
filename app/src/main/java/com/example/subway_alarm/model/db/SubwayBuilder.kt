@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.subway_alarm.di.SubwayAlarmApp
 import com.example.subway_alarm.model.Line
-import com.example.subway_alarm.model.STATION_ID_UNIT
 import com.example.subway_alarm.model.Station
 import com.example.subway_alarm.model.Subway
 import kotlinx.coroutines.CoroutineScope
@@ -79,7 +78,7 @@ object SubwayBuilder {
                         lineList.add(i.toInt())
                     }
                 }
-                lines[(id / STATION_ID_UNIT) - 1].initStations(Station(row[2], id, lineList))
+                lines[(id / Subway.STATION_ID_UNIT) - 1].initStations(Station(row[2], id, lineList))
             }
         }
 

@@ -7,7 +7,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class BookmarkViewModel(
-    private val stationPositionRepository: FirebaseRepository
+    private val firebaseRepository: FirebaseRepository
 ) : BaseViewModel() {
     private val _favorites = NonNullMutableLiveData<List<Int>>(listOf())
     val favorites: NonNullMutableLiveData<List<Int>>
@@ -36,16 +36,16 @@ class BookmarkViewModel(
 
     /** firebase에서 즐겨찾기 목록을 가져옵니다.*/
     suspend fun getFavorites() {
-        stationPositionRepository.getFavorites(_favorites)
+        firebaseRepository.getFavorites(_favorites)
     }
 
     /** 즐겨찾기 목록에 현재 station을 넣습니다. */
     private suspend fun addFavorite(stationId: Int) {
-        stationPositionRepository.postFavorites(stationId)
+        firebaseRepository.postFavorites(stationId)
     }
 
     /** 즐겨찾기 목록에서 station을 삭제합니다. */
     private suspend fun deleteFavorite(stationId: Int) {
-        stationPositionRepository.deleteFavorite(stationId)
+        firebaseRepository.deleteFavorite(stationId)
     }
 }
