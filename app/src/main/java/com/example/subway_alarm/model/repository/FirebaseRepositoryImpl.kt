@@ -34,12 +34,13 @@ class FirebaseRepositoryImpl(
                 .get()
                 .addOnSuccessListener { result ->
                     val possibleStationMap: MutableMap<Float, Int> = mutableMapOf()
+                    val scope = 100f / scale
                     for (document in result) {
                         val x = document.data.get("x")?.toString()?.toFloat() ?: 0f
                         val y = document.data.get("y")?.toString()?.toFloat() ?: 0f
-
-                        if (originX in (x - 10f) .. (x + 10f))
-                            if (originY in (y - 10f) .. (y + 10f)) {
+                        if (originX in (x - scope) .. (x + scope))
+                            if (originY in (y - scope) .. (y + scope)) {
+                                // distance = root{ (originX - x)^2 + (originY - y )^2 }
                                 val distance = hypot((originX - x), (originY - y))
                                 possibleStationMap[distance] = document.id.toInt()
                             }

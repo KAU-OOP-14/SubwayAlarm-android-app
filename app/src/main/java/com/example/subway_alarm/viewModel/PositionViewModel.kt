@@ -179,9 +179,7 @@ class PositionViewModel(
 
     private fun modifyScaleValue(newScaleValue: Float){
         val tempScaleValue = _scaleValue.value + newScaleValue
-        when(tempScaleValue){
-            in 2f .. 6f -> _scaleValue.value = tempScaleValue
-        }
+        if(tempScaleValue in 2f .. 6f) _scaleValue.value = tempScaleValue
         isScaleChanged = true
     }
 
