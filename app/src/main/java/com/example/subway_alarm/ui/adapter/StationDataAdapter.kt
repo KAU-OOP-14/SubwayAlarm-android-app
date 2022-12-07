@@ -14,6 +14,7 @@ class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        //api가 최대 2개만 뜹니다.
         holder.bind(apiModelList[position])
     }
 
