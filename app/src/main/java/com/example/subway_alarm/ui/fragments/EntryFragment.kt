@@ -92,7 +92,6 @@ class EntryFragment : Fragment() {
             positionViewModel.onZoomOut()
         }
 
-
         return binding?.root
     }
 
@@ -109,20 +108,22 @@ class EntryFragment : Fragment() {
             if (isFabOpen) toggleFab()
         }
 
+        // 드래그를 한 경우
         positionViewModel.movePos.observe(viewLifecycleOwner) {
             binding?.stationImage?.translationX = positionViewModel.transValue.x
             binding?.stationImage?.translationY = positionViewModel.transValue.y
         }
 
+        // Repository에서 데이터를 가져온 경우
         positionViewModel.stationId.observe(viewLifecycleOwner) { stationId ->
-            if (stationId != 0) {
-                positionViewModel.setStationId(stationId)
+            if( stationId != 0){
+                positionViewModel.modifyTransValue()
                 binding?.stationImage?.translationX = positionViewModel.transValue.x
                 binding?.stationImage?.translationY = positionViewModel.transValue.y
                 val bottomSheet = MainFragment()
                 val bundle = Bundle()
                 // 프래그먼트 위에 그린 프래그먼트를 교체할 때는 childFragmentManager를 이용
-                bundle.putInt("stationId", stationId)
+                bundle.putInt("stationId", positionViewModel.stationId.value)
                 positionViewModel.setStationId(0)
                 bottomSheet.arguments = bundle
                 bottomSheet.show(childFragmentManager, bottomSheet.tag)
@@ -135,12 +136,14 @@ class EntryFragment : Fragment() {
             toggleFab()
             findNavController().navigate(R.id.action_entryFragment_to_searchFragment)
         }
+
         binding?.fabBookmark?.setOnClickListener() {
             positionViewModel.setState(false)
             positionViewModel.resetTranslationValue()
             toggleFab()
             findNavController().navigate(R.id.action_entryFragment_to_bookmarkFragment)
         }
+
         binding?.fabSetting?.setOnClickListener() {
             positionViewModel.setState(false)
             positionViewModel.resetTranslationValue()

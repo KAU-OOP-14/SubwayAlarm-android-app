@@ -28,7 +28,6 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
 
     override fun getItemCount() = stationList.size
 
-
     inner class Holder(private val binding: SearchedListStationsBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(station: Station){
             binding.lineImage.setImageResource(when(station.id / Subway.STATION_ID_UNIT){
@@ -50,7 +49,9 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
                 16 -> R.drawable.line16
                 else -> R.drawable.circle   // 없는 경우 그냥 원 그리기
             })
+
             binding.txtSearchedStationName.text = station.stationName
+
             // 즐겨찾기 중이라면 색상을 노랗게 합니다.
             if(station.isFavorited) {
                 binding.btnFavorite.setImageResource(R.drawable.fill_star)
@@ -59,12 +60,12 @@ class SearchedListAdapter(val stationList: MutableList<Station>, clickListener: 
                 binding.btnFavorite.setImageResource(R.drawable.empty_star)
             }
 
-            // 역을 검색할 시 호출되는 함수로 view Model의 curStation을 변경시
             binding.root.setOnClickListener{
                 Toast.makeText(binding.root.context,"${station.stationName}역이 선택되었습니다.",
                     Toast.LENGTH_SHORT).show()
                 clickCallback.onSearchResultClick(station.id)
             }
+
             binding.btnFavorite.setOnClickListener {
                 if(station.isFavorited) {
                     binding.btnFavorite.setImageResource(R.drawable.empty_star)

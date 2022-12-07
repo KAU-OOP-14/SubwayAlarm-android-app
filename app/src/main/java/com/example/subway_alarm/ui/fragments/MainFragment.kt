@@ -50,8 +50,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        entryFragment = EntryFragment()
-        entryFragment.binding?.frgMain?.visibility = View.VISIBLE
 
         viewModel.onStationSelect(paramId)
 
@@ -124,11 +122,11 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
-                    .setTitle("Selct Station")
+                    .setTitle("Select Station")
                     .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${crossRailRoad[which]} is Selected",
+                            "${crossRailRoad[which]}역이 선택되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which
@@ -147,11 +145,11 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
                 var index: Int
                 val builder = AlertDialog.Builder(this.activity)
                 builder
-                    .setTitle("Selct Station")
+                    .setTitle("Select Station")
                     .setItems(crossRailRoad) { _, which ->
                         Toast.makeText(
                             this.activity,
-                            "${crossRailRoad[which]} is Selected",
+                            "${crossRailRoad[which]}역이 선택되었습니다.",
                             Toast.LENGTH_SHORT
                         ).show()
                         index = which
@@ -187,7 +185,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
     // 메모리 낭비를 줄이기
     override fun onDestroy() {
-        entryFragment.binding?.frgMain?.visibility = View.INVISIBLE
         super.onDestroy()
         binding = null
     }

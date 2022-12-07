@@ -1,6 +1,7 @@
 package com.example.subway_alarm.service
 
 import android.app.Notification
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -27,7 +28,7 @@ object AlarmNotification: Notification() {
             .setContentTitle("지하철 알람 앱")
             .setSmallIcon(R.mipmap.ic_subway_alarm_round)
             .setOngoing(true)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(pendingIntent).setPriority(NotificationManager.IMPORTANCE_HIGH)
             .addAction(
                 NotificationCompat.Action(
                     R.mipmap.ic_subway_alarm_round,

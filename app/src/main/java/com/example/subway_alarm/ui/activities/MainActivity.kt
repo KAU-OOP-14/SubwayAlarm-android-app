@@ -67,9 +67,8 @@ class MainActivity : AppCompatActivity(), OnAlarmSet, OnAlarmOff {
     }
 
 
-    // 제스처 이벤트가 발생하면 실행되는 메소드
+    // 제스처 이벤트가 발생하면 처리하는 메소드
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        // 제스처 이벤트를 처리하는 메소드를 호출
         if(event != null){
             val pos = PointF(event.x, event.y)
             //println("current x: ${event.x}, y : ${event.y}")

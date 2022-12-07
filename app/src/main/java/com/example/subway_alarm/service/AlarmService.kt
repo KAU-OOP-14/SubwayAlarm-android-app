@@ -80,6 +80,7 @@ class AlarmService: Service() {
                 }
                 notificationBuilder
                     .setContentText("${(timeCount) / 60}분 ${(timeCount) % 60}초 후에 알람이 울립니다.")
+                    .priority = NotificationCompat.PRIORITY_LOW
 
                 notiManager.notify(SERVICE_ID, notificationBuilder.build())
                 timeCount --

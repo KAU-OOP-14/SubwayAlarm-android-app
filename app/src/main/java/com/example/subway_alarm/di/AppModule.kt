@@ -11,6 +11,7 @@ import com.example.subway_alarm.model.repository.StationRepository
 import com.example.subway_alarm.model.repository.StationRepositoryImpl
 import com.example.subway_alarm.service.AlarmService
 import com.example.subway_alarm.ui.activities.MainActivity
+import com.example.subway_alarm.ui.fragments.EntryFragment
 import com.example.subway_alarm.viewModel.*
 import com.google.firebase.firestore.FirebaseFirestore
 import org.koin.android.viewmodel.dsl.viewModel
