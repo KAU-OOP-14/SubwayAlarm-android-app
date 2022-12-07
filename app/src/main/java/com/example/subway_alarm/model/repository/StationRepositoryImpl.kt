@@ -36,8 +36,8 @@ class StationRepositoryImpl(
             //map을 통해 데이터를 가공합니다.
             .map {
                 it.let {
-                    val leftCheckedList: MutableList<ApiModel> = mutableListOf()
                     val rightCheckedList: MutableList<ApiModel> = mutableListOf()
+                    val leftCheckedList: MutableList<ApiModel> = mutableListOf()
                     val apiModelList = it.leftList
                     if (apiModelList != null) {
                         for (model in apiModelList) {
@@ -47,71 +47,71 @@ class StationRepositoryImpl(
                                 in 1001..1009 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == id % 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 //다른 호선(경의중앙선:10 / 공항철도:11 / 경춘선:12 / 수인분당선:13 / 신분당선:14 / 자기부상:15 / 우이신설:16)
                                 1063 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 10) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1065 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 11) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1067 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 12) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1075 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 13) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1077 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 14) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1091 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 15) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                                 1092 -> {
                                     if (curStation.id / Subway.STATION_ID_UNIT == 16) {
                                         if(model.updnLine == "하행" ||model.updnLine == "내선")
-                                            leftCheckedList.add(model)
-                                        else
                                             rightCheckedList.add(model)
+                                        else
+                                            leftCheckedList.add(model)
                                     }
                                 }
                             }
                         }
-                        val list = ApiModelList(null, leftCheckedList, rightCheckedList)
+                        val list = ApiModelList(null, leftCheckedList , rightCheckedList)
                         list
 
                     } else {
