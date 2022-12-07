@@ -82,17 +82,18 @@ class ArrivalViewModel(
             else -> return
         }
         //새로운 api를 호출합니다.
-        if (i == -1) { // 종착역인 경우
+        // 갈림길이 없는 경우
+        if (i == -1) {
             node1?.let{
                 newStation(node1)
             }
-        } else { // 역 노드가 하나인 경우
-            if (i == 0)
+        } else { // 갈림길의 경우
+            if (i == 0)                 // 첫 번째 Station 선택
                 node1?.let {
                     newStation(node1)
                 }
             else
-                node2?.let { // 역 노드가 두 개인 경우
+                node2?.let {           // 두 번째 Station 선택
                     newStation(node2)
                 }
         }

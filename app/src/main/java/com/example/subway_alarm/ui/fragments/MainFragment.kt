@@ -50,8 +50,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater, container, false)
-        entryFragment = EntryFragment()
-        entryFragment.binding?.frgMain?.visibility = View.VISIBLE
 
         viewModel.onStationSelect(paramId)
 
@@ -187,7 +185,6 @@ class MainFragment : BottomSheetDialogFragment(), OnLineChange, OnAlarmSet {
 
     // 메모리 낭비를 줄이기
     override fun onDestroy() {
-        entryFragment.binding?.frgMain?.visibility = View.INVISIBLE
         super.onDestroy()
         binding = null
     }

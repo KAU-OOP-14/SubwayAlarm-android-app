@@ -125,7 +125,7 @@ class FirebaseRepositoryImpl(
                     val firebaseList = document.data["종착역"] as? ArrayList<*> ?: arrayListOf<String>()
                     val temp: ArrayList<String> = arrayListOf()
                     for (item in firebaseList){
-                        if(item is String) temp.add(item) // is를 통한 스마트 캐스팅
+                        if (item is String) temp.add(item) // is를 통한 스마트 캐스팅
                     }
                     endPointMap[document.id.toInt()] = temp
                 }
