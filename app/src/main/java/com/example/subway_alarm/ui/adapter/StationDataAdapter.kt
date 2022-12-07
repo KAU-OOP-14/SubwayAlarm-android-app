@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.subway_alarm.databinding.ListStationArrivalBinding
 import com.example.subway_alarm.model.api.dataModel.ApiModel
 
-class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter<StationDataAdapter.Holder>(){
+class StationDataAdapter(private val apiModelList: List<ApiModel>): RecyclerView.Adapter<StationDataAdapter.Holder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val binding = ListStationArrivalBinding.inflate(LayoutInflater.from(parent.context))
@@ -14,7 +14,7 @@ class StationDataAdapter(val apiModelList: List<ApiModel>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        //api가 최대 2개만 뜹니다.
+        //api 가 최대 2개만 뜹니다.
         holder.bind(apiModelList[position])
     }
 
